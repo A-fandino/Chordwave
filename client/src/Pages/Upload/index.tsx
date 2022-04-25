@@ -1,4 +1,6 @@
 import React, { ChangeEventHandler, JSXElementConstructor } from 'react'
+import Nav from "../../Layout/Nav/index"
+
 
 export default function Upload() {
 
@@ -18,6 +20,7 @@ export default function Upload() {
 
     return ( //Temporal FORM
     <>
+    <Nav/>
         <input type="file" name="" id=""  onChange={handleUpload}/>
     </>
     )
