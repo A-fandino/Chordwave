@@ -2,12 +2,10 @@ version: '3'
 
 services:
   node:
-    build:
-      context: .
-      dockerfile: client/Dockerfile
     image: node:16
     container_name: chordwave
-    restart: unless-stopped
+    expose:
+      - 24678
     ports:
       - "80:3000"
     volumes:
