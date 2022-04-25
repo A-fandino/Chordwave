@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask, send_from_directory
+from flask_socketio import SocketIO, emit
+from flask_cors import CORS, cross_origin
 
 
 def create_app(test_config=None):
@@ -9,6 +11,10 @@ def create_app(test_config=None):
         SECRET_KEY='secret_key',
         # DATABASE=os.path.join(app.instance_path, 'flaskr.mysql')
     )
+    socket = SocketIO(app,  cors_allowed_origins=["http://localhost:3000"])
+
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
@@ -28,7 +34,16 @@ def create_app(test_config=None):
         #     return send_from_directory(path_dir, path)
         return send_from_directory(path_dir, 'index.html')
 
-    from . import auth
-    app.register_blueprint(auth.bp)
+    @socket.on("connect")
+    def connect():
+        emit("test", 3333)
 
-    return app
+    @socket.on("ping")
+    def ping():
+        print("PONG!!!!!")
+
+    from . import auth, api
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(api.bp)
+
+    return [app, socket]
