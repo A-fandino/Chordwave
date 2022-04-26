@@ -4,6 +4,7 @@ services:
   node:
     image: node:16
     container_name: chordwave
+    restart: "unless-stopped"
     expose:
       - 24678
     ports:
