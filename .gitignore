@@ -10,3 +10,5 @@ instance/
 htmlcov/
 dist/
 *.egg-info/
+
+**/uploads/music/**

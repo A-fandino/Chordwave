@@ -1,27 +1,19 @@
-import React, { ChangeEventHandler, JSXElementConstructor } from 'react'
+import React, {useRef} from 'react'
 import Nav from "../../Layout/Nav/index"
 
-
 export default function Upload() {
+    const formRef  = useRef<HTMLFormElement>(null)
 
-    const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const form = new FormData()
-        if (!event.target.files) return
-        form.append("file",event.target.files[0])
-
-        const resp = await fetch('http://localhost:5000/api/upload', {
-            method:"POST",
-            mode: "cors"
-        })
-        const data = await resp.text()
-        console.log(data)
-
+    const handleSubmit = (e: any) => {
+        if (!formRef.current) return
+        formRef.current.submit()
     }
-
-    return ( //Temporal FORM
+    return (
     <>
     <Nav/>
-        <input type="file" name="" id=""  onChange={handleUpload}/>
+    <form method='post' ref={formRef} encType="multipart/form-data" action='http://localhost:5000/api/upload'   onChange={handleSubmit}>
+        <input type="file" name="file" id="file" accept=".mp3,.wav,.ogg"/>
+    </form>
     </>
     )
     }
