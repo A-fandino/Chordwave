@@ -2,9 +2,20 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+body {
+    background-color: #1e293b;
+}
 @layer animations {
-    .bg-animate {
+    #file + label {
+        --duration: .2s;
+        transition: background-image var(--duration),color var(--duration),border-color var(--duration);
+    }
+    #logo {
+        transition: transform .2s;
+    }
+    .bg-animate, #logo:hover {
         background-size: 200%;
+        
         animation: BackgroundMove 4s ease infinite;
     }
 
