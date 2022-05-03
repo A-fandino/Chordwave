@@ -3,32 +3,52 @@
 @import "tailwindcss/utilities";
 
 body {
-    background-color: #1e293b;
+  background-color: #1e293b;
+}
+
+.basic {
+  @apply text-center;
+  @apply font-bold;
+  @apply rounded;
+  @apply shadow;
+  @apply py-2;
+  @apply outline-none;
+}
+.black {
+  @apply bg-gray-600;
+  @apply text-white;
+  @apply shadow-md;
 }
 @layer animations {
-    #file + label {
-        --duration: .2s;
-        transition: background-image var(--duration),color var(--duration),border-color var(--duration);
-    }
-    #logo {
-        transition: transform .2s;
-    }
-    .bg-animate, #logo:hover {
-        background-size: 200%;
-        
-        animation: BackgroundMove 4s ease infinite;
+  #file + label {
+    --duration: 0.2s;
+    transition: background-image var(--duration), color var(--duration),
+      border-color var(--duration);
+  }
+  #logo {
+    transition: transform 0.2s;
+  }
+  .bg-animate,
+  #logo:hover {
+    background-size: 200%;
+    animation: BackgroundMove 4s ease infinite;
+  }
+  .upload svg {
+    transition: 0.2s transform;
+    /* animation: spin 1s  infinite; */
+  }
+  .upload:hover svg {
+    transform: scale(1.1) rotate(2deg);
+  }
+
+  @keyframes BackgroundMove {
+    0%,
+    100% {
+      background-position: 0% 50%;
     }
 
-    @keyframes BackgroundMove {
-        0%, 100% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
+    50% {
+      background-position: 100% 50%;
     }
-
-    
+  }
 }
-
