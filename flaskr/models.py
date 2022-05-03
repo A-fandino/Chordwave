@@ -1,4 +1,5 @@
 from datetime import datetime
+from linecache import lazycache
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 
@@ -13,6 +14,32 @@ SongGenre = db.Table(
               db.ForeignKey("genre.name"), primary_key=True)
 )
 
+class Listen(db.Model):
+    user_id = db.Column(db.Integer,
+              db.ForeignKey("user.id"), primary_key=True)
+    song_id = db.Column(db.String(SONG_ID_LENGTH),
+              db.ForeignKey("song.id"), primary_key=True)
+    count = db.Column(db.Integer, db.Sequence('seq_listen_id', start=1, increment=1) ,primary_key=True)
+    date = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user_id, song_id):
+        self.user_id = user_id
+        self.song_id = song_id
+        self.date = datetime.now()
+
+        
+class Like(db.Model):
+    user_id = db.Column(db.Integer,
+              db.ForeignKey("user.id"), primary_key=True)
+    song_id = db.Column(db.String(SONG_ID_LENGTH),
+              db.ForeignKey("song.id"), primary_key=True)
+    date = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user_id, song_id):
+        self.user_id = user_id
+        self.song_id = song_id
+        self.date = datetime.now()
+
 
 # Model Tables
 
@@ -24,6 +51,9 @@ class User(db.Model):
     active = db.Column(db.Boolean, nullable=False, default=True)
     songs = db.relationship("Song", backref="author", lazy=True)
     created_at = db.Column(db.DateTime, nullable=False)
+    listents = db.relationship("Listen",secondary=Listen, lazy="subquery", backref="users") 
+    likes = db.relationship("Like",secondary=Like, lazy="subquery", backref="users") 
+    playlists = db.relationship("Song", backref="user", lazy=True)
 
     def __init__(self, nickname, mail, plain_pass):
         self.nickname = nickname
@@ -46,13 +76,12 @@ class Song(db.Model):
     id = db.Column(db.String(ID_LENGTH), primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     format = db.Column(db.String(10), nullable=False)
-    # uploader_id = db.Column(
-    #     db.Integer, db.ForeignKey("user.id"), nullable=False)
     author_id = db.Column(
         db.Integer, db.ForeignKey("user.id"), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
-    genres = db.relationship("Genre", secondary=SongGenre, lazy="subquery",
-                             backref=db.backref('songs', lazy=True))
+    genres = db.relationship("Genre", secondary=SongGenre, lazy="subquery", backref=db.backref('songs', lazy=True))
+    listents = db.relationship("Listen",secondary=Listen, lazy="subquery", backref="songs")
+    likes = db.relationship("Like",secondary=Like, lazy="subquery", backref="songs") 
     __table_args__ = (db.UniqueConstraint(
         "name", "author_id", name="author_name"),)
 
@@ -78,3 +107,34 @@ class Song(db.Model):
 
 class Genre(db.Model):
     name = db.Column(db.String(80), primary_key=True)
+    
+class Playlist(db.Model):
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    name = db.Column(db.String(80), primary_key = True)
+    created_at = db.Column(db.DateTime, nullable=False)
+    def __init__(self, user_id, name):
+        self.user_id = user_id
+        self.name = name
+
+class PlaylistUserSong(db.Model):
+    author_id = db.Column(
+        db.Integer, db.ForeignKey("playlist.user_id"), primary_key=True)
+    playlist_name = db.Column(
+        db.String(80), db.ForeignKey("playlist.name"), primary_key=True)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    uploaded_at = db.Column(db.DateTime, nullable=False)
+    
+    def __init__(self, author_id, playlist_name, user_id, name):
+        self.author_id = author_id
+        self.playlist_name = playlist_name
+        self.user_id = user_id
+        self.name = name
+        self.upload_at = datetime.now()
+
+class Sala(db.Model):
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    id = db.Column(db.String(80), primary_key = True)
+    created_at = db.Column(db.DateTime, nullable=False)
