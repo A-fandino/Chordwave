@@ -49,7 +49,7 @@ export default function Upload() {
         </>
         )}
         <Modal show={show} setShow={setShow} closable={false}>
-            <div className="bg-gray-900 text-9xl rounded text-white font-bold">
+            <div className="text-9xl rounded text-white font-bold">
             Cargando...
             </div>
         </Modal>
