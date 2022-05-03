@@ -51,11 +51,3 @@ def create_app(test_config=None):
     #     # if path != "" and os.path.exists(os.path.join(path_dir, path)):
     #     #     return send_from_directory(path_dir, path)
     #     return send_from_directory(path_dir, 'index.html')
-
-    # @socket.on("connect")
-    # def connect():
-    #     emit("test", 3333)
-
-    # @socket.on("ping")
-    # def ping():
-    #     print("PONG!!!!!")

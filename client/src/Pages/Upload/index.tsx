@@ -37,9 +37,9 @@ export default function Upload() {
         next && (
         <>
             <span className='text-white text-xl'>{filename}.{extension}</span>
-            <input name="filename" className="basic black" type="text" value={filename} onChange={(e) => setFilename(e.target.value)}></input>
+            <input name="name" className="basic black" type="text" value={filename} onChange={(e) => setFilename(e.target.value)}></input>
             <section className="flex flex-col gap-4 items-stretch">
-                <input type="hidden" value={extension}></input>
+                {/* <input type="hidden" name='extension' value={extension}></input> */}
                 <select name="autor" id="autor" className="block basic black hover:border-gray-500 px-4 py-2 pr-8 leading-tight focus:outline-none focus:shadow-outline">
                     <option disabled selected>Seleccione un autor</option>
                     <option value="1">Arnau</option>
