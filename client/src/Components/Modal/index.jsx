@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 
-export default function index(props) {
+export default function Modal(props) {
     // const [visible, useVisible] = useState(true)
+    const modRef = useRef(null)
     const styles = {
         visibility: props.show ? 'visible' : 'hidden',
         position: "absolute",
@@ -14,7 +15,7 @@ export default function index(props) {
     }
 
   return (
-    <div style={styles} className='modal' onClick={() =>  props.useShow(false)}>
+    <div style={styles} ref={modRef} className='modal' onClick={(e) => closable && e.target==modRef.current && props.setShow(false)}>
         {props.children}
     </div>
   )
