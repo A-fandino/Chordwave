@@ -15,7 +15,7 @@ def index():
     if (not os.path.exists(path)):
         os.makedirs(path)
     file.save(f'{path}/{randomName()}.{ext}')
-    return redirect('/')
+    return redirect('http://localhost/')
 
 
 def randomName():
