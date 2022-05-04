@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import {useParams} from "react-router-dom"
 import Nav from "@/Layout/Nav/"
-import { MusicNoteIcon } from "@heroicons/react/solid"
+import { useGlobalContext } from '@/context'
 
 export default function Song() {
     const [songData, setSongData] = useState({})
+    const { socket } = useGlobalContext()
+
     const params = useParams()
 
     const getSongData = async () => {
         const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`)
-        const data = await resp.json()
+        const data = await resp.text()
+        console.log(data)
         setSongData(data)
     }
 
     useEffect(() => {
-        getSongData()
+    console.log(socket)
+    getSongData()
     }, [])
 
     return (
     <>
         <Nav/>
-        {songData.filename}
+        {JSON.stringify(songData)}
     </>
     )
     }

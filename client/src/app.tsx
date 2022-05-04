@@ -3,35 +3,38 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Link
   } from "react-router-dom";
 import Home from '@/Pages/Home/'
-import Nav from '@/Layout/Nav/'
+// import Nav from '@/Layout/Nav/'
 import Upload from '@/Pages/Upload/'
 import Song from '@/Pages/Song/'
-import SocketContext from "./context"
-// import socketIOClient from "socket.io-client"
+import Login from '@/Pages/Login/'
+import Register from '@/Pages/Register/'
+import { MyGlobalContext, socket } from "./context"
 
+// import socketIOClient from "socket.io-client"
 // const ENDPOINT = "http://localhost:5000"
 
 export default function App() {
+  
+
   // const location = useLocation();
   // const path = location.pathname;
   // const [display, setDisplay] = useState(
   //   path !== "/" ? true : false
   // );
   useEffect((): any=> {
-    // const socket = socketIOClient(ENDPOINT)
-    // socket.on("test", data => {
-    //   socket.emit("ping")
-    //   console.log(data)
-    // })
+    socket.connect()
+    socket.on("test", data => {
+      socket.emit("ping")
+      console.log(data)
+    })
 
-    // return () => socket.disconnect()
+    return () => socket.disconnect()
   }, [])
 
   return (
-      <SocketContext.provider>
+      <MyGlobalContext.Provider value={{socket}}>
       <Router>
         {/* {display && <Nav />} */}
         <Routes>
@@ -39,9 +42,11 @@ export default function App() {
           <Route path='/upload' element={<Upload />}/>  
           <Route path='/song/:author' element={<>Authorlist</>}/>  
           <Route path='/song/:author/:name' element={<Song />}/>  
+          <Route path='/login' element={<Login />}/>  
+          <Route path='/register' element={<Register />}/>  
         </Routes>
       </Router>
-    </SocketContext.provider>
+      </MyGlobalContext.Provider>
   )
 }
 

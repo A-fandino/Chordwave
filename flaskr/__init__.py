@@ -33,21 +33,3 @@ def create_app(test_config=None):
         app.register_blueprint(api.bp)
 
         return app
-
-    # if test_config is None:
-    #     app.config.from_pyfile('config.py', silent=True)
-    # else:
-    #     app.config.from_mapping(test_config)
-
-    # # try:
-    # #     os.makedirs(app.instance_path)
-    # # except OSError:
-    # #     pass
-
-    # @app.route('/', defaults={'path': ''})
-    # @app.route('/<path:path>')
-    # def serve(path):
-    #     path_dir = os.path.abspath("client/dist")  # path react build
-    #     # if path != "" and os.path.exists(os.path.join(path_dir, path)):
-    #     #     return send_from_directory(path_dir, path)
-    #     return send_from_directory(path_dir, 'index.html')

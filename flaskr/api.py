@@ -1,8 +1,15 @@
+from flask import Blueprint, redirect, request, jsonify, session
+from flask_cors import cross_origin, CORS
 import os
 import json
-from flask import Blueprint, redirect, request, jsonify
 from .models import Genre, Song, User, db
+from .auth import login_required
 bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@bp.route('/testing')
+def test():
+    return "TEST RESPONSE!"
 
 
 @bp.route('/genres')
@@ -11,6 +18,8 @@ def genres():
 
 
 @bp.route('/song/<author>/<name>')
+@cross_origin()
+@login_required
 def song(author, name):
     user = User.query.filter_by(nickname=author).first()
     song = None
@@ -23,6 +32,8 @@ def song(author, name):
 
 
 @bp.route('/upload', methods=['POST'])
+@cross_origin()
+@login_required
 def index():
     file = request.files['file']
     file.stream.seek(0)
@@ -31,7 +42,8 @@ def index():
     path = './flaskr/uploads/music'
     if (not os.path.exists(path)):
         os.makedirs(path)
-    song = Song(name, ext, 1)
+    author_id = session["user"]["id"]
+    song = Song(name, ext, author_id)
     # author = User.query.get(1).first()["nickname"]
     db.session.add(song)
     db.session.commit()
