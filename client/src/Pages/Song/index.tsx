@@ -24,7 +24,7 @@ export default function Song() {
     return (
     <>
         <Nav/>
-        {JSON.stringify(songData)}
+        <video autoplay><source src="http://localhost:5000/play" type="audio/x-wav"/></video>
     </>
     )
     }

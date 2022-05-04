@@ -1,6 +1,7 @@
 # Main router file
-from flask import current_app
+from flask import current_app, Response
 from flask_socketio import emit
+from .models import User, Song
 from . import db, socket
 
 
@@ -54,3 +55,21 @@ def connect():
 @socket.on("ping")
 def ping():
     print("PONG!!!!!")
+
+
+@current_app.route("/play/<author>/<name>")
+def play(author, name):
+    user = User.query.filter_by(nickname=author).first()
+    song = None
+    for x in user.songs:
+        if x.name == name:
+            song = x
+            break
+
+    def generate():
+        with open(f"./flaskr/uploads/music/{song.id}.{song.format}", "rb") as fwav:
+            data = fwav.read(2048)
+            while data:
+                yield data
+                data = fwav.read(2048)
+    return Response(generate(), mimetype="audio/x-wav")
