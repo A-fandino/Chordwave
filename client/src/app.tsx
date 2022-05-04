@@ -38,7 +38,7 @@ export default function App() {
       <Router>
         {/* {display && <Nav />} */}
         <Routes>
-          <Route path='/' exact element={<Home />}/> 
+          <Route path='/' element={<Home />}/> 
           <Route path='/upload' element={<Upload />}/>  
           <Route path='/song/:author' element={<>Authorlist</>}/>  
           <Route path='/song/:author/:name' element={<Song />}/>  

@@ -18,8 +18,6 @@ def genres():
 
 
 @bp.route('/song/<author>/<name>')
-@cross_origin()
-@login_required
 def song(author, name):
     user = User.query.filter_by(nickname=author).first()
     song = None
