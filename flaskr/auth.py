@@ -14,8 +14,12 @@ def login_required(view):
 
 
 @bp.route('/check')
-def check():
-    return session["user"] if "user" in session else "{}"
+@bp.route('/check/<nickname>')
+def check(nickname=None):
+    if (nickname is None):
+        return session["user"] if "user" in session else {}
+    user = User.query.filter_by(nickname=nickname).first()
+    return user.serialize
 
 
 @bp.route('/login', methods=['POST'])

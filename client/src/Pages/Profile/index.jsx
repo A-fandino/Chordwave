@@ -1,21 +1,40 @@
 import React, {useEffect, useState} from 'react'
-import { Link } from "react-router-dom"
 import Nav from "@/Layout/Nav"
+import SongMiniature from "@/Components/SongMiniature"
 import PFP from "@/static/img/default.jpg"
 import {useGlobalContext} from "@/context"
-import { MusicNoteIcon } from "@heroicons/react/solid"
+import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
+    const params = useParams()
     const {user} = useGlobalContext()
+    const [userData, setUserData] = useState(user)
     const [userSongs, setUserSongs] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         (async function() {
-            const resp = await fetch("http://localhost:5000/api/userSongs/"+user.nickname)
-            const songs = await resp.json()
-            setUserSongs(songs)
+            if (params.nickname)
+            {
+                try {
+                    const respUser = await fetch("http://localhost:5000/auth/check/"+params.nickname)
+                    const data = await respUser.json()
+                    setUserData(data)
+                } catch {
+                    return navigate('/profile')
+                }
+            }
         })()
     },[])
+
+    useEffect(() => {
+        (async function() {
+            const respSong = await fetch("http://localhost:5000/api/userSongs/"+userData.nickname)
+            const songs = await respSong.json()
+            setUserSongs(songs)
+        })()
+    }, [userData])
 
   return (
     <main className="flex flex-col gap-4 h-screen text-white">
@@ -28,25 +47,16 @@ export default function Profile() {
                 </picture>
                 </article>
                 <article className="profile-info-container h-56 static md:absolute md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center">
-                    <h1 className="text-3xl font-bold">{user.nickname}</h1>
-                    <h5 className="text-sm text-gray-400 italic">Enjoying since {user.pretty_date}</h5>
+                    <h1 className="text-3xl font-bold">{userData.nickname}</h1>
+                    <h5 className="text-sm text-gray-400 italic">Enjoying since {userData.pretty_date}</h5>
                 </article>
             </section>
 
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
-                <div className="w-full flex flex-wrap gap-16 justify-evenly">
+                <div className="w-full flex flex-wrap gap-8 justify-center">
                     {
-                        userSongs.map(song => {
-                            return (
-                            <article className="bg-gray-300 bg-gray-700 rounded w-56">
-                                <div className="w-full aspect-square p-8"><MusicNoteIcon/></div>
-                                <Link to={`/song/${user.nickname}/${song.name}`} className="p-4 text-lg font-bold w-full">
-                                    {song.name}
-                                </Link>
-                            </article>
-                            )
-                        })
+                        userSongs.map(song => <SongMiniature author={userData.nickname} songName = {song.name}/>)
                     }
                 </div>
             </section>

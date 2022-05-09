@@ -54,6 +54,7 @@ export default function App() {
           <Route path='/register' element={<Register />}/>  
           <Route path='/rooms' element={<Rooms />}/>  
           <Route path='/profile' element={<Profile />}/>  
+          <Route path='/profile/:nickname' element={<Profile />}/>  
         </Routes>
       </Router>
       </MyGlobalContext.Provider>

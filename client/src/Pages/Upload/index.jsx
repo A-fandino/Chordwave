@@ -4,25 +4,25 @@ import Loading from "@/Components/Loading/"
 import { UploadIcon, MusicNoteIcon } from "@heroicons/react/solid"
 
 export default function Upload() {
-    const formRef  = useRef<HTMLFormElement>(null)
-    const [show, setShow] = useState<boolean>(false)
-    const [next, setNext] = useState<boolean>(false)
+    const formRef  = useRef(null)
+    const [show, setShow] = useState(false)
+    const [next, setNext] = useState(false)
     const [icon, setIcon] = useState(<UploadIcon/>)
-    const [filename, setFilename] = useState<string>("")
-    const [extension, setExtension] = useState<string>("")
-    const handleSubmit = (e: any) => {
+    const [filename, setFilename] = useState("")
+    const [extension, setExtension] = useState("")
+    const handleSubmit = (e) => {
         if (!formRef.current) return
         formRef.current.submit()
     }
 
-    function handleFile(event: React.ChangeEvent) {
-        const target= event.target as HTMLInputElement;
-        const file: File = target.files![0];
+    function handleFile(event) {
+        const target= event.target ;
+        const file = target.files[0];
         setIcon(<MusicNoteIcon/>)
         setNext(true)
-        const nameSplit: string[] = file.name.split(".")
-        const ext: string | undefined = nameSplit.pop() 
-        const name: string = nameSplit[0]
+        const nameSplit = file.name.split(".")
+        const ext= nameSplit.pop() 
+        const name = nameSplit[0]
         setFilename(name)
         if (ext) setExtension(ext)
     }
