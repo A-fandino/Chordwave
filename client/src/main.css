@@ -2,9 +2,31 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-body {
-  background-color: #1e293b;
-  animation: BgEffect 3s linear infinite;
+@layer main {
+  body {
+    @apply bg-gray-800;
+    @apply h-screen;
+    @apply bg-fixed;
+    @apply bg-gradient-to-br;
+    @apply from-gray-800;
+    @apply via-gray-800;
+    @apply to-indigo-500;
+    /* animation: BgEffect 3s linear infinite; */
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
 }
 
 @keyframes BgEffect {

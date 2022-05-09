@@ -33,7 +33,7 @@ export default function Upload() {
         <input type="file" name="file" id="file" accept=".mp3,.wav,.ogg" onChange={handleFile} className='hidden'/>
         <label htmlFor="file" 
         className={`upload rounded-full border border-4 sm:p-24 p-16 bg-gradient-to-tl ${next ? 'text-amber-400 border-amber-400 to-amber-400 hover:animate-pulse animate-spin-slow ' : 'text-white'} flex items-center justify-center w-[15rem] h-[15rem] sm:w-[25rem] sm:h-[25rem]
-        hover:text-indigo-400 hover:border-indigo-400 from-transparent via-transparent hover:to-indigo-500`}
+        hover:text-indigo-400 hover:border-indigo-400 from-gray-800 via-gray-800 hover:to-indigo-500`}
         >{icon}</label>
         {
         next && (
@@ -41,7 +41,7 @@ export default function Upload() {
             <span className='text-white text-xl'>{filename}.{extension}</span>
             <input name="name" className="basic black" type="text" value={filename} onChange={(e) => setFilename(e.target.value)}></input>
             <section className="flex flex-col gap-4 items-stretch">
-                <button onClick={() => setShow(true)} className='p-2 bg-indigo-900 rounded text-white hover:bg-indigo-700'>Continuar</button>
+                <button onClick={() => setShow(true)} className='p-4 bg-indigo-500 rounded text-white hover:bg-indigo-700 font-bold'>Continuar</button>
             </section>
         </>
         )}
