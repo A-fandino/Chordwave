@@ -11,7 +11,8 @@ socket = SocketIO(cors_allowed_origins=[
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True,
+                template_folder=os.path.abspath("client/dist"), static_folder=os.path.abspath("client/dist"))
     app.config.from_mapping(
         SECRET_KEY='secret_key',
         SQLALCHEMY_DATABASE_URI='mysql://root:@localhost/chordwave',

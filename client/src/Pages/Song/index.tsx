@@ -19,12 +19,12 @@ export default function Song() {
     useEffect(() => {
     console.log(socket)
     getSongData()
-    }, [])
+    })
 
     return (
     <>
         <Nav/>
-        <video autoplay><source src="http://localhost:5000/play" type="audio/x-wav"/></video>
+        <audio autoPlay><source src={`http://localhost:5000/play/${params.author}/${params.name}`} type="audio/x-wav"/></audio>
     </>
     )
     }

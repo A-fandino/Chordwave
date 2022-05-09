@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useSyncExternalStore } from 'react'
 import { Link } from 'react-router-dom'
-
+import FancyText from "@/Components/FancyText"
+import { useGlobalContext } from '@/context'
+ 
 export default function Header() {
+    const { user } = useGlobalContext()
+    const profileLinks = user ? user.id :(
+        <>
+            <Link to='/login' className="text-xl font-extrabold text-white w-fit hover:underline">Login</Link>
+                |   
+            <Link to='/register' className="text-xl font-extrabold text-white w-fit hover:underline">Register</Link>
+        </>
+    )
     return (
         <>
     <nav className="p-4 bg-transparent text-white font-bold text-2xl flex flex-col justify-between md:flex-row">
-        <Link id="logo" to='/' className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-indigo-500 w-fit hover:scale-105">Chordwave</Link>
-        <Link to='/login' className="text-xl font-extrabold text-white w-fit hover:scale-105">Login</Link>
+        <Link id="logo" to='/' className="hover:scale-105">
+        <FancyText size="small"></FancyText>
+        </Link>
+        <div className="flex gap-3 items-center">
+        {profileLinks}
+        </div>
     </nav>
     </>
     )

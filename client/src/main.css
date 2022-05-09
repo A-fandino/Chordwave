@@ -4,6 +4,19 @@
 
 body {
   background-color: #1e293b;
+  animation: BgEffect 3s linear infinite;
+}
+
+@keyframes BgEffect {
+  0% {
+    background-color: #1e293b;
+  }
+  50% {
+    background-color: #1e293bf7;
+  }
+  99% {
+    background-color: #1e293b;
+  }
 }
 
 .basic {

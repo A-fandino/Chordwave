@@ -4,6 +4,7 @@ import os
 import json
 from .models import Genre, Song, User, db
 from .auth import login_required
+import librosa
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -25,7 +26,9 @@ def song(author, name):
         if x.name == name:
             song = x
             break
-    data = {"filename": song.id, "name": song.name, "format": song.format}
+    print()
+    data = {"filename": song.id, "name": song.name, "format": song.format, "duration": librosa.get_duration(
+        filename='./flaskr/uploads/music/'+song.id+"."+song.format)}
     return jsonify(data)
 
 

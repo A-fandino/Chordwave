@@ -20,9 +20,11 @@ export default function Upload() {
         const file: File = target.files![0];
         setIcon(<MusicNoteIcon/>)
         setNext(true)
-        const [name, ext] = file.name.split(".")
+        const nameSplit: string[] = file.name.split(".")
+        const ext: string | undefined = nameSplit.pop() 
+        const name: string = nameSplit[0]
         setFilename(name)
-        setExtension(ext)
+        if (ext) setExtension(ext)
     }
     return (
     <>

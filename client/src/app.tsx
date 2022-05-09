@@ -5,12 +5,11 @@ import {
     Route,
   } from "react-router-dom";
 import Home from '@/Pages/Home/'
-// import Nav from '@/Layout/Nav/'
 import Upload from '@/Pages/Upload/'
 import Song from '@/Pages/Song/'
 import Login from '@/Pages/Login/'
 import Register from '@/Pages/Register/'
-import { MyGlobalContext, socket } from "./context"
+import { MyGlobalContext, socket, user } from "./context"
 
 // import socketIOClient from "socket.io-client"
 // const ENDPOINT = "http://localhost:5000"
@@ -34,7 +33,7 @@ export default function App() {
   }, [])
 
   return (
-      <MyGlobalContext.Provider value={{socket}}>
+      <MyGlobalContext.Provider value={{socket, user}}>
       <Router>
         {/* {display && <Nav />} */}
         <Routes>

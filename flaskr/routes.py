@@ -1,13 +1,17 @@
 # Main router file
-from flask import current_app, Response
+from flask import current_app, Response, send_from_directory, render_template
 from flask_socketio import emit
 from .models import User, Song
 from . import db, socket
+import os
 
 
 @current_app.route("/")
 def index():
-    return "Hey! I'm using Chordwave!"
+    path_dir = os.path.abspath("client/dist")  # path react build
+    # if path != "" and os.path.exists(os.path.join(path_dir, path)):
+    #     return send_from_directory(path_dir, path)
+    return render_template("index.html")
 
 
 @current_app.route('/create-db/<refresh>')
