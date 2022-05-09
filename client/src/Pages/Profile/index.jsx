@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link } from "react-router-dom"
 import Nav from "@/Layout/Nav"
 import PFP from "@/static/img/default.jpg"
@@ -7,6 +7,16 @@ import { MusicNoteIcon } from "@heroicons/react/solid"
 
 export default function Profile() {
     const {user} = useGlobalContext()
+    const [userSongs, setUserSongs] = useState([])
+
+    useEffect(() => {
+        (async function() {
+            const resp = await fetch("http://localhost:5000/api/userSongs/"+user.nickname)
+            const songs = await resp.json()
+            setUserSongs(songs)
+        })()
+    },[])
+
   return (
     <main className="flex flex-col gap-4 h-screen text-white">
         <Nav/>
@@ -27,11 +37,13 @@ export default function Profile() {
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
                 <div className="w-full flex flex-wrap gap-16 justify-evenly">
                     {
-                        [1,2,3,4].map(i => {
+                        userSongs.map(song => {
                             return (
                             <article className="bg-gray-300 bg-gray-700 rounded w-56">
                                 <div className="w-full aspect-square p-8"><MusicNoteIcon/></div>
-                                <h2 className="p-4 text-lg font-bold w-full">Title</h2>
+                                <Link to={`/song/${user.nickname}/${song.name}`} className="p-4 text-lg font-bold w-full">
+                                    {song.name}
+                                </Link>
                             </article>
                             )
                         })

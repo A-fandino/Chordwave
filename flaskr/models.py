@@ -1,6 +1,9 @@
 from datetime import datetime
 from linecache import lazycache
+from re import M
+from flask import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+import librosa
 from . import db
 
 SONG_ID_LENGTH = 20
@@ -121,6 +124,16 @@ class Song(db.Model):
         for _ in range(self.ID_LENGTH):
             id += choice(ascii_letters + digits)
         return id
+
+    @property
+    def serialize(self):
+        return {
+            "name": self.name,
+            "format": self.format,
+            # "duration": librosa.get_duration(
+            #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
+            # "author": self.author.serialize
+        }
 
     def __repr__(self) -> str:
         return f"<Song {self.name}>"

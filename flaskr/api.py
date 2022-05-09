@@ -32,6 +32,12 @@ def song(author, name):
     return jsonify(data)
 
 
+@bp.route('/userSongs/<nickname>')
+def userSongs(nickname):
+    user = User.query.filter_by(nickname=nickname).first()
+    return jsonify([x.serialize for x in user.songs])
+
+
 @bp.route('/upload', methods=['POST'])
 @cross_origin()
 @login_required
