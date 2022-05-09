@@ -22,7 +22,7 @@ export default function App() {
 
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
-  useEffect((): any=> {
+  useEffect(() => {
     // socket.connect()
     // socket.on("test", data => {
     //   socket.emit("ping")
