@@ -11,6 +11,7 @@ import Login from '@/Pages/Login/'
 import Register from '@/Pages/Register/'
 import Rooms from '@/Pages/Rooms/'
 import Profile from '@/Pages/Profile/'
+import Loading from '@/Components/Loading/'
 import { MyGlobalContext, socket} from "./context"
 
 // import socketIOClient from "socket.io-client"
@@ -39,7 +40,7 @@ export default function App() {
     return () => socket.disconnect()
   }, [])
 
-  return loading ? <div>Loading...</div>
+  return loading ? <Loading show={true}/>
     : (
       <MyGlobalContext.Provider value={{socket, user}}>
       <Router>

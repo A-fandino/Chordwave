@@ -1,6 +1,6 @@
 import React, { useRef, useState} from 'react'
 import Nav from "@/Layout/Nav/"
-import Modal from "@/Components/Modal/"
+import Loading from "@/Components/Loading/"
 import { UploadIcon, MusicNoteIcon } from "@heroicons/react/solid"
 
 export default function Upload() {
@@ -45,11 +45,7 @@ export default function Upload() {
             </section>
         </>
         )}
-        <Modal show={show} setShow={setShow} closable={false}>
-            <div className="text-9xl rounded text-white font-bold">
-            Cargando...
-            </div>
-        </Modal>
+        <Loading show={show} setShow={setShow}></Loading>
     </form>
     </>
     )
