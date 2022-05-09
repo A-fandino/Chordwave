@@ -15,7 +15,7 @@ def login_required(view):
 
 @bp.route('/check')
 def check():
-    return session["user"] if "user" in session else ""
+    return session["user"] if "user" in session else "{}"
 
 
 @bp.route('/login', methods=['POST'])
@@ -28,7 +28,7 @@ def login():
     if user is None or user.verify_password(password) is False:
         return 'CREDENTIALS ERROR'
     loginUser(user)
-    return redirect("http://localhost")
+    return redirect("http://localhost/profile")
 
 
 @bp.route('/register', methods=('POST',))

@@ -5,7 +5,7 @@ import { useGlobalContext } from '@/context'
  
 export default function Header() {
     const { user } = useGlobalContext()
-    const profileLinks = user ? user.id :(
+    const profileLinks = Object.keys(user).length ? <Link to='/profile' className="text-xl font-extrabold text-white w-fit hover:underline">Profile</Link> :(
         <>
             <Link to='/login' className="text-xl font-extrabold text-white w-fit hover:underline">Login</Link>
                 |   

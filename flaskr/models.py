@@ -74,6 +74,9 @@ class User(db.Model):
             "id": self.id,
             "nickname": self.nickname,
             "mail": self.mail,
+            "pretty_date": self.created_at.strftime("%B %dth %Y"),
+            "ddmmyy": self.created_at.strftime("%d/%m/%Y"),
+            "mmddyy": self.created_at.strftime("%m/%d/%Y"),
         }
 
     def __repr__(self) -> str:

@@ -9,7 +9,9 @@ import Upload from '@/Pages/Upload/'
 import Song from '@/Pages/Song/'
 import Login from '@/Pages/Login/'
 import Register from '@/Pages/Register/'
-import { MyGlobalContext, socket, user } from "./context"
+import Rooms from '@/Pages/Rooms/'
+import Profile from '@/Pages/Profile/'
+import { MyGlobalContext, socket} from "./context"
 
 // import socketIOClient from "socket.io-client"
 // const ENDPOINT = "http://localhost:5000"
@@ -17,22 +19,28 @@ import { MyGlobalContext, socket, user } from "./context"
 export default function App() {
   
 
-  // const location = useLocation();
-  // const path = location.pathname;
-  // const [display, setDisplay] = useState(
-  //   path !== "/" ? true : false
-  // );
+  const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(true)
   useEffect((): any=> {
-    socket.connect()
-    socket.on("test", data => {
-      socket.emit("ping")
+    // socket.connect()
+    // socket.on("test", data => {
+    //   socket.emit("ping")
+    //   console.log(data)
+    // })
+
+    (async function() {
+      const resp = await fetch("http://localhost:5000/auth/check", {credentials: 'include', mode:"cors"})
+      const data = await resp.json()
+      setUser(data)
       console.log(data)
-    })
+      setLoading(false)
+    })()
 
     return () => socket.disconnect()
   }, [])
 
-  return (
+  return loading ? <div>Loading...</div>
+    : (
       <MyGlobalContext.Provider value={{socket, user}}>
       <Router>
         {/* {display && <Nav />} */}
@@ -43,6 +51,8 @@ export default function App() {
           <Route path='/song/:author/:name' element={<Song />}/>  
           <Route path='/login' element={<Login />}/>  
           <Route path='/register' element={<Register />}/>  
+          <Route path='/rooms' element={<Rooms />}/>  
+          <Route path='/profile' element={<Profile />}/>  
         </Routes>
       </Router>
       </MyGlobalContext.Provider>

@@ -19,6 +19,7 @@ def genres():
 
 
 @bp.route('/song/<author>/<name>')
+@cross_origin
 def song(author, name):
     user = User.query.filter_by(nickname=author).first()
     song = None
@@ -26,7 +27,6 @@ def song(author, name):
         if x.name == name:
             song = x
             break
-    print()
     data = {"filename": song.id, "name": song.name, "format": song.format, "duration": librosa.get_duration(
         filename='./flaskr/uploads/music/'+song.id+"."+song.format)}
     return jsonify(data)
