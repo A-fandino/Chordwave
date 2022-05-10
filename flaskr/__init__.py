@@ -24,8 +24,11 @@ def create_app(test_config=None):
     socket.init_app(app)
 
     # CORS
-    cors = CORS(app, supports_credentials=True)
-    app.config['CORS_HEADERS'] = 'Content-Type'
+    cors = CORS(app, supports_credentials=True,
+                origins=["http://localhost"])
+    app.config['CORS_HEADERS'] = [
+        'Content-Type', 'application/json', 'Location']
+
     # app.config['SUPPORTS_CREDENTIALS'] = True
     with app.app_context():
         from . import auth, api, routes

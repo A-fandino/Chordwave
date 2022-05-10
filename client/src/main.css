@@ -2,6 +2,14 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+input.invalid-input {
+  @apply text-red-500;
+  @apply bg-red-300;
+}
+input.valid-input {
+  @apply text-green-500;
+}
+
 @layer main {
   body {
     @apply bg-gray-800;
@@ -13,7 +21,6 @@
     @apply to-indigo-500;
     /* animation: BgEffect 3s linear infinite; */
   }
-
   ::-webkit-scrollbar {
     width: 11px;
   }
