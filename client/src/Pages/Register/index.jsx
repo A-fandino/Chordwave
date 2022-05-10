@@ -1,19 +1,25 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Nav from "@/Layout/Nav/"
 import FancyText from "@/Components/FancyText/"
+import Modal from "@/Components/Modal/"
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
 export default function Register() {
+
+    const [errorMsg, setErrorMsg] = useState(null)
+    const [show, setShow] = useState(null)
+
     const yupValidation = Yup.object().shape({
         nickname: Yup.string()
           .required('Nickname is mandatory.')
-          .min(4, 'Add minimum 4 characters'),
-        mail: Yup.string().required('Email id is mandatory').email(),
+          .min(8, 'Add minimum 8 characters')
+          .max(80, 'Cannot be longer than 80 characters'),
+        mail: Yup.string().required('Email is mandatory').email(),
         password: Yup.string()
           .required('Password is mandatory.')
-          .min(4, 'Add minimum 4 characters'),
+          .min(8, 'Add minimum 8 characters'),
         passwordVerif: Yup.string()
             .required("You must validate your password.")
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -22,6 +28,7 @@ export default function Register() {
       const formOptions = { resolver: yupResolver(yupValidation) }
       const { register, handleSubmit, formState } = useForm(formOptions)
       const { errors } = formState
+
     async function onSubmit(data) {
             const resp = await fetch("http://localhost:5000/auth/register", {
                 mode: "cors",
@@ -36,8 +43,8 @@ export default function Register() {
             console.log(resp)
             if (resp.ok) return location.href ="/profile" //I need to refresh the whole page
             const {msg} = await resp.json()
-            alert(msg)
-
+            setErrorMsg(msg)
+            setShow(true)
     }
     return (
     <>
@@ -74,6 +81,19 @@ export default function Register() {
                 <div className="text-red-500 font-bold">{errors.passwordVerif?.message}</div>
             <button type="submit" className="w-32 h-12 bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white font-bold ">Register</button>
         </form>
+        <Modal show={show} setShow={setShow} closable={true}>
+            <section className="w-6/12 bg-gray-900 text-white rounded border-4 border-red-500">
+                <header class="flex justify-between items-center p-4 bg-red-500 w-full">
+                    <h2 className="text-4xl font-bold">⚠ ERROR</h2>
+                    <button className='text-sm h-min p-2 w-8 hover rounded-lg font-bold bg-black bg-opacity-10 hover:bg-opacity-20' onClick={() => setShow(false)}>
+                        x
+                     </button>
+                </header>
+                <div className="p-8 font-bold">
+                 {errorMsg}
+                </div>
+            </section>
+        </Modal>
     </>
     )
     }

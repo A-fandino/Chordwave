@@ -15,7 +15,7 @@ export default function Modal(props) {
     }
 
   return (
-    <div style={styles} ref={modRef} className='modal' onClick={(e) => closable && e.target==modRef.current && props.setShow(false)}>
+    <div style={styles} ref={modRef} className='modal' onClick={(e) => props.closable && e.target==modRef.current && props?.setShow(false)}>
         {props.children}
     </div>
   )
