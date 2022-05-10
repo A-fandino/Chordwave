@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import Nav from "@/Layout/Nav/"
 import { MusicNoteIcon } from "@heroicons/react/solid"
+import { Waveform } from '@uiball/loaders'
+
 import { useGlobalContext } from '@/context'
 
 export default function Song() {
@@ -28,13 +30,19 @@ export default function Song() {
                 <Nav />
                 <section className="grid grid-cols-2 gap-4 p-4 justify-items-center">
                     <article className="music-disc w-[27rem] border border-4 border-amber-700 aspect-square rounded-full z-10 overflow-hidden p-16
-                    sm:p-24 p-16 bg-gradient-to-tl text-amber-400 border-amber-400 to-amber-400 animate-spin-slow flex items-center justify-center w-[15rem] h-[15rem] sm:w-[25rem] sm:h-[25rem]
+                    sm:p-24 p-16 bg-gradient-to-tl text-amber-400 border-amber-400 to-amber-400 animate-spin-slow flex flex-col items-center justify-center w-[15rem] h-[15rem] sm:w-[25rem] sm:h-[25rem]
                     from-transparent via-transparent">
-                        <MusicNoteIcon/>
+                        {/* <MusicNoteIcon/> */}
+                        <Waveform 
+                        size={120}
+                        lineWeight={18}
+                        speed={.8} 
+                        color={"#fbbf24"}
+                        />
                     </article>
                     <article className='w-full p-4 text-left flex flex-col gap-2'>
                         <h1 className="text-5xl font-bold">{params.name}</h1>
-                        <h2 className="text-3xl text-gray-500 italic font-serif pl-4"> “{params.author}”</h2>
+                        <Link to={`/profile/${params.author}`} className="text-3xl text-gray-500 italic font-serif pl-4 hover:text-gray-400"> “{params.author}”</Link>
                     </article>
 
                 </section>
