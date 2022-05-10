@@ -10,7 +10,7 @@ export default function Header() {
             <p className="text-sm text-gray-200 italic">Música por y para todos</p>
         </div>
         <div className='flex w-full items-center justify-center'>
-            <Link to='/upload'><button className='bg-indigo-500 p-8 text-2xl font-bold rounded hover:bg-indigo-700'>Subir canción</button></Link>
+            <Link to='/upload'><button className='bg-indigo-500 p-8 text-2xl font-bold rounded hover:bg-indigo-700'>Upload song</button></Link>
         </div>
     </header>
     </>

@@ -40,7 +40,7 @@ export default function Profile() {
     <main className="flex flex-col gap-4 h-screen text-white">
         <Nav/>
         <div className="h-full p-4 flex flex-col gap-72">
-            <section className="w-full h-80 relative flex justify-center p-4 md:block flex flex-col gap-4 items-center">
+            <section className="w-full h-80 relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <article className="profile-pic-container w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden">
                 <picture>
                     <img src={PFP} />
@@ -61,7 +61,7 @@ export default function Profile() {
                 </div>
             </section>
             
-            <section>
+            <section className="p-4 mb-4">
                 <a href="http://localhost:5000/auth/logout" className="p-4 bg-red-500 rounded font-bold text-white">Logout</a>
             </section>
 
