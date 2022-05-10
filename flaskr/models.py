@@ -58,7 +58,7 @@ class User(db.Model):
     listents = db.relationship("Listen", lazy="subquery", backref="users")
     likes = db.relationship("Like",
                             lazy="subquery", backref="users")
-    playlists = db.relationship("Song", backref="user", lazy=True)
+    playlists = db.relationship("Playlist", backref="user", lazy=True)
 
     def __init__(self, nickname, mail, plain_pass):
         self.nickname = nickname
@@ -132,7 +132,7 @@ class Song(db.Model):
             "format": self.format,
             # "duration": librosa.get_duration(
             #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
-            # "author": self.author.serialize
+            "author": self.author.nickname
         }
 
     def __repr__(self) -> str:

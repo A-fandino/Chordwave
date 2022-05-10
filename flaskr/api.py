@@ -5,6 +5,8 @@ import json
 from .models import Genre, Song, User, db
 from .auth import login_required
 import librosa
+from sqlalchemy.sql.expression import func
+
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -16,6 +18,28 @@ def test():
 @bp.route('/genres')
 def genres():
     return json.dumps([g.name for g in Genre.query.all()])
+
+
+@bp.route("/last-songs")
+@bp.route("/last-songs/<int:limit>")
+@bp.route("/last-songs/<int:limit>/<int:offset>")
+def lastSongs(limit=1, offset=0):
+    songs = Song.query.order_by(Song.created_at.desc()).limit(
+        limit).offset(limit*offset)
+    data = []
+    for s in songs:
+        data.append(s.serialize)
+    return jsonify(data)
+
+
+@bp.route("/random-song")
+@bp.route("/random-song/<int:num>")
+def randomSong(num=1):
+    songs = Song.query.order_by(func.random()).limit(num)
+    data = []
+    for s in songs:
+        data.append(s.serialize)
+    return jsonify(data)
 
 
 @bp.route('/song/<author>/<name>')
