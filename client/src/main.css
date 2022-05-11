@@ -34,6 +34,10 @@ input.valid-input {
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-600;
   }
+
+  .modal {
+    z-index: 99;
+  }
 }
 
 @keyframes BgEffect {
@@ -120,7 +124,6 @@ input.valid-input {
   @apply items-center;
   @apply justify-center;
   @apply aspect-square;
-  @apply z-10;
   @apply overflow-hidden;
   @apply bg-gradient-to-tl;
   @apply from-gray-800;
