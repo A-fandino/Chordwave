@@ -96,6 +96,12 @@ input.valid-input {
 }
 
 @layer Song {
+  audio {
+    @apply hidden;
+    @apply opacity-0;
+    @apply invisible;
+  }
+
   .song-control {
     @apply w-10;
   }
