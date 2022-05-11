@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Nav from "@/Layout/Nav/"
 import FancyText from "@/Components/FancyText/"
-import Modal from "@/Components/Modal/"
+import ErrorModal from "@/Components/ErrorModal/"
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
@@ -55,45 +55,37 @@ export default function Register() {
                 type="text" 
                 className={`basic black ${errors.nickname ? 'invalid-input' : ''}`} 
                 name='nickname' 
-                placeholder='Nickname' {...register('nickname')} 
+                placeholder='Nickname' 
+                {...register('nickname')} 
             />
                 <div className="text-red-500 font-bold">{errors.nickname?.message}</div>
             <input 
                 type="email" 
                 className={`basic black ${errors.mail ? 'invalid-input' : ''}`} 
                 name='mail' 
-                placeholder='Email' {...register('mail')} 
+                placeholder='Email' 
+                {...register('mail')} 
             />
                 <div className="text-red-500 font-bold">{errors.mail?.message}</div>
             <input 
                 type="password" 
                 className={`basic black ${errors.password ? 'invalid-input' : ''}`} 
                 name="password" 
-                placeholder='Password' {...register('password')}
+                placeholder='Password' 
+                {...register('password')}
             />
                 <div className="text-red-500 font-bold">{errors.password?.message}</div>
             <input 
                 type="password" 
                 className={`basic black ${errors.passwordVerif ? 'invalid-input' : ''}`} 
                 name="passwordVerif" 
-                placeholder='Repeat password' {...register('passwordVerif')}
+                placeholder='Repeat password' 
+                {...register('passwordVerif')}
             />
                 <div className="text-red-500 font-bold">{errors.passwordVerif?.message}</div>
             <button type="submit" className="w-32 h-12 bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white font-bold ">Register</button>
         </form>
-        <Modal show={show} setShow={setShow} closable={true}>
-            <section className="w-6/12 bg-gray-900 text-white rounded border-4 border-red-500">
-                <header class="flex justify-between items-center p-4 bg-red-500 w-full">
-                    <h2 className="text-4xl font-bold">⚠ ERROR</h2>
-                    <button className='text-sm h-min p-2 w-8 hover rounded-lg font-bold bg-black bg-opacity-10 hover:bg-opacity-20' onClick={() => setShow(false)}>
-                        x
-                     </button>
-                </header>
-                <div className="p-8 font-bold">
-                 {errorMsg}
-                </div>
-            </section>
-        </Modal>
+        <ErrorModal show={show} setShow={setShow}>{errorMsg}</ErrorModal>
     </>
     )
     }
