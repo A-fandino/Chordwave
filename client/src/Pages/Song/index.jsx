@@ -7,6 +7,7 @@ import { Waveform } from '@uiball/loaders'
 import { useGlobalContext } from '@/context'
 
 export default function Song() {
+    const isMounted = useRef(false)
     const params = useParams()
     const [songData, setSongData] = useState({author:params.author, name:params.name})
     const [play, setPlay] = useState(true)
@@ -23,20 +24,18 @@ export default function Song() {
     }
 
     useEffect(() => {
-        getSongData()
-    },[])
+        if (isMounted.current) play ? audioRef.current.play() : audioRef.current.pause()
+    }, [songData, play])
 
     useEffect(() => {
-        play && audioRef.current.play()
-    }, [songData])
+        getSongData()
+        isMounted.current = true
+    },[])
+
 
     function togglePlay() {
         setPlay(!play)
-        if (play) {
-            audioRef.current.pause()
-            return
-        }
-        audioRef.current.play()
+        play ? audioRef.current.play() : audioRef.current.pause()
     }
 
     async function previousSong() {
@@ -45,7 +44,7 @@ export default function Song() {
     async function nextSong() {
         const resp = await fetch("http://localhost:5000/api/random-song")
         const data = await resp.json()
-        navigate(`/song/${data[0].author}/${data[0].name}`)
+        location.href = (`/song/${data[0].author}/${data[0].name}`)
     }
 
     return (
@@ -67,7 +66,10 @@ export default function Song() {
                         <Link to={`/profile/${params.author}`} className="text-3xl text-gray-500 italic font-serif pl-4 hover:text-gray-400"> “{params.author}”</Link>
                     </article>
                 </section>
-                <section className='bg-gray-900 p-3 mx-10 flex items-center justify-center gap-16'>
+                <footer className='bg-gray-900 p-3 mx-10 flex items-center justify-center gap-16'>
+                    {/* 
+                    use current time and seconds for time bar
+                    */}
                     <span className="song-control" onClick={previousSong}><RewindIcon/></span>
                     <span className="song-control" onClick={togglePlay}>
                         {
@@ -75,10 +77,10 @@ export default function Song() {
                         }
                         </span>
                     <span className="song-control" onClick={nextSong}><FastForwardIcon/></span>
-                </section>
+                </footer>
             </main>
 
-            <audio ref={audioRef}autoPlay controls><source src={`http://localhost:5000/play/${songData.author}/${songData.name}`} type={`audio/x-wav`} /></audio>
+            <audio ref={audioRef} autoPlay><source src={`http://localhost:5000/play/${songData.author}/${songData.name}`} type={`audio/x-wav`} /></audio>
         </>
     )
 }
