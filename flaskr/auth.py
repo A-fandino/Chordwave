@@ -30,13 +30,19 @@ def check(nickname=None):
 
 @bp.route('/login', methods=['POST'])
 def login():
-    identifier = request.form["identifier"]
-    password = request.form["password"]
-    user = getUserByIdentifier(identifier)
-    if user is None or user.verify_password(password) is False:
-        return 'CREDENTIALS ERROR'
-    loginUser(user)
-    return redirect("http://localhost/profile")
+    try:
+        data = json.loads(request.data.decode())
+        identifier = data["identifier"]
+        password = data["password"]
+        user = getUserByIdentifier(identifier)
+        if user is None:
+            return abortMsg("User does not exist")
+        if user.verify_password(password) is False:
+            return abortMsg('Incorrect password')
+        loginUser(user)
+        return "", 200
+    except KeyError as kerr:
+        abortMsg(f"Missing field {kerr.args[0]}")
 
 
 @bp.route('/register', methods=('POST',))
