@@ -46,8 +46,8 @@ export default function Profile() {
                     <img src={PFP} />
                 </picture>
                 </article>
-                <article className="profile-info-container h-56 static md:absolute md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center">
-                    <h1 className="text-3xl font-bold">{userData.nickname}</h1>
+                <article className="profile-info-container h-56 static md:absolute md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center gap-2">
+                    <h1 className="text-5xl font-bold">{userData.nickname}</h1>
                     <h5 className="text-sm text-gray-400 italic">Enjoying since {userData.pretty_date}</h5>
                 </article>
             </section>
