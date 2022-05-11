@@ -43,7 +43,6 @@ def randomSong(num=1):
 
 
 @bp.route('/song/<author>/<name>')
-@cross_origin
 def song(author, name):
     user = User.query.filter_by(nickname=author).first()
     song = None
@@ -51,8 +50,9 @@ def song(author, name):
         if x.name == name:
             song = x
             break
-    data = {"filename": song.id, "name": song.name, "format": song.format, "duration": librosa.get_duration(
-        filename='./flaskr/uploads/music/'+song.id+"."+song.format)}
+    data = {"filename": song.id, "name": song.name, "format": song.format, "author": author
+            # "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+song.id+"."+song.format)
+            }
     return jsonify(data)
 
 
@@ -66,17 +66,20 @@ def userSongs(nickname):
 @cross_origin()
 @login_required
 def index():
-    file = request.files['file']
-    file.stream.seek(0)
-    name = request.form["name"]
-    ext = file.filename.split(".")[-1]
-    path = './flaskr/uploads/music'
-    if (not os.path.exists(path)):
-        os.makedirs(path)
-    author_id = session["user"]["id"]
-    song = Song(name, ext, author_id)
-    # author = User.query.get(1).first()["nickname"]
-    db.session.add(song)
-    db.session.commit()
-    file.save(f'{path}/{song.id}.{ext}')
-    return redirect(f'http://localhost/song/{song.author.nickname}/{name}')
+    try:
+        file = request.files['file']
+        file.stream.seek(0)
+        name = request.form["name"]
+        ext = file.filename.split(".")[-1]
+        path = './flaskr/uploads/music'
+        if (not os.path.exists(path)):
+            os.makedirs(path)
+        author_id = session["user"]["id"]
+        song = Song(name, ext, author_id)
+        # author = User.query.get(1).first()["nickname"]
+        db.session.add(song)
+        db.session.commit()
+        file.save(f'{path}/{song.id}.{ext}')
+        return redirect(f'http://localhost/song/{song.author.nickname}/{name}')
+    except:
+        return redirect("http://localhost/upload")
