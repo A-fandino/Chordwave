@@ -32,8 +32,8 @@ export default function Upload() {
         <form method='post' className='flex flex-col items-center p-4 gap-4' ref={formRef} encType="multipart/form-data" action='http://localhost:5000/api/upload'>
             <input type="file" name="file" id="file" accept=".mp3,.wav,.ogg" onChange={handleFile} className='hidden'/>
             <label htmlFor="file" 
-            className={`upload rounded-full border border-4 sm:p-24 p-16 bg-gradient-to-tl ${next ? 'text-amber-400 border-amber-400 to-amber-400 hover:animate-pulse animate-spin-slow ' : 'text-white'} flex items-center justify-center w-[15rem] h-[15rem] sm:w-[25rem] sm:h-[25rem]
-            hover:text-indigo-400 hover:border-indigo-400 from-gray-800 via-gray-800 hover:to-indigo-500`}
+            className={`upload music-disc sm:p-24 text-white ${next ? 'amber hover:animate-pulse animate-spin-slow ' : ''}  sm:w-[25rem]
+            hover:text-indigo-400 hover:border-indigo-500 from-gray-800 via-gray-800 hover:to-indigo-500`}
             >{icon}</label>
             {
             next && (

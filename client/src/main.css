@@ -94,3 +94,37 @@ input.valid-input {
     }
   }
 }
+
+@layer Song {
+  .song-control {
+    @apply w-10;
+  }
+  .song-control:hover {
+    @apply text-gray-400;
+  }
+}
+.music-disc {
+  @apply rounded-full;
+  @apply border;
+  @apply border-4;
+  @apply text-indigo-400;
+  @apply border-indigo-400;
+  @apply rounded-full;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply aspect-square;
+  @apply z-10;
+  @apply overflow-hidden;
+  @apply bg-gradient-to-tl;
+  @apply from-gray-800;
+  @apply via-gray-800;
+  @apply p-16;
+  @apply w-[15rem];
+}
+
+.music-disc.amber {
+  @apply text-amber-400;
+  @apply border-amber-400;
+  @apply to-amber-400;
+}
