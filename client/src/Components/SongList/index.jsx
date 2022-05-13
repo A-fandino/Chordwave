@@ -15,7 +15,7 @@ export default function SongList(props) {
     <div className="flex gap-4 justify-center w-full">
       {
         songs.map((s,i) => {
-          return <SongMiniature key={i} author={s.author} songName={s.name}/>
+          return <SongMiniature key={i} data={s}/>
         })
       }
     </div>

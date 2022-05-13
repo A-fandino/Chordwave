@@ -1,7 +1,7 @@
 from datetime import datetime
 from linecache import lazycache
 from re import M
-from flask import jsonify
+from flask import session
 from werkzeug.security import generate_password_hash, check_password_hash
 import librosa
 from . import db
@@ -145,7 +145,9 @@ class Song(db.Model):
             # "duration": librosa.get_duration(
             #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
             "author": self.author.nickname,
+            "liked": "user" in session and (self in User.query.get(session["user"]["id"]).likes),
             **multiFormatDate(self.created_at)
+
         }
 
     def __repr__(self) -> str:
