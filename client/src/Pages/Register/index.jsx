@@ -50,6 +50,7 @@ export default function Register() {
     <>
         <Nav/>
         <form method="POST" className="flex flex-col gap-4 items-center h-[80vh] justify-center" onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex flex-col gap-4 items-center justify-center rounded-md p-16 bg-white bg-opacity-10 shadow-md'>
             <FancyText size="mid" classes="px-16 py-4">Register</FancyText>
             <input 
                 type="text" 
@@ -84,6 +85,7 @@ export default function Register() {
             />
                 <div className="text-red-500 font-bold">{errors.passwordVerif?.message}</div>
             <button type="submit" className="w-32 h-12 bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white font-bold ">Register</button>
+            </div>
         </form>
         <ErrorModal show={show} setShow={setShow}>{errorMsg}</ErrorModal>
     </>

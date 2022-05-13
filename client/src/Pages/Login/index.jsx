@@ -49,6 +49,7 @@ export default function Song() {
     <>
         <Nav/>
         <form className="flex flex-col gap-4 items-center h-[80vh] justify-center" method='POST' onSubmit={handleSubmit(onSubmit)}>
+        <div className='flex flex-col gap-4 items-center justify-center rounded-md p-16 bg-white bg-opacity-10 shadow-md'>
             <FancyText size="mid" classes="px-16 py-4">Login</FancyText>
             <label htmlFor="identifier"></label>
             <input type="text" 
@@ -72,6 +73,7 @@ export default function Song() {
                 Login
             </button>
             <span className="text-white">Do you need an account? <Link to="/register" className="hover:underline font-bold text-green-500">Register</Link></span>
+        </div>
         </form>
         <ErrorModal show={show} setShow={setShow}>{errorMsg}</ErrorModal>
     </>
