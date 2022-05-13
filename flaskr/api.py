@@ -98,3 +98,14 @@ def postRoom():
     room = Room(session["user"]["id"], data["max"])
     room.save()
     return "", 200
+
+@bp.route('/get-rooms')
+@bp.route('/get-rooms/<int:limit>')
+@bp.route('/get-rooms/<int:limit>/<int:offset>')
+def getRooms(limit = 9, offset=0):
+    rooms = Room.query.filter_by(active=1).limit(
+        limit).offset(limit*offset)
+    data = []
+    for r in rooms:
+        data.append(r.serialize)
+    return jsonify(data)

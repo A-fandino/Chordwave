@@ -6,6 +6,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import librosa
 from . import db
 
+
+def multiFormatDate(date):
+    return {
+        "pretty_date": date.strftime("%B %dth %Y"),
+        "ddmmyy": date.strftime("%d/%m/%Y"),
+        "mmddyy": date.strftime("%m/%d/%Y")
+    }
+
+
 SONG_ID_LENGTH = 20
 # MANY TO MANY tables
 
@@ -82,9 +91,7 @@ class User(db.Model):
             "id": self.id,
             "nickname": self.nickname,
             "mail": self.mail,
-            "pretty_date": self.created_at.strftime("%B %dth %Y"),
-            "ddmmyy": self.created_at.strftime("%d/%m/%Y"),
-            "mmddyy": self.created_at.strftime("%m/%d/%Y"),
+            **multiFormatDate(self.created_at)
         }
 
     def __repr__(self) -> str:
@@ -137,7 +144,8 @@ class Song(db.Model):
             "format": self.format,
             # "duration": librosa.get_duration(
             #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
-            "author": self.author.nickname
+            "author": self.author.nickname,
+            **multiFormatDate(self.created_at)
         }
 
     def __repr__(self) -> str:
@@ -192,8 +200,17 @@ class Room(db.Model):
         self.user_id = user_id
         self.max_users = max_users
         self.created_at = datetime.now()
-    
+    @property
+    def serialize(self):
+        return {
+            "admin_id": self.admin.id,
+            "admin_name": self.admin.nickname,
+            "max_users": self.max_users,
+            "users": 1,
+            **multiFormatDate(self.created_at)
+        }
 
     def save(self):
         db.session.add(self)
         db.session.commit()
+
