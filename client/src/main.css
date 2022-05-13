@@ -137,3 +137,15 @@ input.valid-input {
   @apply border-amber-400;
   @apply to-amber-400;
 }
+
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input::placeholder {
+    overflow: visible;
+  }
+}

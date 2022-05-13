@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Profile() {
     const params = useParams()
     const {user} = useGlobalContext()
+    
     const [userData, setUserData] = useState(user)
     const [userSongs, setUserSongs] = useState([])
     const navigate = useNavigate()

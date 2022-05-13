@@ -10,6 +10,7 @@ import Song from '@/Pages/Song/'
 import Login from '@/Pages/Login/'
 import Register from '@/Pages/Register/'
 import Rooms from '@/Pages/Rooms/'
+import CreateRoom from '@/Pages/Rooms/create.jsx'
 import Profile from '@/Pages/Profile/'
 import Loading from '@/Components/Loading/'
 import { MyGlobalContext, socket} from "./context"
@@ -53,6 +54,8 @@ export default function App() {
           <Route path='/login' element={<Login />}/>  
           <Route path='/register' element={<Register />}/>  
           <Route path='/rooms' element={<Rooms />}/>  
+          <Route path='/rooms/join/:id' element={<Rooms />}/>  
+          <Route path='/rooms/create' element={<CreateRoom />}/>  
           <Route path='/profile' element={<Profile />}/>  
           <Route path='/profile/:nickname' element={<Profile />}/>  
         </Routes>

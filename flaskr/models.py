@@ -59,6 +59,7 @@ class User(db.Model):
     likes = db.relationship("Like",
                             lazy="subquery", backref="users")
     playlists = db.relationship("Playlist", backref="user", lazy=True)
+    rooms = db.relationship("Room", backref="admin", lazy=True)
 
     def __init__(self, nickname, mail, plain_pass):
         self.nickname = nickname
@@ -70,6 +71,10 @@ class User(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+    def getActiveRoom(self):
+        room = Room.query.filter_by(user_id=self.id, active=1).first()
+        return room
 
     @property
     def serialize(self):
@@ -175,8 +180,20 @@ class PlaylistUserSong(db.Model):
         self.upload_at = datetime.now()
 
 
-class Sala(db.Model):
+class Room(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    id = db.Column(db.String(80), primary_key=True)
+        db.Integer, db.ForeignKey("user.id"), nullable=False)
+    max_users = db.Column(db.Integer, nullable=False)
+    active = db.Column(db.Boolean, nullable=False, default=True)
     created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user_id, max_users):
+        self.user_id = user_id
+        self.max_users = max_users
+        self.created_at = datetime.now()
+    
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()

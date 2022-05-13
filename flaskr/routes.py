@@ -22,6 +22,8 @@ def createdb(refresh=None):
         if refresh == "refresh":
             db.drop_all()
         db.create_all()
+        user = User("Arnau","arnauf8@gmail.com","1234")
+        user.save()
         return "Done!"
 
 
