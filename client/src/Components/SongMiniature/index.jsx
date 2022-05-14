@@ -24,8 +24,8 @@ export default function SongMiniature(props) {
   return (
     <article className="bg-gray-300 bg-gray-700 rounded w-56 overflow-hidden text-ellipsis break-all whitespace-nowrap p-4">
     <div className="w-full aspect-square p-4"><MusicNoteIcon/></div>
-    <Link to={`/song/${data.author}/${data.songName}`} className="text-lg font-bold w-full hover:text-gray-300">
-        {data.songName || data.children}
+    <Link to={`/song/${data.author}/${data.name}`} className="text-lg font-bold w-full hover:text-gray-300">
+        {data.name || data.children}
     </Link> 
     <Link to={`/profile/${data.author}`} className='block text-gray-400 hover:text-gray-500'>{data.author}</Link>
     <div className="flex gap-4 h-6 justify-end">
