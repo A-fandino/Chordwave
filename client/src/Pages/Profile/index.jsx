@@ -57,7 +57,7 @@ export default function Profile() {
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
                 <div className="w-full flex flex-wrap gap-8 justify-center">
                     {
-                        userSongs.map(song => <SongMiniature author={userData.nickname} songName = {song.name}/>)
+                        userSongs.map(song => <SongMiniature data={song}/>)
                     }
                 </div>
             </section>
