@@ -101,7 +101,6 @@ class User(db.Model):
         return f"<User {self.nickname}>"
 
     def verify_password(self, pwd):
-        print(len(generate_password_hash(pwd)))
         return check_password_hash(self.password, pwd)
 
 
@@ -149,7 +148,7 @@ class Song(db.Model):
             # "duration": librosa.get_duration(
             #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
             "author": self.author.nickname,
-            "liked": "user" in session and Like.query.filter_by(user_id = session["user"]["id"], song_id=self.id) is not None,
+            "liked": "user" in session and Like.query.filter_by(user_id = session["user"]["id"], song_id=self.id).first() is not None,
             **multiFormatDate(self.created_at)
 
         }
