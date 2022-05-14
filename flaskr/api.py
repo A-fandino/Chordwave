@@ -2,9 +2,8 @@ from flask import Blueprint, redirect, request, jsonify, session
 from flask_cors import cross_origin, CORS
 import os
 import json
-from .models import Genre, Song, User, db, Room
+from .models import Like, Genre, Song, User, db, Room
 from .auth import login_required
-import librosa
 from sqlalchemy.sql.expression import func
 from .auth import abortMsg
 
@@ -109,3 +108,18 @@ def getRooms(limit = 9, offset=0):
     for r in rooms:
         data.append(r.serialize)
     return jsonify(data)
+
+@bp.route("/like/<id>", methods=("POST","DELETE"))
+def like(id):
+    song = Song.query.get(id)
+    if request.method == "POST":
+        like = Like(session["user"]["id"], id)
+        like.save()
+        return "", 200
+    if request.method == "DELETE":
+        like = Like.query.filter_by(user_id=session["user"]["id"], song_id=id).first()
+        if song is None or like is None: abortMsg("Song not found", 404)
+        db.session.delete(like)
+        db.session.commit()
+        return "", 200
+

@@ -3,7 +3,6 @@ from linecache import lazycache
 from re import M
 from flask import session
 from werkzeug.security import generate_password_hash, check_password_hash
-import librosa
 from . import db
 
 
@@ -53,6 +52,10 @@ class Like(db.Model):
         self.user_id = user_id
         self.song_id = song_id
         self.date = datetime.now()
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 # Model Tables
@@ -140,12 +143,13 @@ class Song(db.Model):
     @property
     def serialize(self):
         return {
+            "id": self.id,
             "name": self.name,
             "format": self.format,
             # "duration": librosa.get_duration(
             #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
             "author": self.author.nickname,
-            "liked": "user" in session and (self in User.query.get(session["user"]["id"]).likes),
+            "liked": "user" in session and Like.query.filter_by(user_id = session["user"]["id"], song_id=self.id) is not None,
             **multiFormatDate(self.created_at)
 
         }

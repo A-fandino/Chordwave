@@ -4,7 +4,10 @@ export default function SongList(props) {
   const [songs, setSongs] = useState([])
   useEffect(() => {
     (async () => {
-      const resp = await fetch(props.endpoint || `http://localhost:5000/api/last-songs/${props.amount}`)
+      const resp = await fetch(props.endpoint || `http://localhost:5000/api/last-songs/${props.amount}`, {
+        mode: "cors",
+        credentials: "include"
+      })
       const data = await resp.json()
       console.log(data)
       setSongs(data)
