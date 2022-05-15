@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef} from 'react'
 import Nav from "@/Layout/Nav"
 import SongMiniature from "@/Components/SongMiniature"
 import Loading from "@/Components/Loading"
-import PFP from "@/static/img/default.jpg"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
@@ -43,11 +42,13 @@ export default function Profile() {
         })()
     }, [userData])
     async function handleImgUpload(e) {
+        const formData = new FormData()
         setLoading(true)
         const file = e.target.files[0]
         pfpRef.current.src = URL.createObjectURL(file)
+        formData.append("file",file)
         const resp = await fetch("http://localhost:5000/api/changePFP", {
-            method:"POST", mode:"cors", credentials:"include"
+            method:"POST", mode:"cors", credentials:"include", body:formData
         })
         setLoading(false)
 
@@ -59,7 +60,7 @@ export default function Profile() {
             <section className="w-full h-80 relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <label htmlFor='fileimg' className="profile-pic-container w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden">
                     <picture className="hover:brightness-50">
-                        <img src={PFP} ref={pfpRef} style={{height:"100%"}} className="h-100 object-cover"/>
+                        <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} style={{height:"100%"}} className="h-100 object-cover"/>
                     </picture>
                 </label>
                 <input type="file" name="fileimg" id="fileimg" className='hidden' onChange={handleImgUpload}/>

@@ -1,5 +1,5 @@
 from time import sleep
-from flask import Blueprint, redirect, request, jsonify, session
+from flask import Blueprint, redirect, request, jsonify, send_file, send_from_directory, session
 from flask_cors import cross_origin, CORS
 import os
 import json
@@ -10,6 +10,8 @@ from .auth import abortMsg
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
+pfpPath = 'flaskr/uploads/pfp'
+musicPath = 'flaskr/uploads/music'
 
 @bp.route('/testing')
 def test():
@@ -72,15 +74,14 @@ def index():
         file.stream.seek(0)
         name = request.form["name"]
         ext = file.filename.split(".")[-1]
-        path = './flaskr/uploads/music'
-        if (not os.path.exists(path)):
-            os.makedirs(path)
+        if (not os.path.exists(musicPath)):
+            os.makedirs(musicPath)
         author_id = session["user"]["id"]
         song = Song(name, ext, author_id)
         # author = User.query.get(1).first()["nickname"]
         db.session.add(song)
         db.session.commit()
-        file.save(f'{path}/{song.id}.{ext}')
+        file.save(f'{musicPath}/{song.id}.{ext}')
         return redirect(f'http://localhost/song/{song.author.nickname}/{name}')
     except:
         return redirect("http://localhost/upload")
@@ -124,7 +125,21 @@ def like(id):
         db.session.commit()
         return "", 200
 
+@bp.route("/pfp/<id>")
+def pfp(id):
+    if os.path.exists(f"{pfpPath}/{id}.png"):
+        return send_file(f"../{pfpPath}/{id}.png")
+    # for f in os.listdir(pfpPath):
+    #     if f.split(".")[0] == id:
+    #         return send_file(f"../{pfpPath}/{f}")
+    return send_file("./default.jpg")
+    
+
 @bp.route("/changePFP", methods=("POST",))
 def changePFP():
-    sleep(1)
+    if (not os.path.exists(pfpPath)):
+        os.makedirs(pfpPath)
+    file = request.files["file"]
+    ext = "png" #file.filename.split(".")[-1]
+    file.save(f'{pfpPath}/{session["user"]["id"]}.{ext}')
     return "", 200

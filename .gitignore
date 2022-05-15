@@ -12,3 +12,4 @@ dist/
 *.egg-info/
 
 **/uploads/music/**
+**/uploads/pfp/**
