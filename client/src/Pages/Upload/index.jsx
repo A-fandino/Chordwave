@@ -28,7 +28,7 @@ export default function Upload() {
         setNext(true)
         const nameSplit = file.name.split(".")
         const ext= nameSplit.pop() 
-        const name = nameSplit[0]
+        const name = nameSplit.join("_")
         setFilename(name)
         if (ext) setExtension(ext)
     }
