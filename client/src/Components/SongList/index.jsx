@@ -22,8 +22,8 @@ export default function SongList(props) {
   return (
     <div className="flex lg:flex-nowrap flex-wrap flex-row gap-4 justify-center w-full">
       {
-        songs.map((s,i) => {
-          return <SongMiniature key={i} data={s}/>
+        songs.map((s) => {
+          return <SongMiniature key={s.id} data={s}/>
         })
       }
     </div>
