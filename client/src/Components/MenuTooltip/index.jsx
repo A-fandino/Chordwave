@@ -29,9 +29,9 @@ export default function MenuToolTip(props) {
     })
 
   return (
-    <ul style={styles} ref={tooltipRef} className='tooltip bg-gray-700 rounded-md flex flex-col w-max'>
-        <li onClick={() => location.href="http://localhost:5000/auth/logout"}>Logout</li>
-        <li className='bg-red-600 text-white'>Cancel account</li>
-    </ul>
+    <div style={styles} ref={tooltipRef} className='tooltip bg-gray-700 rounded-md flex flex-col w-max'>
+        <span onClick={() => location.href="http://localhost:5000/auth/logout"}>Logout</span>
+        <span className='bg-red-600 text-white'>Cancel account</span>
+    </div>
   )
 }

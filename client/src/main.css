@@ -41,27 +41,29 @@ input.valid-input {
   .modal, .tooltip {
     z-index: 99;
   }
-  .tooltip > li {
+  .tooltip > * {
     @apply w-full;
     @apply border-2 !important;
     @apply border-b-0 !important;
     @apply border-gray-500;
     @apply p-1;
   }
-  .tooltip > li:first-child {
+  .tooltip > *:first-child {
     @apply rounded-t;
   }
-  .tooltip > li:last-child {
+  .tooltip > *:last-child {
     @apply rounded-b;
     @apply border-b-2 !important;
   }
-  .tooltip > li:hover {
-    @apply text-indigo-500 !important;
+  .tooltip > *:hover {
+    @apply bg-indigo-500 !important;
   }
   .profile-pic-container:hover::after {
-    content: "Upload image";
+    content: "Edit image";
+    @apply cursor-pointer;
     background: #0008;
     @apply font-bold;
+    @apply text-2xl;
     position: absolute;
     z-index: 1;
     top: 0;
