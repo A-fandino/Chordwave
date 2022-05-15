@@ -11,6 +11,9 @@ input.valid-input {
 }
 
 @layer main {
+  html {
+    @apply scroll-smooth;
+  }
   body {
     @apply bg-gray-800;
     @apply h-screen;
