@@ -74,8 +74,9 @@ export default function Profile() {
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Playlists</h2>
                 <div className="w-full flex flex-wrap gap-8 justify-center">
-                    <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> <HeartIcon className='h-6'/> Liked</Link>
-                    {/* {
+                    {
+                     user.id == userData.id ? <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> <HeartIcon className='h-6'/> Liked</Link> : ""
+                    /* {
                         userSongs.map(song => <SongMiniature data={song}/>)
                     } */}
                 </div>
