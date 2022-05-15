@@ -59,7 +59,7 @@ export default function Profile() {
    return (
     <main className="flex flex-col gap-4 h-screen text-white">
         <Nav/>
-        <div className="h-full p-4 flex flex-col gap-72">
+        <div className="h-full p-4 flex flex-col gap-16">
             <section className="w-full h-80 relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <label htmlFor='fileimg' className="profile-pic-container w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden">
                     <picture className="hover:brightness-50">
@@ -73,7 +73,6 @@ export default function Profile() {
                         <span className='relative' onClick={()=>setShowTt(true)}>
                             <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
                             <MenuToolTip show={showTt} setShow={setShowTt}>
-                                pinhgo
                             </MenuToolTip>
                             </span>
                     </header>
@@ -84,7 +83,7 @@ export default function Profile() {
             {/* PLAYLISTS */}
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Playlists</h2>
-                <div className="w-full flex flex-wrap gap-8 justify-center">
+                <div className="w-full flex flex-wrap gap-8 p-4">
                     {
                      user.id == userData.id ? <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> <HeartIcon className='h-6'/> Liked</Link> : ""
                     /* {
@@ -96,17 +95,12 @@ export default function Profile() {
             {/* SONGS */}
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
-                <div className="w-full flex flex-wrap gap-8 justify-center">
+                <div className="w-full flex flex-wrap gap-8 p-4">
                     {
                         userSongs.map(song => <SongMiniature data={song}/>)
                     }
                 </div>
             </section>
-            {/* FOOTER */}
-            <section className="p-4 mb-4">
-                <a href="http://localhost:5000/auth/logout" className="p-4 bg-red-500 rounded font-bold text-white">Logout</a>
-            </section>
-
         </div>
         <Loading show={loading} setShow={setLoading}/>
     </main>
