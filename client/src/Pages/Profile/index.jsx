@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react'
 import Nav from "@/Layout/Nav"
-import { HeartIcon } from "@heroicons/react/outline"
+import { HeartIcon, DotsHorizontalIcon } from "@heroicons/react/outline"
 import SongMiniature from "@/Components/SongMiniature"
 import Loading from "@/Components/Loading"
+import MenuToolTip from "@/Components/MenuToolTip"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
 import { useNavigate, Link} from "react-router-dom";
@@ -15,6 +16,7 @@ export default function Profile() {
     const [userData, setUserData] = useState(user)
     const [userSongs, setUserSongs] = useState([])
     const [loading, setLoading] = useState(false)
+    const [showTt, setShowTt] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -66,11 +68,20 @@ export default function Profile() {
                 </label>
                 <input type="file" name="fileimg" id="fileimg" accept='image/*' className='hidden' onChange={handleImgUpload}/>
                 <article className="profile-info-container h-56 static md:absolute md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center gap-2">
-                    <h1 className="text-5xl font-bold">{userData.nickname}</h1>
+                    <header className='flex gap-4 items-center'>
+                        <h1 className="text-5xl font-bold">{userData.nickname}</h1>
+                        <span className='relative' onClick={()=>setShowTt(true)}>
+                            <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
+                            <MenuToolTip show={showTt} setShow={setShowTt}>
+                                pinhgo
+                            </MenuToolTip>
+                            </span>
+                    </header>
                     <h5 className="text-sm text-gray-400 italic">Enjoying since {userData.pretty_date}</h5>
                 </article>
             </section>
 
+            {/* PLAYLISTS */}
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Playlists</h2>
                 <div className="w-full flex flex-wrap gap-8 justify-center">
@@ -82,7 +93,7 @@ export default function Profile() {
                 </div>
             </section>
 
-            
+            {/* SONGS */}
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
                 <div className="w-full flex flex-wrap gap-8 justify-center">
@@ -91,7 +102,7 @@ export default function Profile() {
                     }
                 </div>
             </section>
-            
+            {/* FOOTER */}
             <section className="p-4 mb-4">
                 <a href="http://localhost:5000/auth/logout" className="p-4 bg-red-500 rounded font-bold text-white">Logout</a>
             </section>
