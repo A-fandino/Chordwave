@@ -12,6 +12,7 @@ import Register from '@/Pages/Register/'
 import Rooms from '@/Pages/Rooms/'
 import CreateRoom from '@/Pages/Rooms/create.jsx'
 import Profile from '@/Pages/Profile/'
+import Liked from '@/Pages/Liked/'
 import Loading from '@/Components/Loading/'
 import { MyGlobalContext, socket} from "./context"
 
@@ -57,7 +58,8 @@ export default function App() {
           <Route path='/rooms/join/:id' element={<Rooms />}/>  
           <Route path='/rooms/create' element={<CreateRoom />}/>  
           <Route path='/profile' element={<Profile />}/>  
-          <Route path='/profile/:nickname' element={<Profile />}/>  
+          <Route path='/profile/:nickname' element={<Profile />}/> 
+          <Route path='/liked' element={<Liked />}/>  
         </Routes>
       </Router>
       </MyGlobalContext.Provider>

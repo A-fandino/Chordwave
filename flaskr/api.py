@@ -125,6 +125,14 @@ def like(id):
         db.session.commit()
         return "", 200
 
+@bp.route("/liked")
+def liked():
+    if not "user" in session: return "[]"
+    data = []
+    for s in User.query.get(session["user"]["id"]).likes:
+        data.append(s.songs.serialize)
+    return jsonify(data)
+
 @bp.route("/pfp/<id>")
 def pfp(id):
     if os.path.exists(f"{pfpPath}/{id}.png"):

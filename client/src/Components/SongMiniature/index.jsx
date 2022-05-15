@@ -22,7 +22,7 @@ export default function SongMiniature(props) {
   }
 
   return (
-    <article className="bg-gray-300 bg-gray-700 rounded w-56 overflow-hidden text-ellipsis break-all whitespace-nowrap p-4">
+    <article className="bg-gray-300 bg-gray-700 text-white rounded w-56 overflow-hidden text-ellipsis break-all whitespace-nowrap shadow p-4">
     <div className="w-full aspect-square p-4"><MusicNoteIcon/></div>
     <Link to={`/song/${data.author}/${data.name}`} className="text-lg font-bold w-full hover:text-gray-300">
         {data.name || data.children}

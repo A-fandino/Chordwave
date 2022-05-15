@@ -1,10 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react'
 import Nav from "@/Layout/Nav"
+import { HeartIcon } from "@heroicons/react/outline"
 import SongMiniature from "@/Components/SongMiniature"
 import Loading from "@/Components/Loading"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 
 export default function Profile() {
     const params = useParams()
@@ -63,13 +64,24 @@ export default function Profile() {
                         <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} style={{height:"100%"}} className="h-100 object-cover"/>
                     </picture>
                 </label>
-                <input type="file" name="fileimg" id="fileimg" className='hidden' onChange={handleImgUpload}/>
+                <input type="file" name="fileimg" id="fileimg" accept='image/*' className='hidden' onChange={handleImgUpload}/>
                 <article className="profile-info-container h-56 static md:absolute md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center gap-2">
                     <h1 className="text-5xl font-bold">{userData.nickname}</h1>
                     <h5 className="text-sm text-gray-400 italic">Enjoying since {userData.pretty_date}</h5>
                 </article>
             </section>
 
+            <section>
+                <h2 className="text-2xl font-bold p-4 underlines">Playlists</h2>
+                <div className="w-full flex flex-wrap gap-8 justify-center">
+                    <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> <HeartIcon className='h-6'/> Liked</Link>
+                    {/* {
+                        userSongs.map(song => <SongMiniature data={song}/>)
+                    } */}
+                </div>
+            </section>
+
+            
             <section>
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
                 <div className="w-full flex flex-wrap gap-8 justify-center">

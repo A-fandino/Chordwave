@@ -14,7 +14,7 @@ export default function Header() {
     )
     return (
         <>
-    <nav className="p-4 bg-transparent text-white font-bold text-2xl flex flex-col justify-between md:flex-row">
+    <nav className="w-full p-4 bg-transparent text-white font-bold text-2xl flex flex-col justify-between md:flex-row">
         <Link id="logo" to='/' className="hover:scale-105">
         <FancyText size="small"></FancyText>
         </Link>
