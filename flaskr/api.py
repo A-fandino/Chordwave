@@ -1,3 +1,4 @@
+from time import sleep
 from flask import Blueprint, redirect, request, jsonify, session
 from flask_cors import cross_origin, CORS
 import os
@@ -123,3 +124,7 @@ def like(id):
         db.session.commit()
         return "", 200
 
+@bp.route("/changePFP", methods=("POST",))
+def changePFP():
+    sleep(1)
+    return "", 200
