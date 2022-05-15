@@ -24,6 +24,11 @@ input.valid-input {
     @apply to-indigo-500;
     /* animation: BgEffect 3s linear infinite; */
   }
+
+  .home-title {
+    @apply text-3xl !important;
+    @apply md:text-5xl !important;
+  }
   ::-webkit-scrollbar {
     width: 11px;
   }
