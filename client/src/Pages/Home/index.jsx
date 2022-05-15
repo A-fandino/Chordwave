@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Header from '@/Layout/Header'
+import Nav from '@/Layout/Nav'
 import SongList from '@/Components/SongList'
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
     <main className="flex flex-col pb-4">
         <Header />
         <section className="flex flex-col justify-center items-center">
+            <Nav/>
             <article className="rounded-md bg-gray-900 shadow-xl p-16 text-white w-8/12 mt-64 flex flex-col gap-16">
                 <h2 className="text-7xl font-bold">We offer you a <span className="text-green-500">pill</span>!</h2>
                 <div className="flex justify-center gap-8 items-center">

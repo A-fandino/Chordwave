@@ -1,19 +1,31 @@
-import React, { useRef, useState} from 'react'
+import React, { useRef, useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import Nav from "@/Layout/Nav/"
 import Loading from "@/Components/Loading/"
 import { UploadIcon, MusicNoteIcon } from "@heroicons/react/solid"
+import {useGlobalContext} from "@/context"
+
 
 export default function Upload() {
+    const navigate = useNavigate()
+    const {user} = useGlobalContext()
+
     const formRef  = useRef(null)
     const [show, setShow] = useState(false)
     const [next, setNext] = useState(false)
     const [icon, setIcon] = useState(<UploadIcon/>)
     const [filename, setFilename] = useState("")
     const [extension, setExtension] = useState("")
+
+    useEffect(() => {
+        if (!Object.keys(user).length) navigate("/login")
+    })
+
     const handleSubmit = (e) => {
         if (!formRef.current) return
         formRef.current.submit()
     }
+
 
     function handleFile(event) {
         const target= event.target ;

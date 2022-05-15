@@ -7,6 +7,9 @@ from .models import db, User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+def isValidMail(string):
+    from email.utils import parseaddr
+    return '@' in parseaddr(string)[1]
 
 def login_required(view):
     @functools.wraps(view)
@@ -50,13 +53,14 @@ def login():
 def register():
     try:
         data = json.loads(request.data.decode())
-        print(data)
         nick = data["nickname"]
         mail = data["mail"]
         plain_pass = data["password"]
         verify_pass = data["passwordVerif"]
 
         # SERVER VALIDATION
+        if isValidMail(nick) is True: abortMsg("Nickname cannot be a valid mail address")
+        if isValidMail(mail) is False: abortMsg("Email address is not correctly formatted")
         if User.query.filter_by(nickname=nick).first() is not None:
             abortMsg("Nickname already exists")
         if User.query.filter_by(mail=mail).first() is not None:
@@ -98,8 +102,11 @@ def loginUser(user: User):
 
 
 def getUserByIdentifier(identifier):
-    return db.session.query(User).filter(
-        ((User.mail == identifier) | (User.nickname == identifier))).first()
+    if (isValidMail(identifier)):
+        return User.query.filter_by(mail=identifier).first()
+    return User.query.filter_by(nickname=identifier).first()
+    # return db.session.query(User).filter(
+    #     ((User.mail == identifier) | (User.nickname == identifier))).first()
 
 
 def abortMsg(msg="SERVER ERROR", code=500):
