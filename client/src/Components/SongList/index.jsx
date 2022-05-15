@@ -20,7 +20,7 @@ export default function SongList(props) {
   },[])
 
   return (
-    <div className="flex gap-4 justify-center w-full">
+    <div className="flex lg:flex-nowrap flex-wrap flex-row gap-4 justify-center w-full">
       {
         songs.map((s,i) => {
           return <SongMiniature key={i} data={s}/>
