@@ -4,12 +4,17 @@ export default function SongList(props) {
   const [songs, setSongs] = useState([])
   useEffect(() => {
     (async () => {
+
+      const myHeaders = new Headers();
+      myHeaders.append('pragma', 'no-cache');
+      myHeaders.append('cache-control', 'no-cache');
+
       const resp = await fetch(props.endpoint || `http://localhost:5000/api/last-songs/${props.amount}`, {
         mode: "cors",
-        credentials: "include"
+        credentials: "include",
+        header: myHeaders
       })
       const data = await resp.json()
-      console.log(data)
       setSongs(data)
     })()
   },[])
