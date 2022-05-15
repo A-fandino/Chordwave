@@ -21,12 +21,6 @@ export default function Upload() {
         if (!Object.keys(user).length) navigate("/login")
     })
 
-    const handleSubmit = (e) => {
-        if (!formRef.current) return
-        formRef.current.submit()
-    }
-
-
     function handleFile(event) {
         const target= event.target ;
         const file = target.files[0];
