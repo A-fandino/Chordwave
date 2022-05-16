@@ -81,7 +81,9 @@ input.valid-input {
     align-items: CENTER;
     justify-content: center;
   }
-  
+  .profile-pic-container:hover > picture {
+    @apply brightness-50;
+  }
 }
 
 @keyframes BgEffect {
