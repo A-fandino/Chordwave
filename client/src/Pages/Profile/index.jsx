@@ -57,10 +57,10 @@ export default function Profile() {
 
     }
    return (
-    <main className="flex flex-col gap-4 h-screen text-white">
+    <main className="flex flex-col gap-8 h-screen text-white">
         <Nav/>
-        <div className="h-full p-4 flex flex-col gap-16">
-            <section className="w-full h-80 relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
+        <div className="h-full p-4 flex flex-col gap-4">
+            <section className="w-full relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <label htmlFor='fileimg' className={`${userData.id == user.id ? "profile-pic-container" : ""} top-[-45%] translate-y-1/4 w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden`}>
                     <picture>
                         <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} style={{height:"100%"}} className="h-100 object-cover"/>
@@ -70,11 +70,14 @@ export default function Profile() {
                 <article className="profile-info-container h-56 static md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center gap-2">
                     <header className='flex gap-4 items-center'>
                         <h1 className="text-5xl font-bold">{userData.nickname}</h1>
+                        {
+                        user.id == userData.id  ? (
                         <span className='relative' onClick={()=>setShowTt(true)}>
                             <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
                             <MenuToolTip show={showTt} setShow={setShowTt}>
                             </MenuToolTip>
-                            </span>
+                        </span> ) : ''
+                        }
                     </header>
                     <h5 className="text-sm text-gray-400 italic">Enjoying since {userData.pretty_date}</h5>
                 </article>
