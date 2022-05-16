@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import FancyText from "@/Components/FancyText"
+import { UserCircleIcon } from '@heroicons/react/solid'
 import { useGlobalContext } from '@/context'
  
 export default function Header() {
     const { user } = useGlobalContext()
-    const profileLinks = Object.keys(user).length ? <Link to='/profile' className="text-xl font-extrabold text-white w-fit hover:underline">Profile</Link> :(
+    const profileLinks = Object.keys(user).length ? <Link to='/profile' className="text-xl font-extrabold text-white h-full hover:underline hover:text-gray-400"><UserCircleIcon className='h-12'/></Link> :(
         <>
             <Link to='/login' className="text-xl font-extrabold text-white w-fit hover:underline">Login</Link>
                 |   
