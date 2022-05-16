@@ -9,7 +9,7 @@ export default function Home() {
     return (
     <main className="flex flex-col pb-4">
         <Header />
-        <section className="flex flex-col justify-center items-center">
+        <section className="flex flex-col justify-center items-center relative">
             <Nav/>
             <article className="rounded-md bg-gray-900 shadow-xl p-16 text-white w-8/12 mt-64 flex flex-col gap-16">
                 <h2 className="md:text-7xl text-5xl font-bold md:text-left text-center">We offer you a <span className="text-green-500">pill</span>!</h2>
