@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams, Link, Navigate, useNavigate } from "react-router-dom"
 import Nav from "@/Layout/Nav/"
-import { PlayIcon, StopIcon, RewindIcon, FastForwardIcon, MusicNoteIcon, PauseIcon } from "@heroicons/react/solid"
+import { PlayIcon, RewindIcon, FastForwardIcon, MusicNoteIcon, PauseIcon } from "@heroicons/react/solid"
 import { Waveform } from '@uiball/loaders'
 
 import { useGlobalContext } from '@/context'
@@ -14,7 +14,6 @@ export default function Song() {
     const audioRef = useRef(null)
 
     const navigate = useNavigate()
-    const { socket } = useGlobalContext()
 
 
     const getSongData = async () => {
