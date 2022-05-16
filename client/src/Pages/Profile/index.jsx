@@ -63,7 +63,7 @@ export default function Profile() {
             <section className="w-full relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <label htmlFor='fileimg' className={`${userData.id == user.id ? "profile-pic-container" : ""} top-[-45%] translate-y-1/4 w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden`}>
                     <picture>
-                        <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} style={{height:"100%"}} className="h-100 object-cover"/>
+                        <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} className="h-full w-full object-cover"/>
                     </picture>
                 </label>
                 {user.id == userData.id ? <input type="file" name="fileimg" id="fileimg" accept='image/*' className='hidden' onChange={handleImgUpload}/> : ""}
