@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client"
 import { createContext, useContext } from "react"
 
 const ENDPOINT = "http://localhost:5000"
-export const socket = socketIOClient(ENDPOINT)
+export const socket = socketIOClient(ENDPOINT, {withCredentials: true})
 export const user = await (await fetch("http://localhost:5000/auth/check", {credentials: 'include'})).json()
 // export type GlobalContent = {
 //   socket: any

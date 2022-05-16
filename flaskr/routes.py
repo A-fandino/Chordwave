@@ -1,9 +1,9 @@
 # Main router file
 from flask import current_app, Response, send_from_directory, render_template
-from flask_socketio import emit
 from .models import User, Song
-from . import db, socket
+from . import db
 import os
+from . import sockets
 
 
 @current_app.route("/")
@@ -13,12 +13,10 @@ def index():
     #     return send_from_directory(path_dir, path)
     return render_template("index.html")
 
-
 @current_app.route('/create-db/<refresh>')
 @current_app.route('/create-db')
 def createdb(refresh=None):
     if current_app.debug:
-        from . import models
         if refresh == "refresh":
             db.drop_all()
         db.create_all()
@@ -51,17 +49,6 @@ def check_song(name, author_id):
     song = Song.query.filter_by(name=name, created_by=author_id).first()
     print(song)
     return song.name
-
-
-@socket.on("connect")
-def connect():
-    emit("test", 3333)
-
-
-@socket.on("ping")
-def ping():
-    print("PONG!!!!!")
-
 
 @current_app.route("/play/<author>/<name>")
 def play(author, name):

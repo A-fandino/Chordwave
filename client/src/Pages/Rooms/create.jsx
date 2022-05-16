@@ -36,7 +36,7 @@ export default function Profile() {
             body: JSON.stringify(data)
         })
         if (resp.ok) {
-            navigate("/room/join/"+user.nickname)
+            navigate("/rooms/song/"+user.nickname)
             return
         }
         const {msg} = await resp.json()

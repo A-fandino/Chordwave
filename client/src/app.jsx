@@ -11,35 +11,29 @@ import Login from '@/Pages/Login/'
 import Register from '@/Pages/Register/'
 import Rooms from '@/Pages/Rooms/'
 import CreateRoom from '@/Pages/Rooms/create.jsx'
+import SongRoom from '@/Pages/Rooms/song.jsx'
 import Profile from '@/Pages/Profile/'
 import Liked from '@/Pages/Liked/'
 import Loading from '@/Components/Loading/'
-import { MyGlobalContext, socket} from "./context"
+import { MyGlobalContext, useGlobalContext} from "./context"
 
 // import socketIOClient from "socket.io-client"
 // const ENDPOINT = "http://localhost:5000"
 
 export default function App() {
-  
-
+  const {socket} = useGlobalContext() 
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    // socket.connect()
-    // socket.on("test", data => {
-    //   socket.emit("ping")
-    //   console.log(data)
-    // })
-
+    socket.on("welcome", data => {
+      console.log("Connected to Socket Server!")
+    });
     (async function() {
       const resp = await fetch("http://localhost:5000/auth/check", {credentials: 'include', mode:"cors"})
       const data = await resp.json()
       setUser(data)
-      console.log(data)
       setLoading(false)
     })()
-
-    return () => socket.disconnect()
   }, [])
 
   return loading ? <Loading show={true}/>
@@ -55,7 +49,7 @@ export default function App() {
           <Route path='/login' element={<Login />}/>  
           <Route path='/register' element={<Register />}/>  
           <Route path='/rooms' element={<Rooms />}/>  
-          <Route path='/rooms/join/:id' element={<Rooms />}/>  
+          <Route path='/rooms/song/:id' element={<SongRoom />}/>  
           <Route path='/rooms/create' element={<CreateRoom />}/>  
           <Route path='/profile' element={<Profile />}/>  
           <Route path='/profile/:nickname' element={<Profile />}/> 
