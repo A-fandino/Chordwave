@@ -61,13 +61,13 @@ export default function Profile() {
         <Nav/>
         <div className="h-full p-4 flex flex-col gap-16">
             <section className="w-full h-80 relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
-                <label htmlFor='fileimg' className="profile-pic-container w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden">
+                <label htmlFor='fileimg' className="profile-pic-container top-[-45%] translate-y-1/4 w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden">
                     <picture className="hover:brightness-50">
                         <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} style={{height:"100%"}} className="h-100 object-cover"/>
                     </picture>
                 </label>
                 <input type="file" name="fileimg" id="fileimg" accept='image/*' className='hidden' onChange={handleImgUpload}/>
-                <article className="profile-info-container h-56 static md:absolute md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center gap-2">
+                <article className="profile-info-container h-56 static md:left-4 md:right-4 rounded-full bg-violet-700 px-16 md:pl-80 py-4 top-16 z-0 flex flex-col items-center justify-center text-center gap-2">
                     <header className='flex gap-4 items-center'>
                         <h1 className="text-5xl font-bold">{userData.nickname}</h1>
                         <span className='relative' onClick={()=>setShowTt(true)}>

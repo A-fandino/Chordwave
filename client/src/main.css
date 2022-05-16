@@ -151,7 +151,7 @@ input.valid-input {
   }
 
   .song-control {
-    @apply w-10;
+    @apply w-12;
   }
   .song-control:hover {
     @apply text-gray-400;

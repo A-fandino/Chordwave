@@ -62,11 +62,11 @@ export default function Song() {
                         : <MusicNoteIcon/>}
                     </article>
                     <article className='w-full p-4 text-left flex flex-col gap-2'>
-                        <h1 className="text-5xl font-bold">{params.name}</h1>
+                        <h1 className="text-5xl font-bold break-all">{params.name}</h1>
                         <Link to={`/profile/${params.author}`} className="text-3xl text-gray-500 italic font-serif pl-4 hover:text-gray-400"> “{params.author}”</Link>
                     </article>
                 </section>
-                <footer className='bg-gray-900 p-3 mx-10 flex items-center justify-center gap-16'>
+                <footer className='p-4 mx-10 flex items-center justify-center gap-16 mt-auto mb-8'>
                     {/* 
                     use current time and seconds for time bar
                     */}
