@@ -24,7 +24,9 @@ export default function App() {
   const {socket} = useGlobalContext() 
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
+ 
   useEffect(() => {
+    socket.connect()
     socket.on("welcome", data => {
       console.log("Connected to Socket Server!")
     });
@@ -34,6 +36,7 @@ export default function App() {
       setUser(data)
       setLoading(false)
     })()
+    return () => socket.close()
   }, [])
 
   return loading ? <Loading show={true}/>

@@ -1,4 +1,4 @@
-import React, { useSyncExternalStore } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import FancyText from "@/Components/FancyText"
 import { useGlobalContext } from '@/context'
