@@ -4,7 +4,7 @@ from flask_cors import cross_origin, CORS
 import os
 import librosa
 import json
-from .models import Like, Genre, Song, User, db, Room, Playlist
+from .models import Like, Genre, PlaylistUserSong, Song, User, db, Room, Playlist
 from .auth import login_required
 from sqlalchemy.sql.expression import func
 from .auth import abortMsg
@@ -171,8 +171,28 @@ def newPlaylist(name):
 @bp.route("/get-playlists/<user_id>")
 def getPlaylists(user_id=None): 
     user = User.query.get(user_id if user_id else session["user"]["id"])
-    return  jsonify(serializeList(user.playlists)), 200
+    return  jsonify(serializeList(user.playlists.all())), 200
 
-@bp.route("/playlist-songs/<user_id>/<name>")
-def playlistSongs(user_id, name):
-    return "[]"
+@bp.route("/playlist-songs/<username>/<name>")
+def playlistSongs(username, name):
+    pl = User.query.filter_by(nickname=username).first().playlists.filter_by(name=name).first()
+    data = []
+    for p in pl.added:
+        data.append(p.song.serialize)
+    return jsonify(data)
+
+
+@bp.route("/modify-playlist/<plName>/<song_id>", methods=("POST","DELETE"))
+def modifyPlaylist(plName, song_id):
+    # song = Song.query.get(id)
+    user_id = session["user"]["id"] #Temporally used to save to self PL
+    playlist_id = User.query.get(user_id).playlists.filter_by(name=plName).first().id
+    if request.method == "POST":
+        plSongUser = PlaylistUserSong(user_id=user_id, playlist_id=playlist_id, song_id=song_id)
+        plSongUser.save()
+        return "", 200
+    if request.method == "DELETE":
+        plSongUser = PlaylistUserSong.query.filter_by(playlist_id=playlist_id, song_id=song_id).first()
+        db.session.delete(plSongUser)
+        db.session.commit()
+        return "", 200

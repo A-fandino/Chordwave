@@ -68,7 +68,7 @@ class User(db.Model):
     listents = db.relationship("Listen", lazy="subquery", backref="users")
     likes = db.relationship("Like",
                             lazy="subquery", backref="users")
-    playlists = db.relationship("Playlist", backref="user", lazy=True)
+    playlists = db.relationship("Playlist", backref="user", lazy="dynamic")
     rooms = db.relationship("Room", backref="admin", lazy=True)
 
     def __init__(self, nickname, mail, plain_pass):
@@ -118,6 +118,7 @@ class Song(db.Model):
         "Listen", lazy="subquery", backref="songs")
     likes = db.relationship("Like",
                             lazy="subquery", backref="songs")
+    songs = db.relationship("PlaylistUserSong", lazy=True, backref="song")
     __table_args__ = (db.UniqueConstraint(
         "name", "author_id", name="author_name"),)
 
@@ -158,6 +159,24 @@ class Song(db.Model):
 class Genre(db.Model):
     name = db.Column(db.String(80), primary_key=True)
 
+class PlaylistUserSong(db.Model):
+    playlist_id = db.Column(
+        db.Integer, db.ForeignKey("playlist.id"), primary_key=True)
+    song_id = db.Column(db.String(SONG_ID_LENGTH),
+                        db.ForeignKey("song.id"), primary_key=True)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id")) #The one who adds the song to de pl
+    uploaded_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user_id, playlist_id, song_id):
+        self.playlist_id = playlist_id
+        self.user_id = user_id
+        self.song_id = song_id
+        self.uploaded_at = datetime.now()
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Playlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -165,6 +184,8 @@ class Playlist(db.Model):
         db.Integer, db.ForeignKey("user.id"))
     name = db.Column(db.String(80))
     created_at = db.Column(db.DateTime, nullable=False)
+    added = db.relationship("PlaylistUserSong",
+                             lazy="dynamic", backref=db.backref('playlists', lazy=True))
     __table_args__ = (db.UniqueConstraint(
         "user_id", "name", name="user_name"),)
 
@@ -186,22 +207,6 @@ class Playlist(db.Model):
         db.session.add(self)
         db.session.commit()
 
-
-class PlaylistUserSong(db.Model):
-    playlist_id = db.Column(
-        db.Integer, db.ForeignKey("playlist.id"), primary_key=True)
-    song_id = db.Column(db.String(SONG_ID_LENGTH),
-                        db.ForeignKey("song.id"), primary_key=True)
-    user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    uploaded_at = db.Column(db.DateTime, nullable=False)
-
-    def __init__(self, author_id, playlist_name, user_id, name):
-        self.author_id = author_id
-        self.playlist_name = playlist_name
-        self.user_id = user_id
-        self.name = name
-        self.upload_at = datetime.now()
 
 
 class Room(db.Model):
