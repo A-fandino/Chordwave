@@ -46,6 +46,13 @@ def randomSong(num=1):
     songs = Song.query.order_by(func.random()).limit(num)
     return jsonify(serializeList(songs))
 
+@bp.route('/similar-song/')
+@bp.route('/similar-song/<string>')
+def similarName(string = None):
+    print(string)
+    if (string is None): return jsonify(serializeList(Song.query.all()))
+    songs = Song.query.filter(Song.name.like(f"%{string}%")).all()
+    return jsonify(serializeList(songs)), 200
 
 @bp.route('/song/<author>/<name>')
 def song(author, name):
