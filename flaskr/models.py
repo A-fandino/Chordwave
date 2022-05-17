@@ -162,8 +162,8 @@ class Genre(db.Model):
 class Playlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id"), unique=True)
-    name = db.Column(db.String(80), unique=True)
+        db.Integer, db.ForeignKey("user.id"))
+    name = db.Column(db.String(80))
     created_at = db.Column(db.DateTime, nullable=False)
     __table_args__ = (db.UniqueConstraint(
         "user_id", "name", name="user_name"),)
@@ -172,6 +172,19 @@ class Playlist(db.Model):
         self.user_id = user_id
         self.name = name
         self.created_at = datetime.now()
+
+    @property
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "user_id": self.user_id,
+            **multiFormatDate(self.created_at)
+        }
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class PlaylistUserSong(db.Model):

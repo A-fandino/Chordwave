@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react'
 import Nav from "@/Layout/Nav"
-import { HeartIcon, DotsHorizontalIcon } from "@heroicons/react/outline"
+import { HeartIcon, DotsHorizontalIcon, ViewListIcon, PlusCircleIcon } from "@heroicons/react/outline"
 import SongMiniature from "@/Components/SongMiniature"
 import Loading from "@/Components/Loading"
+import PlaylistForm from "@/Components/PlaylistForm"
 import MenuToolTip from "@/Components/MenuToolTip"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
@@ -15,8 +16,10 @@ export default function Profile() {
     const pfpRef = useRef(null)
     const [userData, setUserData] = useState(user)
     const [userSongs, setUserSongs] = useState([])
+    const [userPlaylists, setUserPlaylists] = useState([])
     const [loading, setLoading] = useState(false)
     const [showTt, setShowTt] = useState(false)
+    const [showPlaylist, setShowPlaylist] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -42,15 +45,24 @@ export default function Profile() {
             })
             const songs = await respSong.json()
             setUserSongs(songs)
+
+            
+            const respPlaylists = await fetch("http://localhost:5000/api/get-playlists/"+userData.id, {
+                mode: "cors",
+                credentials: "include"
+            })
+            const playlists = await respPlaylists.json()
+            setUserPlaylists(playlists)
         })()
     }, [userData])
+
     async function handleImgUpload(e) {
         const formData = new FormData()
         setLoading(true)
         const file = e.target.files[0]
         pfpRef.current.src = URL.createObjectURL(file)
         formData.append("file",file)
-        const resp = await fetch("http://localhost:5000/api/changePFP", {
+        await fetch("http://localhost:5000/api/changePFP", {
             method:"POST", mode:"cors", credentials:"include", body:formData
         })
         setLoading(false)
@@ -74,8 +86,7 @@ export default function Profile() {
                         user.id == userData.id  ? (
                         <span className='relative' onClick={()=>setShowTt(true)}>
                             <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
-                            <MenuToolTip show={showTt} setShow={setShowTt}>
-                            </MenuToolTip>
+                            <MenuToolTip show={showTt} setShow={setShowTt}/>
                         </span> ) : ''
                         }
                     </header>
@@ -88,10 +99,22 @@ export default function Profile() {
                 <h2 className="text-2xl font-bold p-4 underlines">Playlists</h2>
                 <div className="w-full flex flex-wrap gap-8 p-4">
                     {
-                     user.id == userData.id ? <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> <HeartIcon className='h-6'/> Liked</Link> : ""
-                    /* {
-                        userSongs.map(song => <SongMiniature data={song}/>)
-                    } */}
+                     user.id == userData.id ? (
+                        <>
+                            <span onClick={() => setShowPlaylist(true)} className="px-8 py-4 rounded bg-indigo-600 text-white font-bold text-center flex gap-4 hover:bg-indigo-700"> 
+                                <PlusCircleIcon className='h-6'/>New playlist
+                            </span> 
+
+                            <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> 
+                                <HeartIcon className='h-6'/> Liked
+                            </Link> 
+                        </> ): ""
+                    }  
+                    {userPlaylists.map(pl => (
+                        <Link to={`/playlist/${userData.nickname}/${pl.name}`} key={"pl-"+pl.id} className="px-8 py-4 rounded bg-gray-600 text-white font-bold text-center flex gap-4 hover:bg-gray-700"> 
+                            <ViewListIcon className='h-6'/> {pl.name}
+                        </Link>)
+                    )}
                 </div>
             </section>
 
@@ -100,12 +123,16 @@ export default function Profile() {
                 <h2 className="text-2xl font-bold p-4 underlines">Songs</h2>
                 <div className="w-full flex flex-wrap gap-8 p-4">
                     {
-                        userSongs.map(song => <SongMiniature data={song}/>)
+                        userSongs.map(song => <SongMiniature key={"song-"+song.id} data={song}/>)
                     }
                 </div>
             </section>
         </div>
         <Loading show={loading} setShow={setLoading}/>
+        <PlaylistForm show={showPlaylist} setShow={setShowPlaylist}/>
+
+        
+
     </main>
   )
 }

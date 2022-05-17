@@ -16,6 +16,7 @@ import Profile from '@/Pages/Profile/'
 import Liked from '@/Pages/Liked/'
 import Loading from '@/Components/Loading/'
 import { MyGlobalContext, useGlobalContext} from "./context"
+import Playlist from './Pages/Playlist';
 
 // import socketIOClient from "socket.io-client"
 // const ENDPOINT = "http://localhost:5000"
@@ -57,6 +58,7 @@ export default function App() {
           <Route path='/profile' element={<Profile />}/>  
           <Route path='/profile/:nickname' element={<Profile />}/> 
           <Route path='/liked' element={<Liked />}/>  
+          <Route path='/playlist/:user/:name' element={<Playlist />}/>  
         </Routes>
       </Router>
       </MyGlobalContext.Provider>

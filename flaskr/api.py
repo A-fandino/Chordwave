@@ -1,9 +1,10 @@
 from time import sleep
-from flask import Blueprint, redirect, request, jsonify, send_file, send_from_directory, session
+from flask import Blueprint, redirect, request, jsonify, send_file, session
 from flask_cors import cross_origin, CORS
 import os
+import librosa
 import json
-from .models import Like, Genre, Song, User, db, Room
+from .models import Like, Genre, Song, User, db, Room, Playlist
 from .auth import login_required
 from sqlalchemy.sql.expression import func
 from .auth import abortMsg
@@ -12,6 +13,13 @@ bp = Blueprint('api', __name__, url_prefix='/api')
 
 pfpPath = 'flaskr/uploads/pfp'
 musicPath = 'flaskr/uploads/music'
+
+def serializeList(itemList):
+    data = []
+    for x in itemList:
+        data.append(x.serialize)
+    return data
+
 
 @bp.route('/testing')
 def test():
@@ -29,20 +37,14 @@ def genres():
 def lastSongs(limit=1, offset=0):
     songs = Song.query.order_by(Song.created_at.desc()).limit(
         limit).offset(limit*offset)
-    data = []
-    for s in songs:
-        data.append(s.serialize)
-    return jsonify(data)
+    return jsonify(serializeList(songs))
 
 
 @bp.route("/random-song")
 @bp.route("/random-song/<int:num>")
 def randomSong(num=1):
     songs = Song.query.order_by(func.random()).limit(num)
-    data = []
-    for s in songs:
-        data.append(s.serialize)
-    return jsonify(data)
+    return jsonify(serializeList(songs))
 
 
 @bp.route('/song/<author>/<name>')
@@ -53,8 +55,9 @@ def song(author, name):
         if x.name == name:
             song = x
             break
-    data = {"filename": song.id, "name": song.name, "format": song.format, "author": author
-            # "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+song.id+"."+song.format)
+    print(librosa.get_duration(filename='./flaskr/uploads/music/'+song.id+"."+song.format))
+    data = {"filename": song.id, "name": song.name, "format": song.format, "author": author,
+            "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+song.id+"."+song.format)
             }
     return jsonify(data)
 
@@ -78,7 +81,6 @@ def index():
             os.makedirs(musicPath)
         author_id = session["user"]["id"]
         song = Song(name, ext, author_id)
-        # author = User.query.get(1).first()["nickname"]
         db.session.add(song)
         db.session.commit()
         file.save(f'{musicPath}/{song.id}.{ext}')
@@ -151,3 +153,19 @@ def changePFP():
     ext = "png" #file.filename.split(".")[-1]
     file.save(f'{pfpPath}/{session["user"]["id"]}.{ext}')
     return "", 200
+
+@bp.route("/new-playlist/<name>", methods=("POST",))
+def newPlaylist(name):
+    pl = Playlist(1, name)
+    pl.save()
+    return  "", 200
+
+@bp.route("/get-playlists")
+@bp.route("/get-playlists/<user_id>")
+def getPlaylists(user_id=None): 
+    user = User.query.get(user_id if user_id else session["user"]["id"])
+    return  jsonify(serializeList(user.playlists)), 200
+
+@bp.route("/playlist-songs/<user_id>/<name>")
+def playlistSongs(user_id, name):
+    return "[]"
