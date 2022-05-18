@@ -26,6 +26,6 @@ export default function SongRoom() {
   return loading ? <Loading show={loading} setShow={setLoading}/> : (
     <main className="w-full h-screen grid grid-cols-4">
       <section className='col-span-3'><Song/></section>
-      <section className='w-full h-full flex items-center'><Chat/></section>
+      <section className='w-full min-w-[20rem] h-full flex items-center'><Chat/></section>
     </main>)
 }
