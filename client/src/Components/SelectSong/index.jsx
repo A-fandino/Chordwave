@@ -34,7 +34,7 @@ export default function SelectSong(props) {
     <Modal show={show} setShow={setShow} closable={true}>
         <div ref={divRef} className="container flex flex-col w-full p-8 gap-4" onClick={(e) => e.target.className.includes("container") && setShow(false)}>
             <input type="text" className='basic w-full p-4' placeholder="Search song..." value={name} onChange={e => setName(e.target.value)}/>
-            <section className='container flex flex-row gap-4 flex-wrap overflow-scroll h-[80vh] items-start'>
+            <section className='container flex flex-row gap-4 flex-wrap overflow-scroll h-[80vh] items-start justify-center'>
                 {
                     songs.map(song => (
                         <article key={song.id} className="bg-gray-700 flex flex-col items-center">
