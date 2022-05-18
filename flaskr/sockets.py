@@ -22,6 +22,13 @@ def on_leave(data):
     leave_room(room)
     emit("user_leave",{"type":"leave","user":username}, to=room, broadcast=True)
 
+@socket.on("song")
+def song(clientData):
+    with open(f"./flaskr/uploads/music/0ZaEJTOkoZL0CUpziDVz.mp3", "rb") as fwav:
+        data = fwav.read(2048)
+        while data:
+            emit("song",data, to=clientData["room"])
+            data = fwav.read(2048)
 
 @socket.on("chat message")
 def chat_message(data):

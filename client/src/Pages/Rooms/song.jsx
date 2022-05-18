@@ -15,8 +15,10 @@ export default function SongRoom() {
         if (socket.disconnected) socket.connect()
         socket.emit("join",{room:id}, () => {
           setLoading(false)
+          socket.emit("song",{room:id}, data => console.log(data))
         })
-      return () => {
+      socket.on("song", (data) => console.log(data))
+        return () => {
         socket.emit("leave", {room:id})
       }
     },[])
