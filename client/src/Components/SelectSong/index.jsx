@@ -11,7 +11,7 @@ export default function SelectSong(props) {
   const [songs, setSongs] = useState([])
 
     async function getSongs() {
-        const resp = await fetch("http://localhost:5000/api/similar-song/"+name)
+        const resp = await fetch("http://localhost:5000/api/similar-song/"+name, {credentials:"include"})
         setSongs(await resp.json())
     }
 

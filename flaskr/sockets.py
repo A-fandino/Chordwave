@@ -25,7 +25,6 @@ def on_leave(data):
 
 @socket.on("chat message")
 def chat_message(data):
-    print(data)
     msgData = {"user": session["user"]["nickname"], "msg":data["msg"], "type":"message"}
     if msgData["msg"] != "": emit("chat message", msgData, to=data["room"])
 

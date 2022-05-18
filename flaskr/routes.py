@@ -47,7 +47,6 @@ def create_song(name, format, author_id):
 def check_song(name, author_id):
     from .models import Song
     song = Song.query.filter_by(name=name, created_by=author_id).first()
-    print(song)
     return song.name
 
 @current_app.route("/play/<author>/<name>")
