@@ -5,7 +5,7 @@ export default function Modal(props) {
     const modRef = useRef(null)
     const styles = {
         visibility: props.show ? 'visible' : 'hidden',
-        position: "absolute",
+        position: "fixed",
         left:0,right:0,top:0,bottom:0,
         background:"#0005",
         display: "flex",
