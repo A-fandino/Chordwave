@@ -1,4 +1,3 @@
-from time import sleep
 from flask import Blueprint, redirect, request, jsonify, send_file, session
 from flask_cors import cross_origin, CORS
 import os
