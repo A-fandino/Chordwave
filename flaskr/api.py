@@ -77,7 +77,7 @@ def userSongs(nickname):
 @bp.route('/upload', methods=['POST'])
 @cross_origin()
 @login_required
-def index():
+def upload():
     try:
         file = request.files['file']
         file.stream.seek(0)

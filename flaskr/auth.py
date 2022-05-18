@@ -1,4 +1,5 @@
 import json
+import re
 from flask import abort, jsonify, make_response
 from flask import Blueprint, redirect, session, request
 from flask_cors import cross_origin
@@ -60,11 +61,16 @@ def register():
 
         # SERVER VALIDATION
         if isValidMail(nick) is True: abortMsg("Nickname cannot be a valid mail address")
+        if len(nick) < 3: abortMsg('Nickname must have 3 characters') 
+        if (not re.match("^\w+$", nick)): abortMsg("Nickname cannot contain special characters")
+
         if isValidMail(mail) is False: abortMsg("Email address is not correctly formatted")
+
         if User.query.filter_by(nickname=nick).first() is not None:
             abortMsg("Nickname already exists")
         if User.query.filter_by(mail=mail).first() is not None:
             abortMsg("Mail already exists")
+        if (not re.match('(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}', plain_pass)): abortMsg("Password must contain 8 characters, 1 Uppercase, 1 Lowercase and 1 Number")
         if (plain_pass != verify_pass):
             abortMsg("Password don't match")
 

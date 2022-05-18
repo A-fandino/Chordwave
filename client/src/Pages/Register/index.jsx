@@ -14,12 +14,17 @@ export default function Register() {
     const yupValidation = Yup.object().shape({
         nickname: Yup.string()
           .required('Nickname is mandatory.')
-          .min(8, 'Add minimum 8 characters')
-          .max(80, 'Cannot be longer than 80 characters'),
+          .min(3, 'Add minimum 3 characters')
+          .max(80, 'Cannot be longer than 80 characters')
+          .matches(/^\w+$/, "Cannot contain special characters"),
         mail: Yup.string().required('Email is mandatory').email(),
         password: Yup.string()
           .required('Password is mandatory.')
-          .min(8, 'Add minimum 8 characters'),
+          .min(8, 'Add minimum 8 characters')    
+          .matches(
+            /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}/,
+            "Must contain 1 Uppercase, 1 Lowercase and 1 Number"
+          ),
         passwordVerif: Yup.string()
             .required("You must validate your password.")
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -59,7 +64,7 @@ export default function Register() {
                 placeholder='Nickname' 
                 {...register('nickname')} 
             />
-                <div className="text-red-500 font-bold">{errors.nickname?.message}</div>
+                <div className="text-red-500 font-bold break-words max-w-fit text-center">{errors.nickname?.message}</div>
             <input 
                 type="email" 
                 className={`basic black ${errors.mail ? 'invalid-input' : ''}`} 
@@ -67,7 +72,7 @@ export default function Register() {
                 placeholder='Email' 
                 {...register('mail')} 
             />
-                <div className="text-red-500 font-bold">{errors.mail?.message}</div>
+                <div className="text-red-500 font-bold break-words max-w-fit text-center">{errors.mail?.message}</div>
             <input 
                 type="password" 
                 className={`basic black ${errors.password ? 'invalid-input' : ''}`} 
@@ -75,7 +80,7 @@ export default function Register() {
                 placeholder='Password' 
                 {...register('password')}
             />
-                <div className="text-red-500 font-bold">{errors.password?.message}</div>
+                <div className="text-red-500 font-bold break-words max-w-fit text-center">{errors.password?.message}</div>
             <input 
                 type="password" 
                 className={`basic black ${errors.passwordVerif ? 'invalid-input' : ''}`} 
@@ -83,7 +88,7 @@ export default function Register() {
                 placeholder='Repeat password' 
                 {...register('passwordVerif')}
             />
-                <div className="text-red-500 font-bold">{errors.passwordVerif?.message}</div>
+                <div className="text-red-500 font-bold break-words max-w-fit text-center">{errors.passwordVerif?.message}</div>
             <button type="submit" className="w-32 h-12 bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white font-bold ">Register</button>
             </div>
         </form>
