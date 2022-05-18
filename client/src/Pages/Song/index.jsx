@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams, Link, Navigate, useNavigate } from "react-router-dom"
 import Nav from "@/Layout/Nav/"
+import AudioBar from "@/Components/AudioBar/"
 import { PlayIcon, RewindIcon, FastForwardIcon, MusicNoteIcon, PauseIcon } from "@heroicons/react/solid"
 import { Waveform } from '@uiball/loaders'
-
 import { useGlobalContext } from '@/context'
 
 export default function Song() {
@@ -65,17 +65,19 @@ export default function Song() {
                         <Link to={`/profile/${params.author}`} className="text-3xl text-gray-500 italic font-serif pl-4 hover:text-gray-400"> “{params.author}”</Link>
                     </article>
                 </section>
-                <footer className='p-4 mx-10 flex items-center justify-center gap-16 mt-auto mb-8'>
-                    {/* 
-                    use current time and seconds for time bar
-                    */}
-                    <span className="song-control" onClick={previousSong}><RewindIcon/></span>
-                    <span className="song-control" onClick={togglePlay}>
-                        {
-                         play ?  <PauseIcon/> : <PlayIcon/>
-                        }
-                        </span>
-                    <span className="song-control" onClick={nextSong}><FastForwardIcon/></span>
+                <footer className='p-4 flex flex-col items-center justify-center gap-4 mt-auto mb-8 w-full'>
+                <section className="w-full bg-red-500 h-2 block">
+                        <AudioBar audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong}/>
+                    </section>
+                    <section className='flex items-center justify-center gap-16 w-full'>
+                        <span className="song-control" onClick={previousSong}><RewindIcon/></span>
+                        <span className="song-control" onClick={togglePlay}>
+                            {
+                            play ?  <PauseIcon/> : <PlayIcon/>
+                            }
+                            </span>
+                        <span className="song-control" onClick={nextSong}><FastForwardIcon/></span>
+                    </section>
                 </footer>
             </main>
 

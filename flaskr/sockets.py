@@ -1,5 +1,7 @@
-from flask_socketio import emit, send, join_room, leave_room, rooms
+from flask_socketio import emit, send, join_room, leave_room
 from flask import session
+from sqlalchemy.sql.expression import func
+from .models import Song
 from . import db, socket
 
 @socket.on("connect")
@@ -24,7 +26,8 @@ def on_leave(data):
 
 @socket.on("song")
 def song(clientData):
-    with open(f"./flaskr/uploads/music/0ZaEJTOkoZL0CUpziDVz.mp3", "rb") as fwav:
+    song = Song.query.order_by(func.random()).limit(1)
+    with open(f"./flaskr/uploads/music/{song.id}.{song.format}", "rb") as fwav:
         data = fwav.read(2048)
         while data:
             emit("song",data, to=clientData["room"])

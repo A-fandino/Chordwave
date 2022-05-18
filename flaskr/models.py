@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import session
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
+import librosa
 
 
 def multiFormatDate(date):
@@ -144,8 +145,7 @@ class Song(db.Model):
             "id": self.id,
             "name": self.name,
             "format": self.format,
-            # "duration": librosa.get_duration(
-            #     filename='./flaskr/uploads/music/'+self.id+"."+self.format),
+            "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+self.id+"."+self.format),
             "author": self.author.nickname,
             "liked": "user" in session and Like.query.filter_by(user_id = session["user"]["id"], song_id=self.id).first() is not None,
             **multiFormatDate(self.created_at)
