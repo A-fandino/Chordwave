@@ -49,7 +49,6 @@ def randomSong(num=1):
 @bp.route('/similar-song/')
 @bp.route('/similar-song/<string>')
 def similarName(string = None):
-    print(string)
     if (string is None): return jsonify(serializeList(Song.query.all()))
     songs = Song.query.filter(Song.name.like(f"%{string}%")).all()
     return jsonify(serializeList(songs)), 200
@@ -98,7 +97,6 @@ def index():
 @bp.route('/room', methods=["POST"])
 def postRoom():
     data = json.loads(request.data.decode())
-    print(data)
     if not "max" in data: abortMsg("No 'max user count' found")
     if data["max"] > 8: abortMsg("Cannot have more than 8 users")
     if data["max"] < 2: abortMsg("Cannot have less than 2 users")
@@ -163,7 +161,7 @@ def changePFP():
 
 @bp.route("/new-playlist/<name>", methods=("POST",))
 def newPlaylist(name):
-    pl = Playlist(1, name)
+    pl = Playlist(session["user"]["id"], name)
     pl.save()
     return  "", 200
 
