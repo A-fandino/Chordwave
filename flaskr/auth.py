@@ -39,7 +39,8 @@ def login():
         identifier = data["identifier"]
         password = data["password"]
         user = getUserByIdentifier(identifier)
-        if user.active == 0: abortMsg("This account has been canceled")
+        print(user.active)
+        if user.active == False: abortMsg("This account has been canceled")
         if user is None:
             return abortMsg("User does not exist")
         if user.verify_password(password) is False:
@@ -93,7 +94,8 @@ def logout():
 @bp.route('/cancel-account')
 @login_required
 def cancelAccount():
-    db.session.query(User).update({User.active: 0})
+    updatedUser = User.query.get(session["user"]["id"])
+    updatedUser.active = False
     db.session.commit()
     return logout()
 
