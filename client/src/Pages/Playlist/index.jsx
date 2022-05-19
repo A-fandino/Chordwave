@@ -3,7 +3,7 @@ import SongMiniature from '@/Components/SongMiniature'
 import SelectSong from '@/Components/SelectSong'
 import Nav from "@/Layout/Nav"
 import { PlusIcon } from '@heroicons/react/outline'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useGlobalContext } from '@/context'
 
 export default function Playlist() {
@@ -24,7 +24,7 @@ export default function Playlist() {
   return (
     <main className="flex flex-col gap-4 w-full">
         <Nav/>
-        <h1 className="text-5xl p-8 pb-0 text-white font-bold">{params.name} - {params.user}</h1>
+        <h1 className="text-5xl p-8 pb-0 text-white font-bold">{params.name} <Link to={`/profile/${params.user}`} className="hover:text-gray-400 text-3xl underline ">by {params.user}</Link></h1>
         <div className="w-full flex justify-center">
         {user.nickname == params.user ?
             <button className='p-4 py-2 bg-indigo-500 font-bold rounded text-white flex items-center gap-2 hover:bg-indigo-600' onClick={() => setShowSelector(true)}> 
