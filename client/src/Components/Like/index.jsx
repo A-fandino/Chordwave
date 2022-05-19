@@ -21,7 +21,7 @@ export default function Like(props) {
     }
 
   return (
-    <span className={`heart w-6 hover:text-red-400 ${liked ? 'text-red-600' : ''}`} onClick={toggleLike}>
+    <span className={`heart w-6 hover:text-red-400 cursor-pointer ${liked ? 'text-red-600' : ''}`} onClick={toggleLike}>
     {liked ? <HeartSolid/> : <HeartLine/>}
   </span>
   )

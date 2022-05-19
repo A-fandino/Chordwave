@@ -42,9 +42,9 @@ export default function SelectSong(props) {
                             {
                             setSelected ? ( //IF YOU CAN SELECT
                                 selected.some(elem =>elem.id == song.id) ? //IF IS SELECTED
-                                <span className="bg-red-500 hover:bg-red-600 text-white p-4 rounded w-full text-center" onClick={e => unselect(song)}>Remove</span>
+                                <span className="bg-red-500 hover:bg-red-600 text-white p-4 rounded w-full text-center cursor-pointer" onClick={e => unselect(song)}>Remove</span>
                                     : //IF IS NOT SELECTED
-                                <span className="bg-green-500 hover:bg-green-600 text-white p-4 rounded w-full text-center" onClick={e => select(song)}>Select</span>
+                                <span className="bg-green-500 hover:bg-green-600 text-white p-4 rounded w-full text-center cursor-pointer" onClick={e => select(song)}>Select</span>
                             ) : "" //IF YOU CANNOT SELECT
                             }
                         </article>

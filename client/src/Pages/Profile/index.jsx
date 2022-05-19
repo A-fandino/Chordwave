@@ -81,7 +81,7 @@ export default function Profile() {
                         <h1 className="text-5xl font-bold">{userData.nickname}</h1>
                         {
                         user.id == userData.id  ? (
-                        <span className='relative' onClick={()=>setShowTt(true)}>
+                        <span className='relative cursor-pointer' onClick={()=>setShowTt(true)}>
                             <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
                             <MenuToolTip show={showTt} setShow={setShowTt}/>
                         </span> ) : ''
@@ -125,9 +125,8 @@ export default function Profile() {
                 </div>
             </section>
         </div>
-        <Loading show={loading} setShow={setLoading}/>
-        <PlaylistForm show={showPlaylist} setShow={setShowPlaylist}/>
-
+        {loading ? <Loading show={loading} setShow={setLoading}/> : ""} 
+        {showPlaylist ? <PlaylistForm show={showPlaylist} setShow={setShowPlaylist}/> : ""} 
         
 
     </main>
