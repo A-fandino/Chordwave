@@ -38,7 +38,6 @@ export default function Song() {
             },
             body: JSON.stringify(data)
         })
-        console.log(data,resp)
         if (resp.ok) return location.href ="/profile" //I need to refresh the whole page
         const {msg} = await resp.json()
         setErrorMsg(msg)

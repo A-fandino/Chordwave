@@ -27,7 +27,6 @@ export default function Chat() {
         return msgByType[msg.type]({key, ...msg})
     }
     function addMsg(data) {
-            console.log(data)
             setMsgs((m) => [...m,data])
     }
     useEffect(() => {

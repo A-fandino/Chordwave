@@ -15,8 +15,6 @@ export default function index(props) {
     const resp = await fetch("http://localhost:5000/api/new-playlist/"+name, {method:"POST",credentials: "include"})
     if (resp.ok) return navigate(`/playlist/${user.nickname}/${name}`)
     alert("ERROR")
-    console.log(resp)
-
   }
 
   return (

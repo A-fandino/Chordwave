@@ -16,7 +16,6 @@ export default function Like(props) {
         mode: "cors",
         credentials: "include",
       })
-      console.log(resp)
       //if (resp.ok) 
       setLiked(!liked)
     }
