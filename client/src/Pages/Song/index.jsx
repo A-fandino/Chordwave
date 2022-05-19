@@ -26,8 +26,7 @@ export default function Song() {
     }
 
     useEffect(() => {
-        if (isMounted.current) play ? audioRef.current.play() : audioRef.current.pause()
-
+        if (isMounted.current) play ? audioRef.current.play().catch(e => setPlay(false)) : audioRef.current.pause()
     }, [play,songData])
 
     useEffect(() => {
@@ -58,8 +57,8 @@ export default function Song() {
     return (
             <main className="flex flex-col gap-4 h-screen text-white">
                 <Nav />
-                <section className="grid grid-cols-2 gap-4 p-4 justify-items-center">
-                    <article className={`music-disc w-[27rem] sm:p-24 sm:w-[25rem] ${play ? "animate-spin-slow amber"  : ""}`}>
+                <section className="lg:grid flex flex-col items-center grid-cols-2 gap-4 p-4 justify-items-center">
+                    <article className={`music-disc  w-full sm:p-24 sm:w-[25rem] ${play ? "animate-spin-slow amber"  : ""}`}>
                         { play ? <Waveform 
                         size={120}
                         lineWeight={18}
@@ -68,15 +67,15 @@ export default function Song() {
                         /> 
                         : <MusicNoteIcon/>}
                     </article>
-                    <article className='w-full p-4 text-left flex flex-col gap-2'>
-                        <h1 className="text-5xl font-bold break-all">{params.name}</h1>
-                        <Link to={`/profile/${params.author}`} className="text-3xl text-gray-500 italic font-serif pl-4 hover:text-gray-400"> “{params.author}”</Link>
+                    <article className='w-full p-4 text-left flex flex-col gap-4 lg:text-left text-center'>
+                        <h1 className="text-7xl font-bold break-all">{params.name}</h1>
+                        <Link to={`/profile/${params.author}`} className="text-4xl text-gray-500 italic font-serif pl-0 lg:pl-8 hover:text-gray-400"> “{params.author}”</Link>
                     </article>
                 </section>
                 <footer className='p-4 flex flex-col items-center justify-center gap-4 mt-auto mb-8 w-full'>
                     {audioRef.current && songData ? <AudioBar key={songData.id} audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong} song={songData}/> : ""}
-                    <section className='flex items-center justify-between gap-16 w-full'>
-                        <article className='w-8'>
+                    <section className='flex lg:flex-row flex-col-reverse items-center lg:justify-between justify-items-center gap-16 w-full'>
+                        <article className='w-max lg:w-8'>
                             <VolumeController key={songData.id} audio={audioRef.current}/>
                         </article>
                         <article className='flex items-center justify-center gap-16'>
@@ -88,7 +87,7 @@ export default function Song() {
                                 </span>
                             <span className="song-control" onClick={nextSong}><FastForwardIcon/></span>
                         </article>
-                        <article className='w-8'><Like key={songData.id} data={songData}/></article>
+                        <article className='w-8 lg:static absolute right-4'><Like key={songData.id} data={songData}/></article>
                     </section>
                 </footer>
             </main>
