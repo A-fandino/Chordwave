@@ -7,35 +7,32 @@ import PlaylistForm from "@/Components/PlaylistForm"
 import MenuToolTip from "@/Components/MenuToolTip"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Profile() {
     const params = useParams()
     const {user} = useGlobalContext()
     
     const pfpRef = useRef(null)
-    const [userData, setUserData] = useState(user)
+    const [userData, setUserData] = useState({})
     const [userSongs, setUserSongs] = useState([])
     const [userPlaylists, setUserPlaylists] = useState([])
     const [loading, setLoading] = useState(false)
     const [showTt, setShowTt] = useState(false)
     const [showPlaylist, setShowPlaylist] = useState(false)
     const navigate = useNavigate()
-
     useEffect(() => {
         (async function() {
-            if (params.nickname)
-            {
+            const nickname = params.nickname || user.nickname
                 try {
-                    const respUser = await fetch("http://localhost:5000/auth/check/"+params.nickname)
+                    const respUser = await fetch("http://localhost:5000/auth/check/"+nickname)
                     const data = await respUser.json()
                     setUserData(data)
                 } catch {
                     return navigate('/profile')
                 }
-            }
         })()
-    },[])
+    },[navigate])
 
     useEffect(() => {
         (async function() {
