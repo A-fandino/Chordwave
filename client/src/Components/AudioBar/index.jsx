@@ -38,7 +38,7 @@ export default function AudioBar(props) {
     <section className="bar-container w-full h-full">
       <article className='w-full bg-gray-500 h-full block h-3 rounded-full'>
         <div style={{width:percent+"%"}} className='h-full bg-white relative'>
-          <article className="p-3 rounded-full bg-white absolute right-[-1%] bottom-0 translate-y-1/4 translate-x-1/4"></article>
+          <article className="p-3 rounded-full bg-white absolute right-[-3px] bottom-0 translate-y-1/4 translate-x-1/4"></article>
         </div>
       </article>
       <div className="w-full">{ssToMMSS(current)} - {mmss}</div>
