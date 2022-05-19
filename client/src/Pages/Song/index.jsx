@@ -20,7 +20,7 @@ export default function Song() {
         const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`)
         const data = await resp.json()
         setSongData(data)
-        audioRef.current = new Audio(`http://localhost:5000/play/${data.author}/${data.name}`)
+        setPlay(true)
     }
 
     useEffect(() => {
@@ -31,7 +31,9 @@ export default function Song() {
     useEffect(() => {
         getSongData()
         isMounted.current = true
-        return () => {audioRef.current.pause(); audioRef.current = null}
+        audioRef.current = new Audio(`http://localhost:5000/play/${params.author}/${params.name}`)
+        audioRef.current.currentTime = 0
+        return () => {audioRef.current.pause(); audioRef.current = null; isMounted.current=false}
     },[navigate])
 
 
@@ -39,18 +41,19 @@ export default function Song() {
         setPlay(!play)
         play ? audioRef.current.play() : audioRef.current.pause()
     }
-
+    
     async function previousSong() {
+        setPlay(false)
         navigate(-1)
     }
     async function nextSong() {
         const resp = await fetch("http://localhost:5000/api/random-song")
         const data = await resp.json()
+        setPlay(false)
         navigate(`/song/${data[0].author}/${data[0].name}`)
     }
 
     return (
-        <>
             <main className="flex flex-col gap-4 h-screen text-white">
                 <Nav />
                 <section className="grid grid-cols-2 gap-4 p-4 justify-items-center">
@@ -70,7 +73,7 @@ export default function Song() {
                 </section>
                 <footer className='p-4 flex flex-col items-center justify-center gap-4 mt-auto mb-8 w-full'>
                 <section className="w-full bg-gray-500 h-2 block rounded">
-                        <AudioBar audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong}/>
+                        {audioRef.current && songData ? <AudioBar audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong} song={songData}/> : ""}
                     </section>
                     <section className='flex items-center justify-center gap-16 w-full'>
                         <span className="song-control" onClick={previousSong}><RewindIcon/></span>
@@ -83,8 +86,5 @@ export default function Song() {
                     </section>
                 </footer>
             </main>
-
-            {/* <audio ref={audioRef} autoPlay><source src={`http://localhost:5000/play/${songData.author}/${songData.name}`} type={`audio/x-wav`} /></audio> */}
-        </>
     )
 }
