@@ -72,9 +72,7 @@ export default function Song() {
                     </article>
                 </section>
                 <footer className='p-4 flex flex-col items-center justify-center gap-4 mt-auto mb-8 w-full'>
-                <section className="w-full bg-gray-500 h-2 block rounded">
                         {audioRef.current && songData ? <AudioBar audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong} song={songData}/> : ""}
-                    </section>
                     <section className='flex items-center justify-center gap-16 w-full'>
                         <span className="song-control" onClick={previousSong}><RewindIcon/></span>
                         <span className="song-control" onClick={togglePlay}>
