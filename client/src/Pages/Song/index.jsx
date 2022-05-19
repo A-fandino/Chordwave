@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams, Link, useNavigate } from "react-router-dom"
 import Nav from "@/Layout/Nav/"
 import AudioBar from "@/Components/AudioBar/"
-import { PlayIcon, RewindIcon, FastForwardIcon, MusicNoteIcon, PauseIcon } from "@heroicons/react/solid"
+import VolumeController from "@/Components/VolumeController/"
+import { PlayIcon, RewindIcon, FastForwardIcon, MusicNoteIcon, PauseIcon, VolumeUpIcon } from "@heroicons/react/solid"
 import { Waveform } from '@uiball/loaders'
 import Like from "@/Components/Like"
 
@@ -75,7 +76,10 @@ export default function Song() {
                 <footer className='p-4 flex flex-col items-center justify-center gap-4 mt-auto mb-8 w-full'>
                     {audioRef.current && songData ? <AudioBar key={songData.id} audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong} song={songData}/> : ""}
                     <section className='flex items-center justify-between gap-16 w-full'>
-                        <article className='flex items-center justify-center gap-16 w-full'>
+                        <article className='w-8'>
+                            <VolumeController key={songData.id} audio={audioRef.current}/>
+                        </article>
+                        <article className='flex items-center justify-center gap-16'>
                             <span className="song-control" onClick={previousSong}><RewindIcon/></span>
                             <span className="song-control" onClick={togglePlay}>
                                 {
