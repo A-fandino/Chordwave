@@ -60,7 +60,6 @@ def song(author, name):
         if x.name == name:
             song = x
             break
-    print(librosa.get_duration(filename='./flaskr/uploads/music/'+song.id+"."+song.format))
     data = {"filename": song.id, "name": song.name, "format": song.format, "author": author,
             "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+song.id+"."+song.format)
             }
