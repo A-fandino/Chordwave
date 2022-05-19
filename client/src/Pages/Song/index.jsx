@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams, Link, Navigate, useNavigate } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import Nav from "@/Layout/Nav/"
 import AudioBar from "@/Components/AudioBar/"
 import { PlayIcon, RewindIcon, FastForwardIcon, MusicNoteIcon, PauseIcon } from "@heroicons/react/solid"
 import { Waveform } from '@uiball/loaders'
-import { useGlobalContext } from '@/context'
+import Like from "@/Components/Like"
+
 
 export default function Song() {
     const isMounted = useRef(false)
@@ -17,7 +18,7 @@ export default function Song() {
 
 
     const getSongData = async () => {
-        const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`)
+        const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`, {mode:"cors",credentials: "include"})
         const data = await resp.json()
         setSongData(data)
         setPlay(true)
@@ -47,7 +48,7 @@ export default function Song() {
         navigate(-1)
     }
     async function nextSong() {
-        const resp = await fetch("http://localhost:5000/api/random-song")
+        const resp = await fetch("http://localhost:5000/api/random-song", {mode:"cors",credentials: "include"})
         const data = await resp.json()
         setPlay(false)
         navigate(`/song/${data[0].author}/${data[0].name}`)
@@ -72,15 +73,18 @@ export default function Song() {
                     </article>
                 </section>
                 <footer className='p-4 flex flex-col items-center justify-center gap-4 mt-auto mb-8 w-full'>
-                        {audioRef.current && songData ? <AudioBar audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong} song={songData}/> : ""}
-                    <section className='flex items-center justify-center gap-16 w-full'>
-                        <span className="song-control" onClick={previousSong}><RewindIcon/></span>
-                        <span className="song-control" onClick={togglePlay}>
-                            {
-                            play ?  <PauseIcon/> : <PlayIcon/>
-                            }
-                            </span>
-                        <span className="song-control" onClick={nextSong}><FastForwardIcon/></span>
+                    {audioRef.current && songData ? <AudioBar key={songData.id} audio={audioRef} duration={songData.duration} play={play} setPlay={setPlay} onFinish={nextSong} song={songData}/> : ""}
+                    <section className='flex items-center justify-between gap-16 w-full'>
+                        <article className='flex items-center justify-center gap-16 w-full'>
+                            <span className="song-control" onClick={previousSong}><RewindIcon/></span>
+                            <span className="song-control" onClick={togglePlay}>
+                                {
+                                play ?  <PauseIcon/> : <PlayIcon/>
+                                }
+                                </span>
+                            <span className="song-control" onClick={nextSong}><FastForwardIcon/></span>
+                        </article>
+                        <article className='w-8'><Like key={songData.id} data={songData}/></article>
                     </section>
                 </footer>
             </main>

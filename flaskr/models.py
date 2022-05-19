@@ -143,6 +143,7 @@ class Song(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "filename": self.id,
             "name": self.name,
             "format": self.format,
             "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+self.id+"."+self.format),
