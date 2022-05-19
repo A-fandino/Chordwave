@@ -3,6 +3,8 @@ from flask_cors import cross_origin, CORS
 import os
 import librosa
 import json
+
+import sqlalchemy
 from .models import Like, Genre, PlaylistUserSong, Song, User, db, Room, Playlist
 from .auth import login_required
 from sqlalchemy.sql.expression import func
@@ -157,9 +159,12 @@ def changePFP():
 
 @bp.route("/new-playlist/<name>", methods=("POST",))
 def newPlaylist(name):
-    pl = Playlist(session["user"]["id"], name)
-    pl.save()
-    return  "", 200
+    try:
+        pl = Playlist(session["user"]["id"], name)
+        pl.save()
+        return  "", 200
+    except sqlalchemy.exc.IntegrityError as err:
+        abortMsg("A playlist with that name already exists")
 
 @bp.route("/get-playlists")
 @bp.route("/get-playlists/<user_id>")
