@@ -20,16 +20,19 @@ export default function Song() {
         const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`)
         const data = await resp.json()
         setSongData(data)
+        audioRef.current = new Audio(`http://localhost:5000/play/${data.author}/${data.name}`)
     }
 
     useEffect(() => {
         if (isMounted.current) play ? audioRef.current.play() : audioRef.current.pause()
-    }, [songData, play])
+
+    }, [play,songData])
 
     useEffect(() => {
         getSongData()
         isMounted.current = true
-    },[])
+        return () => {audioRef.current.pause(); audioRef.current = null}
+    },[navigate])
 
 
     function togglePlay() {
@@ -43,7 +46,7 @@ export default function Song() {
     async function nextSong() {
         const resp = await fetch("http://localhost:5000/api/random-song")
         const data = await resp.json()
-        location.href = (`/song/${data[0].author}/${data[0].name}`)
+        navigate(`/song/${data[0].author}/${data[0].name}`)
     }
 
     return (
@@ -81,7 +84,7 @@ export default function Song() {
                 </footer>
             </main>
 
-            <audio ref={audioRef} autoPlay><source src={`http://localhost:5000/play/${songData.author}/${songData.name}`} type={`audio/x-wav`} /></audio>
+            {/* <audio ref={audioRef} autoPlay><source src={`http://localhost:5000/play/${songData.author}/${songData.name}`} type={`audio/x-wav`} /></audio> */}
         </>
     )
 }
