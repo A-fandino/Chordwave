@@ -39,6 +39,7 @@ def login():
         identifier = data["identifier"]
         password = data["password"]
         user = getUserByIdentifier(identifier)
+        if user.active == 0: abortMsg("This account has been canceled")
         if user is None:
             return abortMsg("User does not exist")
         if user.verify_password(password) is False:
@@ -82,18 +83,19 @@ def register():
     except KeyError as kerr:
         abortMsg(f"Missing field {kerr.args[0]}")
 
-
-@bp.route('/a', methods=('POST',))
-def a():
-    print(request.args)
-    return "fg"
-
-
 @bp.route('/logout')
 @login_required
 def logout():
     session.clear()
     return redirect("http://localhost")
+
+    
+@bp.route('/cancel-account')
+@login_required
+def cancelAccount():
+    db.session.query(User).update({User.active: 0})
+    db.session.commit()
+    return logout()
 
 
 @bp.route('/exists/<identifier>')
