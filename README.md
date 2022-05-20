@@ -7,6 +7,6 @@ If you see something like **cp36** means that you need Python 3.6 so choose the 
 
 ## Problems with librosa reading mp3?
 
-You must install ffmpeg from [this page](https://pypi.org/project/librosa/) on *audioread and MP3 support*.
+You must install ffmpeg from [this page](https://pypi.org/project/librosa/) on *audioread and MP3 support* or directly from [this link](https://www.gyan.dev/ffmpeg/builds/fmpeg-release-essentials.zip).
 
 If you are using Windows you must add the executable folder to your System Path.
