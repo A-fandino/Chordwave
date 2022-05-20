@@ -1,12 +1,26 @@
 import json
+from urllib.parse import urlencode
+from urllib.request import urlopen
 import re
-from flask import abort, jsonify, make_response
+from wsgiref import validate
+from flask import current_app, abort, jsonify, make_response
 from flask import Blueprint, redirect, session, request
 from flask_cors import cross_origin
 import functools
 from .models import db, User
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+def validateReCaptcha(value):
+    URIReCaptcha = 'https://www.google.com/recaptcha/api/siteverify'
+    params = urlencode({
+        'secret': current_app.config["RECAPTCHA_SECRET_KEY"],
+        'response': value,
+        'remote_ip': request.remote_addr,
+    })
+    data = urlopen(URIReCaptcha, params.encode('utf-8')).read()
+    result = json.loads(data)
+    return result.get('success', None)
 
 def isValidMail(string):
     from email.utils import parseaddr
@@ -36,10 +50,10 @@ def check(nickname=None):
 def login():
     try:
         data = json.loads(request.data.decode())
+        if not validateReCaptcha(data["captcha"]): abortMsg("Captcha failed")
         identifier = data["identifier"]
         password = data["password"]
         user = getUserByIdentifier(identifier)
-        print(user.active)
         if user.active == False: abortMsg("This account has been canceled")
         if user is None:
             return abortMsg("User does not exist")

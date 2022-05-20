@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {Link} from "react-router-dom"
 import Nav from "@/Layout/Nav/"
 import FancyText from "@/Components/FancyText/"
 import ErrorModal from "@/Components/ErrorModal/"
+import Captcha from "@/Components/Captcha/"
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
@@ -11,13 +12,13 @@ export default function Song() {
 
     const [errorMsg, setErrorMsg] = useState(null)
     const [show, setShow] = useState(null)
+    const captchaRef = useRef(null)
 
     const yupValidation = Yup.object().shape({
         identifier: Yup.string()
           .required('Nickname/Email is mandatory.')
           .test("User exists","User does not exist",async val => {
             const resp = await fetch(`http://localhost:5000/auth/exists/${val}`)
-            console.log(resp)
             return resp.ok
           }),
         password: Yup.string()
@@ -28,6 +29,10 @@ export default function Song() {
     const { errors } = formState
 
     async function onSubmit(data) {
+        if (!captchaRef.current.getValue()) {
+            captchaRef.current.execute()
+            return
+        }
         const resp = await fetch("http://localhost:5000/auth/login", {
             mode: "cors",
             credentials:"include",
@@ -36,7 +41,7 @@ export default function Song() {
             headers:{
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({...data, captcha:captchaRef.current.getValue()})
         })
         if (resp.ok) return location.href ="/profile" //I need to refresh the whole page
         const {msg} = await resp.json()
@@ -68,6 +73,7 @@ export default function Song() {
                 {...register('password')} 
             />
                 <div className="text-red-500 font-bold">{errors.password?.message}</div>
+            <Captcha extRef={captchaRef}/>
             <button type="submit" className="w-32 h-12 bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white font-bold">
                 Login
             </button>

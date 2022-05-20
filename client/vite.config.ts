@@ -14,6 +14,7 @@ export default defineConfig({
 	clientPort:80,
     }
   },
+  envDir:"..",
   resolve:{
     alias:{
       '@' : path.resolve(__dirname, './src')
