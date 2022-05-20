@@ -35,6 +35,7 @@ export default function Profile() {
     },[navigate])
 
     useEffect(() => {
+        if (!userData?.nickname) return
         (async function() {
             const respSong = await fetch("http://localhost:5000/api/userSongs/"+userData.nickname, {
                 mode: "cors",
