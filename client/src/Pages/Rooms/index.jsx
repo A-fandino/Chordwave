@@ -20,7 +20,7 @@ export default function Rooms() {
         <div className="h-full p-4 flex flex-col gap-72">
             <section className="h-full p-4 grid grid-cols-3 gap-6 auto-rows-min">
                 {
-                    rooms.map((r, i) => {
+                 rooms.length ? rooms.map((r, i) => {
                     return <div key={i} className='bg-gray-900 rounded flex flex-col p-4 justify-between'>
                         <section className="room-info flex flex-col">
                             <h2 className="text-xl font-bold">{r.admin_name}'s Room</h2>
@@ -34,7 +34,8 @@ export default function Rooms() {
                         }
                     </div>
                     })
-                }
+                : <span className='text-5xl text-white text-gray-300 text-center w-full font-bold italic h-full flex justify-center items-center h-96 text-center w-full'>The are no rooms</span>
+                } 
             </section>
         </div>
     </main>
