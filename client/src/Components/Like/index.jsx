@@ -6,6 +6,7 @@ export default function Like(props) {
 
     const {data} = props
     const [liked, setLiked] = useState(data.liked)
+    const [likeCount, setLikeCount] = useState(data.like_count)
 
 
     async function toggleLike() {
@@ -17,12 +18,13 @@ export default function Like(props) {
         credentials: "include",
       })
       //if (resp.ok) 
+      setLikeCount(likeCount + (liked ? -1 : 1))
       setLiked(!liked)
     }
 
   return (
-    <span className={`heart w-6 hover:text-red-400 cursor-pointer ${liked ? 'text-red-600' : ''}`} onClick={toggleLike}>
-    {liked ? <HeartSolid/> : <HeartLine/>}
+    <span className={`heart flex gap-2 min-w-min hover:text-red-400 cursor-pointer ${liked ? 'text-red-600' : ''}`} onClick={toggleLike}>
+    {likeCount}{liked ? <HeartSolid className="w-6"/> : <HeartLine className="w-6"/>}
   </span>
   )
 }
