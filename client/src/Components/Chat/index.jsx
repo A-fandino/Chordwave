@@ -50,7 +50,7 @@ export default function Chat() {
                 })
                 setCurrentMsg("")
             }}>
-            <input type="text" style={{textAlign:"left"}} className='basic black text-left w-full px-4' value={currentMsg} onChange={e => setCurrentMsg(e.target.value)} placeholder="Message"/>
+            <input type="text" style={{textAlign:"left"}} className='basic black text-left w-full px-4' value={currentMsg} onChange={e => setCurrentMsg(e.target.value)} onKeyDown={e => e.stopPropagation()} placeholder="Message"/>
         </form>
     </div>
   )

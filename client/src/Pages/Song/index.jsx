@@ -8,9 +8,9 @@ import { Waveform } from '@uiball/loaders'
 import Like from "@/Components/Like"
 
 
-export default function Song() {
+export default function Song(props) {
     const isMounted = useRef(false)
-    const params = useParams()
+    const params = props.params || useParams()
     const [songData, setSongData] = useState({author:params.author, name:params.name})
     const [play, setPlay] = useState(true)
     const audioRef = useRef(null)
