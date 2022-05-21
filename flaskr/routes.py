@@ -1,6 +1,6 @@
 # Main router file
-from flask import current_app, Response, send_from_directory, render_template
-from .models import User, Song
+from flask import current_app, Response, session, render_template
+from .models import User, Listen
 from . import db
 import os
 from . import sockets
@@ -57,11 +57,14 @@ def play(author, name):
         if x.name == name:
             song = x
             break
-
+    song_id = song.id
+    song_format = song.format
     def generate():
-        with open(f"./flaskr/uploads/music/{song.id}.{song.format}", "rb") as fwav:
+        with open(f"./flaskr/uploads/music/{song_id}.{song_format}", "rb") as fwav:
             data = fwav.read(2048)
             while data:
                 yield data
                 data = fwav.read(2048)
+    listen_song = Listen(user_id=session["user"]["id"], song_id=song.id)
+    listen_song.save()
     return Response(generate(), mimetype="audio/x-wav")

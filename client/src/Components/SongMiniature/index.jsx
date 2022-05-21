@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { MusicNoteIcon } from "@heroicons/react/solid"
+import { MusicNoteIcon, EyeIcon } from "@heroicons/react/solid"
 import { Link } from "react-router-dom"
 import Like from "@/Components/Like"
 
@@ -13,7 +13,10 @@ export default function SongMiniature(props) {
         {data.name || data.children}
     </Link> 
     <Link to={`/profile/${data.author}`} className='block text-gray-400 hover:text-gray-500'>{data.author}</Link>
-    <div className="flex gap-4 h-6 justify-end">
+    <div className="flex gap-4 h-6 justify-between">
+      <span className='flex gap-2'>
+        <EyeIcon/> {data.listent_count || 0}
+      </span>
       <Like data={data}/>
     </div>
 </article>

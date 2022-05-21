@@ -38,6 +38,10 @@ class Listen(db.Model):
         self.user_id = user_id
         self.song_id = song_id
         self.date = datetime.now()
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class Like(db.Model):
@@ -66,7 +70,7 @@ class User(db.Model):
     active = db.Column(db.Boolean, nullable=False, default=True)
     songs = db.relationship("Song", backref="author", lazy=True)
     created_at = db.Column(db.DateTime, nullable=False)
-    listents = db.relationship("Listen", lazy="subquery", backref="users")
+    history = db.relationship("Listen", lazy="subquery", backref="users")
     likes = db.relationship("Like",
                             lazy="subquery", backref="users")
     playlists = db.relationship("Playlist", backref="user", lazy="dynamic")
@@ -148,6 +152,8 @@ class Song(db.Model):
             "format": self.format,
             "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+self.id+"."+self.format),
             "author": self.author.nickname,
+            "like_count": len(self.likes),
+            "listent_count": len(self.listents),
             "liked": "user" in session and Like.query.filter_by(user_id = session["user"]["id"], song_id=self.id).first() is not None,
             **multiFormatDate(self.created_at)
 
