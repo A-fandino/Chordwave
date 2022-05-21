@@ -6,6 +6,8 @@ import { useParams, Link, Navigate, useNavigate } from "react-router-dom"
 import { useGlobalContext } from '@/context'
 
 export default function SongRoom() {
+
+  const navigate = useNavigate()
   const params = useParams()
   const {id} = params
   const [loading, setLoading] = useState(true)
@@ -13,7 +15,13 @@ export default function SongRoom() {
   const { socket } = useGlobalContext()
     useEffect(() => {
         if (socket.disconnected) socket.connect()
-        socket.emit("join",{room:id}, () => {
+        socket.emit("join",{room:id}, (data, code) => {
+          if (code > 200) {
+            navigate("/rooms")
+            alert("ROOM IS FULL")
+            return
+          }
+
           setLoading(false)
           socket.emit("song",{room:id}, data => console.log(data))
         })
