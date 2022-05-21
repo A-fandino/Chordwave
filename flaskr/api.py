@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, request, jsonify, send_file, session
 from flask_cors import cross_origin, CORS
 import os
-import librosa
 import json
 
 import sqlalchemy
@@ -20,12 +19,6 @@ def serializeList(itemList):
     for x in itemList:
         data.append(x.serialize)
     return data
-
-
-@bp.route('/testing')
-def test():
-    return "TEST RESPONSE!"
-
 
 @bp.route('/genres')
 def genres():
@@ -104,6 +97,16 @@ def postRoom():
     room = Room(session["user"]["id"], data["max"])
     room.save()
     return "", 200
+
+@bp.route("/purge-room",methods=["DELETE"])
+def delRoom():
+    db.session.delete(User.query.get(session["user"]["id"]).getActiveRoom())
+    db.session.commit()
+    return "", 200
+
+@bp.route("/room-exists")
+def roomExists():
+    return str(int(bool(User.query.get(session["user"]["id"]).getActiveRoom())))
 
 @bp.route('/get-rooms')
 @bp.route('/get-rooms/<int:limit>')
