@@ -106,6 +106,10 @@ export default function Profile() {
                             <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> 
                                 <HeartIcon className='h-6'/> Liked
                             </Link> 
+
+                            <Link to="/history" className="px-8 py-4 rounded bg-amber-600 text-white font-bold text-center flex gap-4 hover:bg-amber-700"> 
+                                <ViewListIcon className='h-6'/> History
+                            </Link> 
                         </> ): ""
                     }  
                     {userPlaylists.map(pl => (

@@ -138,6 +138,22 @@ def liked():
         data.append(s.songs.serialize)
     return jsonify(data)
 
+
+@bp.route("/history")
+@bp.route("/history/<offset>")
+def history(offset = 0):
+    count = 10
+    if not "user" in session: return "[]"
+    reprod = User.query.get(session["user"]["id"]).history
+    data = []
+    for i in range(offset*count, offset*count+10):
+        if len(reprod) < i: break
+        r = reprod[i]
+        print(data)
+        data.append(r.songs.serialize)
+    return jsonify(data)
+
+
 @bp.route("/pfp/<id>")
 def pfp(id):
     if os.path.exists(f"{pfpPath}/{id}.png"):
