@@ -73,7 +73,7 @@ export default function Song() {
             <main className="flex flex-col gap-4 h-screen text-white">
                 <Nav />
                 <section className="lg:grid flex flex-col items-center grid-cols-2 gap-4 p-4 justify-items-center">
-                    <article className={`music-disc  w-full sm:p-24 sm:w-[25rem] ${play ? "animate-spin-slow amber"  : ""}`}>
+                    <article className={`music-disc  w-full sm:p-24 md:w-[25rem] max-w-full ${play ? "animate-spin-slow amber"  : ""}`}>
                         { play ? <Waveform 
                         size={120}
                         lineWeight={18}
