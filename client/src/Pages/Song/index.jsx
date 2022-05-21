@@ -25,6 +25,21 @@ export default function Song() {
         setPlay(true)
     }
 
+
+
+    useEffect(() => {
+        function handleKey(e) {
+            switch(e.key) {
+                case " ":
+                    setPlay(!play)
+                    break;
+            }
+        }
+        document.addEventListener("keydown", handleKey)
+         
+         return () => document.removeEventListener("keydown", handleKey)
+    },[play])
+
     useEffect(() => {
         if (isMounted.current) play ? audioRef.current.play().catch(e => setPlay(false)) : audioRef.current.pause()
     }, [play,songData])
