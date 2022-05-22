@@ -30,7 +30,8 @@ export default function Song() {
 
     async function onSubmit(data) {
         if (!captchaRef.current.getValue()) {
-            captchaRef.current.execute()
+            setErrorMsg("You must fill the captcha")
+            setShow(true)
             return
         }
         const resp = await fetch("http://localhost:5000/auth/login", {

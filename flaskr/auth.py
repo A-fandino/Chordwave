@@ -20,6 +20,7 @@ def validateReCaptcha(value):
     })
     data = urlopen(URIReCaptcha, params.encode('utf-8')).read()
     result = json.loads(data)
+    print(value, result)
     return result.get('success', None)
 
 def isValidMail(string):
@@ -70,6 +71,7 @@ def login():
 def register():
     try:
         data = json.loads(request.data.decode())
+        if not validateReCaptcha(data["captcha"]): abortMsg("Captcha failed")
         nick = data["nickname"]
         mail = data["mail"]
         plain_pass = data["password"]
