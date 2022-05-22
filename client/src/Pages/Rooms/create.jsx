@@ -31,14 +31,14 @@ export default function Profile() {
 
     useEffect(() => {
         (async function() {
-            const resp = await fetch("http://localhost:5000/api/room-exists", {credentials:"include"})
+            const resp = await fetch("/api/room-exists", {credentials:"include"})
             setExists(Number(await resp.text()))
         })()
     },[])
 
     async function onSubmit(data) {
         if (!exists) {
-            const resp = await fetch("http://localhost:5000/api/room", {
+            const resp = await fetch("/api/room", {
                 mode: "cors",
                 credentials:"include",
                 method:"POST",
@@ -54,7 +54,7 @@ export default function Profile() {
                 setShow(true)
             return
         }
-        const resp = await fetch("http://localhost:5000/api/purge-room", {
+        const resp = await fetch("/api/purge-room", {
             mode: "cors",
             credentials:"include",
             method:"DELETE",

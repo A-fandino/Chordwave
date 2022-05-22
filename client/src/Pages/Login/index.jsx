@@ -18,7 +18,7 @@ export default function Song() {
         identifier: Yup.string()
           .required('Nickname/Email is mandatory.')
           .test("User exists","User does not exist",async val => {
-            const resp = await fetch(`http://localhost:5000/auth/exists/${val}`)
+            const resp = await fetch(`/auth/exists/${val}`)
             return resp.ok
           }),
         password: Yup.string()
@@ -34,7 +34,7 @@ export default function Song() {
             setShow(true)
             return
         }
-        const resp = await fetch("http://localhost:5000/auth/login", {
+        const resp = await fetch("/auth/login", {
             mode: "cors",
             credentials:"include",
             method:"POST",

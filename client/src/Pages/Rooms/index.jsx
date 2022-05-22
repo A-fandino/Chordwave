@@ -8,7 +8,7 @@ export default function Rooms() {
 
     useEffect(() => {
         (async function () {
-            const resp = await fetch("http://localhost:5000/api/get-rooms")
+            const resp = await fetch("/api/get-rooms")
             const data = await resp.json()
             setRooms(data)
         })()

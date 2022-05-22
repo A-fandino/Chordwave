@@ -13,7 +13,7 @@ export default function Playlist() {
     const [showSelector, setShowSelector] = useState(false)
 
     async function getSongs() {
-        const resp = await fetch(`http://localhost:5000/api/playlist-songs/${params.user}/${params.name}`, {credentials:"include"})
+        const resp = await fetch(`/api/playlist-songs/${params.user}/${params.name}`, {credentials:"include"})
         setSongs(await resp.json())
     }
 

@@ -12,7 +12,7 @@ export default function Like(props) {
     async function toggleLike() {
       const method = liked ? "DELETE" : "POST"
       console.log(data)
-      const resp = await fetch("http://localhost:5000/api/like/"+data.id, {
+      const resp = await fetch("/api/like/"+data.id, {
         method,
         mode: "cors",
         credentials: "include",

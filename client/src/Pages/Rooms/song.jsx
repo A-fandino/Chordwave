@@ -15,7 +15,7 @@ export default function SongRoom() {
   const { socket } = useGlobalContext()
     useEffect(() => {
       (async () => {
-        const resp = await fetch("http://localhost:5000/api/random-song")
+        const resp = await fetch("/api/random-song")
         setSong(await resp.json())
       })()
         if (socket.disconnected) socket.connect()

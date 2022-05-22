@@ -20,7 +20,7 @@ import { MyGlobalContext, useGlobalContext} from "./context"
 import Playlist from './Pages/Playlist';
 
 // import socketIOClient from "socket.io-client"
-// const ENDPOINT = "http://localhost:5000"
+// const ENDPOINT = "/"
 
 export default function App() {
   const {socket} = useGlobalContext() 
@@ -33,7 +33,7 @@ export default function App() {
       console.log("Connected to Socket Server!")
     });
     (async function() {
-      const resp = await fetch("http://localhost:5000/auth/check", {credentials: 'include', mode:"cors"})
+      const resp = await fetch("/auth/check", {credentials: 'include', mode:"cors"})
       const data = await resp.json()
       setUser(data)
       setLoading(false)

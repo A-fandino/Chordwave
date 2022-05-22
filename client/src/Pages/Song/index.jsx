@@ -19,7 +19,7 @@ export default function Song(props) {
 
 
     const getSongData = async () => {
-        const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`, {mode:"cors",credentials: "include"})
+        const resp = await fetch(`/api/song/${params.author}/${params.name}`, {mode:"cors",credentials: "include"})
         const data = await resp.json()
         setSongData(data)
         setPlay(true)
@@ -47,7 +47,7 @@ export default function Song(props) {
     useEffect(() => {
         getSongData()
         isMounted.current = true
-        audioRef.current = new Audio(`http://localhost:5000/play/${params.author}/${params.name}`)
+        audioRef.current = new Audio(`/play/${params.author}/${params.name}`)
         audioRef.current.currentTime = 0
         return () => {audioRef.current.pause(); audioRef.current = null; isMounted.current=false}
     },[navigate])
@@ -63,7 +63,7 @@ export default function Song(props) {
         navigate(-1)
     }
     async function nextSong() {
-        const resp = await fetch("http://localhost:5000/api/random-song", {mode:"cors",credentials: "include"})
+        const resp = await fetch("/api/random-song", {mode:"cors",credentials: "include"})
         const data = await resp.json()
         setPlay(false)
         navigate(`/song/${data[0].author}/${data[0].name}`)

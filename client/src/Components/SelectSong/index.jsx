@@ -11,18 +11,18 @@ export default function SelectSong(props) {
   const [songs, setSongs] = useState([])
 
     async function getSongs() {
-        const resp = await fetch("http://localhost:5000/api/similar-song/"+name, {credentials:"include"})
+        const resp = await fetch("/api/similar-song/"+name, {credentials:"include"})
         setSongs(await resp.json())
     }
 
     async function select(song) {
-        const resp = await fetch(`http://localhost:5000/api/modify-playlist/${plName}/${song.id}`, {method:"POST", credentials:"include"})
+        const resp = await fetch(`/api/modify-playlist/${plName}/${song.id}`, {method:"POST", credentials:"include"})
         if (resp.ok) return setSelected(val => [song, ...val])
         alert("ERROR")
     }
 
     async function unselect(song) {
-        const resp = await fetch(`http://localhost:5000/api/modify-playlist/${plName}/${song.id}`, {method:"DELETE", credentials:"include"})
+        const resp = await fetch(`/api/modify-playlist/${plName}/${song.id}`, {method:"DELETE", credentials:"include"})
         if (resp.ok) return setSelected(val => val.filter(s => s.id != song.id))
         alert("ERROR")
     }

@@ -9,7 +9,7 @@ export default function SongList(props) {
       myHeaders.append('pragma', 'no-cache');
       myHeaders.append('cache-control', 'no-cache');
 
-      const resp = await fetch(props.endpoint || `http://localhost:5000/api/last-songs/${props.amount}`, {
+      const resp = await fetch(props.endpoint || `/api/last-songs/${props.amount}`, {
         mode: "cors",
         credentials: "include",
         header: myHeaders

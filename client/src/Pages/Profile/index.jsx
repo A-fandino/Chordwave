@@ -25,7 +25,7 @@ export default function Profile() {
         (async function() {
             const nickname = params.nickname || user.nickname
                 try {
-                    const respUser = await fetch("http://localhost:5000/auth/check/"+nickname)
+                    const respUser = await fetch("/auth/check/"+nickname)
                     const data = await respUser.json()
                     setUserData(data)
                 } catch {
@@ -37,7 +37,7 @@ export default function Profile() {
     useEffect(() => {
         if (!userData?.nickname) return
         (async function() {
-            const respSong = await fetch("http://localhost:5000/api/userSongs/"+userData.nickname, {
+            const respSong = await fetch("/api/userSongs/"+userData.nickname, {
                 mode: "cors",
                 credentials: "include"
             })
@@ -45,7 +45,7 @@ export default function Profile() {
             setUserSongs(songs)
 
             
-            const respPlaylists = await fetch("http://localhost:5000/api/get-playlists/"+userData.id, {
+            const respPlaylists = await fetch("/api/get-playlists/"+userData.id, {
                 mode: "cors",
                 credentials: "include"
             })
@@ -60,7 +60,7 @@ export default function Profile() {
         const file = e.target.files[0]
         pfpRef.current.src = URL.createObjectURL(file)
         formData.append("file",file)
-        await fetch("http://localhost:5000/api/changePFP", {
+        await fetch("/api/changePFP", {
             method:"POST", mode:"cors", credentials:"include", body:formData
         })
         setLoading(false)
@@ -73,7 +73,7 @@ export default function Profile() {
             <section className="w-full relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <label htmlFor='fileimg' className={`${userData.id == user.id ? "profile-pic-container" : ""} top-[-45%] translate-y-1/4 w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden`}>
                     <picture>
-                        <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} className="h-full w-full object-cover"/>
+                        <img src={`/api/pfp/${userData.id}`} ref={pfpRef} className="h-full w-full object-cover"/>
                     </picture>
                 </label>
                 {user.id == userData.id ? <input type="file" name="fileimg" id="fileimg" accept='image/*' className='hidden' onChange={handleImgUpload}/> : ""}

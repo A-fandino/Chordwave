@@ -43,7 +43,7 @@ export default function Register() {
             setShow(true)
             return
         }
-            const resp = await fetch("http://localhost:5000/auth/register", {
+            const resp = await fetch("/auth/register", {
                 mode: "cors",
                 credentials:"include",
                 method:"POST",

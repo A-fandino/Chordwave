@@ -7,7 +7,7 @@ export default function Liked() {
     const [songs, setSongsData] = useState([])
 
     async function getSongs() {
-        const resp = await fetch("http://localhost:5000/api/history", {mode:"cors", credentials:"include"})
+        const resp = await fetch("/api/history", {mode:"cors", credentials:"include"})
         setSongsData(await resp.json())
     }
 
