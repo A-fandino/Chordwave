@@ -10,7 +10,7 @@ load_dotenv()
 
 db = SQLAlchemy()
 socket = SocketIO(cors_allowed_origins=[
-    "http://localhost", "http://localhost:5500"])
+    "http://localhost", "http://localhost:5000"])
 config = dotenv_values()
 
 def create_app(test_config=None):

@@ -4,7 +4,7 @@ import { HeartIcon, DotsHorizontalIcon, ViewListIcon, PlusCircleIcon } from "@he
 import SongMiniature from "@/Components/SongMiniature"
 import Loading from "@/Components/Loading"
 import PlaylistForm from "@/Components/PlaylistForm"
-import MenuToolTip from "@/Components/MenuToolTip"
+import ProfileTooltip from "@/Components/ProfileTooltip"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
 import { useNavigate, Link } from "react-router-dom";
@@ -84,7 +84,7 @@ export default function Profile() {
                         user.id == userData.id  ? (
                         <span className='relative cursor-pointer' onClick={()=>setShowTt(true)}>
                             <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
-                            <MenuToolTip show={showTt} setShow={setShowTt}/>
+                            <ProfileTooltip show={showTt} setShow={setShowTt}/>
                         </span> ) : ''
                         }
                     </header>

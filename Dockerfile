@@ -4,7 +4,6 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY ./client/package.json ./client/package-lock.json ./
 ADD ./client ./
 RUN npm install
-RUN ls -l
 RUN npm run build
 
 
@@ -16,4 +15,4 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 COPY --from=client /app/dist ./client/dist
-CMD ["python", "app.py"]
+CMD ["python", "run.py"]

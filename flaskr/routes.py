@@ -61,10 +61,10 @@ def play(author, name):
     listen_song.save()
     return Response(generate(), mimetype="audio/x-wav")
 
-# @current_app.route("/")
-# @current_app.route("/<path:p>")
-# def index(p = None):
-#     path_dir = os.path.abspath("client/dist")  # path react build
-#     # if path != "" and os.path.exists(os.path.join(path_dir, path)):
-#     #     return send_from_directory(path_dir, path)
-#     return render_template("index.html")
+@current_app.route("/")
+@current_app.route("/<path:p>")
+def index(p = None):
+    path_dir = os.path.abspath("client/dist")  # path react build
+    # if path != "" and os.path.exists(os.path.join(path_dir, path)):
+    #     return send_from_directory(path_dir, path)
+    return render_template("index.html")
