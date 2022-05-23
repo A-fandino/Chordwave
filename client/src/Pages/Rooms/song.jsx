@@ -16,7 +16,8 @@ export default function SongRoom() {
     useEffect(() => {
       (async () => {
         const resp = await fetch("/api/random-song")
-        setSong(await resp.json())
+        const data = await resp.json()
+        setSong(data[0])
       })()
         if (socket.disconnected) socket.connect()
         socket.emit("join",{room:id}, (data, code) => {
@@ -37,7 +38,7 @@ export default function SongRoom() {
 
   return loading ? <Loading show={loading} setShow={setLoading}/> : (
     <main className="w-full h-screen grid grid-cols-4">
-      <section className='lg:col-span-3 col-span-2'>{song ? <Song params={{author:"Arnau",name:"t"}}/> : ""}</section>
+      <section className='lg:col-span-3 col-span-2'>{song?.id ? <Song params={{author:song.author,name:song.name}}/> : ""}</section>
       <section className='w-full min-w-[20rem] h-full flex items-center lg:col-span-1 col-span-2'><Chat/></section>
     </main>)
 }
