@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, request, jsonify, send_file, session
 from flask_cors import cross_origin, CORS
 import os
-import librosa
 import json
 
 import sqlalchemy
@@ -142,9 +141,6 @@ def liked():
 def pfp(id):
     if os.path.exists(f"{pfpPath}/{id}.png"):
         return send_file(f"../{pfpPath}/{id}.png")
-    # for f in os.listdir(pfpPath):
-    #     if f.split(".")[0] == id:
-    #         return send_file(f"../{pfpPath}/{f}")
     return send_file("./default.jpg")
     
 
