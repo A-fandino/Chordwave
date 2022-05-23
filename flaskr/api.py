@@ -150,9 +150,8 @@ def history(offset = 0):
     reprod = User.query.get(session["user"]["id"]).history
     data = []
     for i in range(offset*count, offset*count+10):
-        if len(reprod) < i: break
+        if len(reprod) <= i: break
         r = reprod[i]
-        print(data)
         data.append(r.songs.serialize)
     return jsonify(data)
 
