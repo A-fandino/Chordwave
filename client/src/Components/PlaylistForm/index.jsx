@@ -14,7 +14,7 @@ export default function PlaylistForm(props) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const resp = await fetch("http://localhost:5000/api/new-playlist/"+name, {method:"POST",credentials: "include"})
+    const resp = await fetch("/api/new-playlist/"+name, {method:"POST",credentials: "include"})
     if (resp.ok) return navigate(`/playlist/${user.nickname}/${name}`)
     setErrorMsg((await resp.json()).msg)
   }

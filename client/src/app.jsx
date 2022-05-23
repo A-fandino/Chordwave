@@ -14,12 +14,13 @@ import CreateRoom from '@/Pages/Rooms/create.jsx'
 import SongRoom from '@/Pages/Rooms/song.jsx'
 import Profile from '@/Pages/Profile/'
 import Liked from '@/Pages/Liked/'
+import History from '@/Pages/History/'
 import Loading from '@/Components/Loading/'
 import { MyGlobalContext, useGlobalContext} from "./context"
 import Playlist from './Pages/Playlist';
 
 // import socketIOClient from "socket.io-client"
-// const ENDPOINT = "http://localhost:5000"
+// const ENDPOINT = "/"
 
 export default function App() {
   const {socket} = useGlobalContext() 
@@ -32,7 +33,7 @@ export default function App() {
       console.log("Connected to Socket Server!")
     });
     (async function() {
-      const resp = await fetch("http://localhost:5000/auth/check", {credentials: 'include', mode:"cors"})
+      const resp = await fetch("/auth/check", {credentials: 'include', mode:"cors"})
       const data = await resp.json()
       setUser(data)
       setLoading(false)
@@ -58,17 +59,10 @@ export default function App() {
           <Route path='/profile' element={<Profile />}/>  
           <Route path='/profile/:nickname' element={<Profile />}/> 
           <Route path='/liked' element={<Liked />}/>  
+          <Route path='/history' element={<History />}/>  
           <Route path='/playlist/:user/:name' element={<Playlist />}/>  
         </Routes>
       </Router>
       </MyGlobalContext.Provider>
   )
-}
-
-function ConNavbar() {
-    return (
-      <>
-    <Routes>
-    </Routes>
-    </>)
 }

@@ -8,9 +8,9 @@ import { Waveform } from '@uiball/loaders'
 import Like from "@/Components/Like"
 
 
-export default function Song() {
+export default function Song(props) {
     const isMounted = useRef(false)
-    const params = useParams()
+    const params = props.params || useParams()
     const [songData, setSongData] = useState({author:params.author, name:params.name})
     const [play, setPlay] = useState(true)
     const audioRef = useRef(null)
@@ -19,11 +19,26 @@ export default function Song() {
 
 
     const getSongData = async () => {
-        const resp = await fetch(`http://localhost:5000/api/song/${params.author}/${params.name}`, {mode:"cors",credentials: "include"})
+        const resp = await fetch(`/api/song/${params.author}/${params.name}`, {mode:"cors",credentials: "include"})
         const data = await resp.json()
         setSongData(data)
         setPlay(true)
     }
+
+
+
+    useEffect(() => {
+        function handleKey(e) {
+            switch(e.key) {
+                case " ":
+                    setPlay(!play)
+                    break;
+            }
+        }
+        document.addEventListener("keydown", handleKey)
+         
+         return () => document.removeEventListener("keydown", handleKey)
+    },[play])
 
     useEffect(() => {
         if (isMounted.current) play ? audioRef.current.play().catch(e => setPlay(false)) : audioRef.current.pause()
@@ -32,7 +47,7 @@ export default function Song() {
     useEffect(() => {
         getSongData()
         isMounted.current = true
-        audioRef.current = new Audio(`http://localhost:5000/play/${params.author}/${params.name}`)
+        audioRef.current = new Audio(`/play/${params.author}/${params.name}`)
         audioRef.current.currentTime = 0
         return () => {audioRef.current.pause(); audioRef.current = null; isMounted.current=false}
     },[navigate])
@@ -48,7 +63,7 @@ export default function Song() {
         navigate(-1)
     }
     async function nextSong() {
-        const resp = await fetch("http://localhost:5000/api/random-song", {mode:"cors",credentials: "include"})
+        const resp = await fetch("/api/random-song", {mode:"cors",credentials: "include"})
         const data = await resp.json()
         setPlay(false)
         navigate(`/song/${data[0].author}/${data[0].name}`)
@@ -58,7 +73,7 @@ export default function Song() {
             <main className="flex flex-col gap-4 h-screen text-white">
                 <Nav />
                 <section className="lg:grid flex flex-col items-center grid-cols-2 gap-4 p-4 justify-items-center">
-                    <article className={`music-disc  w-full sm:p-24 sm:w-[25rem] ${play ? "animate-spin-slow amber"  : ""}`}>
+                    <article className={`music-disc  w-full sm:p-24 md:w-[25rem] max-w-full ${play ? "animate-spin-slow amber"  : ""}`}>
                         { play ? <Waveform 
                         size={120}
                         lineWeight={18}

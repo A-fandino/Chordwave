@@ -20,12 +20,6 @@ def serializeList(itemList):
         data.append(x.serialize)
     return data
 
-
-@bp.route('/testing')
-def test():
-    return "TEST RESPONSE!"
-
-
 @bp.route('/genres')
 def genres():
     return json.dumps([g.name for g in Genre.query.all()])
@@ -104,6 +98,16 @@ def postRoom():
     room.save()
     return "", 200
 
+@bp.route("/purge-room",methods=["DELETE"])
+def delRoom():
+    db.session.delete(User.query.get(session["user"]["id"]).getActiveRoom())
+    db.session.commit()
+    return "", 200
+
+@bp.route("/room-exists")
+def roomExists():
+    return str(int(bool(User.query.get(session["user"]["id"]).getActiveRoom())))
+
 @bp.route('/get-rooms')
 @bp.route('/get-rooms/<int:limit>')
 @bp.route('/get-rooms/<int:limit>/<int:offset>')
@@ -136,6 +140,22 @@ def liked():
     for s in User.query.get(session["user"]["id"]).likes:
         data.append(s.songs.serialize)
     return jsonify(data)
+
+
+@bp.route("/history")
+@bp.route("/history/<offset>")
+def history(offset = 0):
+    count = 10
+    if not "user" in session: return "[]"
+    reprod = User.query.get(session["user"]["id"]).history
+    data = []
+    for i in range(offset*count, offset*count+10):
+        if len(reprod) < i: break
+        r = reprod[i]
+        print(data)
+        data.append(r.songs.serialize)
+    return jsonify(data)
+
 
 @bp.route("/pfp/<id>")
 def pfp(id):

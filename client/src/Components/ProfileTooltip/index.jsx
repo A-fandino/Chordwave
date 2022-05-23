@@ -30,8 +30,8 @@ export default function MenuToolTip(props) {
 
   return (
     <div style={styles} ref={tooltipRef} className='tooltip bg-gray-700 rounded-md flex flex-col w-max'>
-        <span onClick={() => location.href="http://localhost:5000/auth/logout"}>Logout</span>
-        <span onClick={() => location.href="http://localhost:5000/auth/cancel-account"} className='bg-red-600 text-white'>Cancel account</span>
+        <span onClick={() => location.href="/auth/logout"}>Logout</span>
+        <span onClick={() => location.href="/auth/cancel-account"} className='bg-red-600 text-white'>Cancel account</span>
     </div>
   )
 }

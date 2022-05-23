@@ -38,6 +38,10 @@ class Listen(db.Model):
         self.user_id = user_id
         self.song_id = song_id
         self.date = datetime.now()
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
 class Like(db.Model):
@@ -66,12 +70,12 @@ class User(db.Model):
     active = db.Column(db.Boolean, nullable=False, default=True)
     songs = db.relationship("Song", backref="author", lazy=True)
     created_at = db.Column(db.DateTime, nullable=False)
-    listents = db.relationship("Listen", lazy="subquery", backref="users")
+    history = db.relationship("Listen", lazy="subquery", backref="users")
     likes = db.relationship("Like",
                             lazy="subquery", backref="users")
     playlists = db.relationship("Playlist", backref="user", lazy="dynamic")
-    rooms = db.relationship("Room", backref="admin", lazy=True)
-
+    rooms = db.relationship("Room", lazy=True, foreign_keys="[Room.user_id]")
+    actual_room_id = db.Column(db.Integer, db.ForeignKey("room.id", name="FK_User_Room"),nullable=True)
     def __init__(self, nickname, mail, plain_pass):
         self.nickname = nickname
         self.password = generate_password_hash(plain_pass)
@@ -148,6 +152,8 @@ class Song(db.Model):
             "format": self.format,
             "duration": librosa.get_duration(filename='./flaskr/uploads/music/'+self.id+"."+self.format),
             "author": self.author.nickname,
+            "like_count": len(self.likes),
+            "listent_count": len(self.listents),
             "liked": "user" in session and Like.query.filter_by(user_id = session["user"]["id"], song_id=self.id).first() is not None,
             **multiFormatDate(self.created_at)
 
@@ -217,6 +223,8 @@ class Room(db.Model):
     max_users = db.Column(db.Integer, nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
     created_at = db.Column(db.DateTime, nullable=False)
+    admin = db.relationship("User",lazy=True, foreign_keys=[user_id])
+    users = db.relationship("User", lazy=True, foreign_keys="[User.actual_room_id]")
 
     def __init__(self, user_id, max_users):
         self.user_id = user_id
@@ -228,7 +236,7 @@ class Room(db.Model):
             "admin_id": self.admin.id,
             "admin_name": self.admin.nickname,
             "max_users": self.max_users,
-            "users": 1,
+            "users": len(self.users),
             **multiFormatDate(self.created_at)
         }
 

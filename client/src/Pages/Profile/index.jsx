@@ -4,7 +4,7 @@ import { HeartIcon, DotsHorizontalIcon, ViewListIcon, PlusCircleIcon } from "@he
 import SongMiniature from "@/Components/SongMiniature"
 import Loading from "@/Components/Loading"
 import PlaylistForm from "@/Components/PlaylistForm"
-import MenuToolTip from "@/Components/MenuToolTip"
+import ProfileTooltip from "@/Components/ProfileTooltip"
 import {useGlobalContext} from "@/context"
 import { useParams } from "react-router-dom"
 import { useNavigate, Link } from "react-router-dom";
@@ -25,7 +25,7 @@ export default function Profile() {
         (async function() {
             const nickname = params.nickname || user.nickname
                 try {
-                    const respUser = await fetch("http://localhost:5000/auth/check/"+nickname)
+                    const respUser = await fetch("/auth/check/"+nickname)
                     const data = await respUser.json()
                     setUserData(data)
                 } catch {
@@ -37,7 +37,7 @@ export default function Profile() {
     useEffect(() => {
         if (!userData?.nickname) return
         (async function() {
-            const respSong = await fetch("http://localhost:5000/api/userSongs/"+userData.nickname, {
+            const respSong = await fetch("/api/userSongs/"+userData.nickname, {
                 mode: "cors",
                 credentials: "include"
             })
@@ -45,7 +45,7 @@ export default function Profile() {
             setUserSongs(songs)
 
             
-            const respPlaylists = await fetch("http://localhost:5000/api/get-playlists/"+userData.id, {
+            const respPlaylists = await fetch("/api/get-playlists/"+userData.id, {
                 mode: "cors",
                 credentials: "include"
             })
@@ -60,7 +60,7 @@ export default function Profile() {
         const file = e.target.files[0]
         pfpRef.current.src = URL.createObjectURL(file)
         formData.append("file",file)
-        await fetch("http://localhost:5000/api/changePFP", {
+        await fetch("/api/changePFP", {
             method:"POST", mode:"cors", credentials:"include", body:formData
         })
         setLoading(false)
@@ -73,7 +73,7 @@ export default function Profile() {
             <section className="w-full relative p-4 flex justify-center p-4 md:block flex flex-col gap-4 items-center">
                 <label htmlFor='fileimg' className={`${userData.id == user.id ? "profile-pic-container" : ""} top-[-45%] translate-y-1/4 w-80 static md:absolute border border-[16px] border-violet-700 aspect-square bg-gray-500 rounded-full z-10 overflow-hidden`}>
                     <picture>
-                        <img src={`http://localhost:5000/api/pfp/${userData.id}`} ref={pfpRef} className="h-full w-full object-cover"/>
+                        <img src={`/api/pfp/${userData.id}`} ref={pfpRef} className="h-full w-full object-cover"/>
                     </picture>
                 </label>
                 {user.id == userData.id ? <input type="file" name="fileimg" id="fileimg" accept='image/*' className='hidden' onChange={handleImgUpload}/> : ""}
@@ -84,7 +84,7 @@ export default function Profile() {
                         user.id == userData.id  ? (
                         <span className='relative cursor-pointer' onClick={()=>setShowTt(true)}>
                             <DotsHorizontalIcon className='w-10 hover:text-gray-400'/>
-                            <MenuToolTip show={showTt} setShow={setShowTt}/>
+                            <ProfileTooltip show={showTt} setShow={setShowTt}/>
                         </span> ) : ''
                         }
                     </header>
@@ -105,6 +105,10 @@ export default function Profile() {
 
                             <Link to="/liked" className="px-8 py-4 rounded bg-red-600 text-white font-bold text-center flex gap-4 hover:bg-red-700"> 
                                 <HeartIcon className='h-6'/> Liked
+                            </Link> 
+
+                            <Link to="/history" className="px-8 py-4 rounded bg-amber-600 text-white font-bold text-center flex gap-4 hover:bg-amber-700"> 
+                                <ViewListIcon className='h-6'/> History
                             </Link> 
                         </> ): ""
                     }  

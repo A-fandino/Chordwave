@@ -28,7 +28,7 @@ export default function Home() {
 
             <article className="rounded-md bg-gray-900 shadow-xl p-16 text-white w-9/12 mt-64 flex flex-col gap-16">
                 <h2 className="home-title font-bold">Some recomendations</h2>
-                <SongList endpoint={"http://localhost:5000/api/random-song/6"}/>
+                <SongList endpoint={"/api/random-song/6"}/>
             </article>
         </section>
     </main>

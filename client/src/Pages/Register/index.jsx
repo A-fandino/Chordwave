@@ -1,15 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import Nav from "@/Layout/Nav/"
 import FancyText from "@/Components/FancyText/"
 import ErrorModal from "@/Components/ErrorModal/"
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import Captcha from "@/Components/Captcha/"
+
 
 export default function Register() {
 
     const [errorMsg, setErrorMsg] = useState(null)
     const [show, setShow] = useState(null)
+    const captchaRef = useRef(null)
 
     const yupValidation = Yup.object().shape({
         nickname: Yup.string()
@@ -35,7 +38,12 @@ export default function Register() {
       const { errors } = formState
 
     async function onSubmit(data) {
-            const resp = await fetch("http://localhost:5000/auth/register", {
+        if (!captchaRef.current.getValue()) {
+            setErrorMsg("You must fill the captcha")
+            setShow(true)
+            return
+        }
+            const resp = await fetch("/auth/register", {
                 mode: "cors",
                 credentials:"include",
                 method:"POST",
@@ -43,9 +51,8 @@ export default function Register() {
                 headers:{
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({...data, captcha:captchaRef.current.getValue()})
             })
-            console.log(resp)
             if (resp.ok) return location.href ="/profile" //I need to refresh the whole page
             const {msg} = await resp.json()
             setErrorMsg(msg)
@@ -89,6 +96,7 @@ export default function Register() {
                 {...register('passwordVerif')}
             />
                 <div className="text-red-500 font-bold break-words max-w-fit text-center">{errors.passwordVerif?.message}</div>
+            <Captcha extRef={captchaRef}/>
             <button type="submit" className="w-32 h-12 bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800 rounded text-white font-bold ">Register</button>
             </div>
         </form>

@@ -12,7 +12,13 @@ export default defineConfig({
 	host: '0.0.0.0',
 	hmr: {
 	clientPort:80,
-    }
+    },
+  proxy: {
+    "/api": {target:"http://localhost:5000/", changeOrigin:true, secure:false},
+    "/auth": {target:"http://localhost:5000/", changeOrigin:true, secure:false},
+    "/play": {target:"http://localhost:5000/", changeOrigin:true, secure:false},
+    "/socket.io": {target:"http://localhost:5000/", changeOrigin:true, secure:false, ws:true},
+  }
   },
   envDir:"..",
   resolve:{
