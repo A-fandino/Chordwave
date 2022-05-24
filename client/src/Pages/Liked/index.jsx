@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SongMiniature from '@/Components/SongMiniature'
 import Nav from "@/Layout/Nav"
+import Loading from '@/Components/Loading'
 
 export default function Liked() {
 
@@ -15,7 +16,7 @@ export default function Liked() {
         getSongs()
     },[])
 
-  return (
+  return songs == null ? <Loading show={true}/> : (
     <main className="flex flex-col gap-4 w-full">
         <Nav/>
         <h1 className="text-5xl p-8 pb-0 text-white font-bold">Your Likes</h1>
