@@ -70,7 +70,7 @@ class User(db.Model):
     active = db.Column(db.Boolean, nullable=False, default=True)
     songs = db.relationship("Song", backref="author", lazy=True)
     created_at = db.Column(db.DateTime, nullable=False)
-    history = db.relationship("Listen", lazy="subquery", backref="users")
+    history = db.relationship("Listen", lazy="dynamic", backref="users")
     likes = db.relationship("Like",
                             lazy="subquery", backref="users")
     playlists = db.relationship("Playlist", backref="user", lazy="dynamic")

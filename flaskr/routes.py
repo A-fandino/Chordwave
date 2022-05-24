@@ -57,8 +57,9 @@ def play(author, name):
             while data:
                 yield data
                 data = fwav.read(2048)
-    listen_song = Listen(user_id=session["user"]["id"], song_id=song.id)
-    listen_song.save()
+    if ("user" in session):
+        listen_song = Listen(user_id=session["user"]["id"], song_id=song.id)
+        listen_song.save()
     return Response(generate(), mimetype="audio/x-wav")
 
 @current_app.route("/")

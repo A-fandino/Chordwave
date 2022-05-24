@@ -4,7 +4,7 @@ import os
 import json
 
 import sqlalchemy
-from .models import Like, Genre, PlaylistUserSong, Song, User, db, Room, Playlist
+from .models import Like, Genre, PlaylistUserSong, Song, User, db, Room, Playlist, Listen
 from .auth import login_required
 from sqlalchemy.sql.expression import func
 from .auth import abortMsg
@@ -147,11 +147,9 @@ def liked():
 def history(offset = 0):
     count = 10
     if not "user" in session: return "[]"
-    reprod = User.query.get(session["user"]["id"]).history
+    reprod = User.query.get(session["user"]["id"]).history.order_by(Listen.date.desc()).limit(count).offset(offset).all()
     data = []
-    for i in range(offset*count, offset*count+10):
-        if len(reprod) <= i: break
-        r = reprod[i]
+    for r in reprod:
         data.append(r.songs.serialize)
     return jsonify(data)
 

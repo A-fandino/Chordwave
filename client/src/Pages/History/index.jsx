@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import SongMiniature from '@/Components/SongMiniature'
+import Loading from '@/Components/Loading'
 import Nav from "@/Layout/Nav"
 
 export default function Liked() {
 
-    const [songs, setSongsData] = useState([])
+    const [songs, setSongsData] = useState(null)
 
     async function getSongs() {
         const resp = await fetch("/api/history", {mode:"cors", credentials:"include"})
@@ -15,7 +16,7 @@ export default function Liked() {
         getSongs()
     },[])
 
-  return (
+  return songs == null ? <Loading show={true}/> : (
     <main className="flex flex-col gap-4 w-full">
         <Nav/>
         <h1 className="text-5xl p-8 pb-0 text-white font-bold">Your history</h1>
