@@ -15,3 +15,4 @@ dist/
 **/uploads/pfp/**
 .env
 *.whl
+mariadb/

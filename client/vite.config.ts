@@ -20,7 +20,6 @@ export default defineConfig({
     "/socket.io": {target:"http://localhost:5000/", changeOrigin:true, secure:false, ws:true},
   }
   },
-  envDir:"..",
   resolve:{
     alias:{
       '@' : path.resolve(__dirname, './src')

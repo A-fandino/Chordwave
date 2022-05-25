@@ -1,4 +1,3 @@
-from distutils.command.config import config
 import os
 
 from flask import Flask, send_from_directory
@@ -18,7 +17,7 @@ def create_app(test_config=None):
                 template_folder=os.path.abspath("client/dist"), static_folder=os.path.abspath("client/dist/assets"))
     app.config.from_mapping(
         SECRET_KEY='secret_key',
-        SQLALCHEMY_DATABASE_URI='mysql://root:@localhost/chordwave',
+        SQLALCHEMY_DATABASE_URI=f'mysql://{config["DB_USER"]}:{config["DB_PASS"]}@{config["DB_HOST"]}/chordwave',
         SQLALCHEMY_TRACK_MODIFICATIONS=False
     )
     

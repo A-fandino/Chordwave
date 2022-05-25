@@ -1,1 +1,5 @@
 **\node_modules
+mariadb/
+flaskr/uploads/music
+*.mp3
+*.wav
