@@ -8,8 +8,7 @@ from dotenv import load_dotenv, dotenv_values
 load_dotenv()
 
 db = SQLAlchemy()
-socket = SocketIO(cors_allowed_origins=[
-    "http://localhost", "http://localhost:5000"])
+socket = SocketIO(cors_allowed_origins="*")
 config = dotenv_values()
 
 def create_app(test_config=None):
@@ -30,7 +29,7 @@ def create_app(test_config=None):
 
     # CORS
     cors = CORS(app, supports_credentials=True,
-                origins=["http://localhost"])
+                origins="*")
     app.config['CORS_HEADERS'] = [
         'Content-Type', 'application/json', 'Location']
 
