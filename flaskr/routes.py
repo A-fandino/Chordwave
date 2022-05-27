@@ -5,16 +5,17 @@ from . import db
 import os
 from . import sockets
 
+# Just for testing purpose
 @current_app.route('/create-db/<refresh>')
 @current_app.route('/create-db')
 def createdb(refresh=None):
-    if current_app.debug:
-        if refresh == "refresh":
-            db.drop_all()
-        db.create_all()
-        user = User("Arnau","arnauf8@gmail.com","1234")
-        user.save()
-        return "Done!"
+    # if current_app.debug:
+    if refresh == "refresh": 
+        db.drop_all()
+    db.create_all()
+    user = User("Arnau","arnauf8@gmail.com","1234")
+    user.save()
+    return "Done!"
 
 
 # @current_app.route("/user/<nick>/<mail>/<passw>")
