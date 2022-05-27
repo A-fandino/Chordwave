@@ -18,29 +18,6 @@ def createdb(refresh=None):
     return "Done!"
 
 
-# @current_app.route("/user/<nick>/<mail>/<passw>")
-# def create_user(nick, mail, passw):
-#     from .models import User
-#     user = User(nick, mail, passw)
-#     db.session.add(user)
-#     db.session.commit()
-#     return str(user)
-
-
-# @current_app.route("/song/<name>/<format>/<author_id>")
-# def create_song(name, format, author_id):
-#     from .models import Song
-#     song = Song(name, format, author_id)
-#     db.session.add(song)
-#     db.session.commit()
-#     return str(song)
-
-
-# @current_app.route("/song/<name>/<author_id>")
-# def check_song(name, author_id):
-#     from .models import Song
-#     song = Song.query.filter_by(name=name, created_by=author_id).first()
-#     return song.name
 
 @current_app.route("/play/<author>/<name>")
 def play(author, name):

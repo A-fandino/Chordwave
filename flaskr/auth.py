@@ -31,7 +31,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if not "user" in session or session["user"] is None:
-            return redirect("http://localhost/login")
+            return redirect("/login")
         return view(**kwargs)
     return wrapped_view
 
@@ -67,7 +67,7 @@ def login():
 
 
 @bp.route('/register', methods=('POST',))
-@cross_origin(supports_credentials=True, origins="http://localhost")
+@cross_origin(supports_credentials=True)
 def register():
     try:
         data = json.loads(request.data.decode())
@@ -104,7 +104,7 @@ def register():
 @login_required
 def logout():
     session.clear()
-    return redirect("http://localhost")
+    return redirect("/")
 
     
 @bp.route('/cancel-account')

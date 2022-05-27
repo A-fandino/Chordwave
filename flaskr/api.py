@@ -81,9 +81,9 @@ def upload():
         db.session.add(song)
         db.session.commit()
         file.save(f'{musicPath}/{song.id}.{ext}')
-        return redirect(f'http://localhost/song/{song.author.nickname}/{name}')
+        return redirect(f'/song/{song.author.nickname}/{name}')
     except:
-        return redirect("http://localhost/upload")
+        return redirect("/upload")
 
 @bp.route('/room', methods=["POST"])
 def postRoom():
